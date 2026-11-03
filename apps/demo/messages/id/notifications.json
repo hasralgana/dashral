@@ -1,0 +1,38 @@
+{
+  "title": "Notifikasi",
+  "titleUnread": "Notifikasi, {count} belum dibaca",
+  "unreadCount": "{count} belum dibaca",
+  "allCaughtUp": "Semua sudah dibaca",
+  "markAllRead": "Tandai semua dibaca",
+  "all": "Semua",
+  "unread": "Belum dibaca",
+  "emptyTitle": "Semua sudah dibaca",
+  "emptyDescription": "Notifikasi baru akan muncul di sini.",
+  "settings": "Pengaturan notifikasi",
+  "items": {
+    "newOrder": {
+      "title": "Pesanan baru {invoice}",
+      "description": "{name} membeli {product} seharga {amount}."
+    },
+    "paymentFailed": {
+      "title": "Pembayaran gagal",
+      "description": "Kartu {name} ditolak untuk {invoice}."
+    },
+    "mention": {
+      "title": "{name} menyebut Anda",
+      "description": "“Bisa tolong cek angka pendapatan Q3?”"
+    },
+    "newCustomers": {
+      "title": "{count} pelanggan baru",
+      "description": "Toko Anda mendapat {count} pelanggan hari ini."
+    },
+    "report": {
+      "title": "Laporan bulanan sudah siap",
+      "description": "Laporan penjualan September siap diunduh."
+    },
+    "maintenance": {
+      "title": "Pemeliharaan terjadwal",
+      "description": "Minggu, 01.00–02.00 UTC. Layanan akan terhenti sebentar."
+    }
+  }
+}

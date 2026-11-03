@@ -1,0 +1,38 @@
+{
+  "title": "الإشعارات",
+  "titleUnread": "الإشعارات، {count} غير مقروءة",
+  "unreadCount": "لديك {count} غير مقروءة",
+  "allCaughtUp": "لا جديد",
+  "markAllRead": "تعليم الكل كمقروء",
+  "all": "الكل",
+  "unread": "غير المقروءة",
+  "emptyTitle": "لا توجد إشعارات جديدة",
+  "emptyDescription": "ستظهر الإشعارات الجديدة هنا.",
+  "settings": "إعدادات الإشعارات",
+  "items": {
+    "newOrder": {
+      "title": "طلب جديد {invoice}",
+      "description": "اشترى {name} {product} بمبلغ {amount}."
+    },
+    "paymentFailed": {
+      "title": "فشل الدفع",
+      "description": "رُفضت بطاقة {name} للفاتورة {invoice}."
+    },
+    "mention": {
+      "title": "أشار إليك {name}",
+      "description": "«هل يمكنك مراجعة أرقام إيرادات الربع الثالث؟»"
+    },
+    "newCustomers": {
+      "title": "{count} عملاء جدد",
+      "description": "انضم إلى متجرك {count} عملاء اليوم."
+    },
+    "report": {
+      "title": "التقرير الشهري جاهز",
+      "description": "تقرير مبيعات سبتمبر جاهز للتنزيل."
+    },
+    "maintenance": {
+      "title": "صيانة مجدولة",
+      "description": "الأحد، 01:00–02:00 بتوقيت UTC. توقف قصير متوقع."
+    }
+  }
+}

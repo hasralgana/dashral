@@ -1,0 +1,340 @@
+{
+  "overview": {
+    "title": "Ringkasan",
+    "description": "Kondisi langganan Anda bulan ini.",
+    "export": "Ekspor",
+    "newInvoice": "Tagihan baru",
+    "keyMetrics": "Metrik utama",
+    "metrics": {
+      "mrr": "Pendapatan berulang",
+      "activeCustomers": "Pelanggan aktif",
+      "outstanding": "Belum dibayar",
+      "churn": "Tingkat churn"
+    },
+    "vsLastMonth": "vs bulan lalu",
+    "trendLabel": "{label} selama 12 bulan terakhir, {direction}",
+    "improving": "membaik",
+    "worsening": "memburuk",
+    "revenueTitle": "Pendapatan berulang",
+    "revenueDescription": "Pendapatan berulang bulanan, {from} – {to} {year}",
+    "thisMonth": "Bulan ini",
+    "deliveredTo": "Dikirim ke",
+    "deliveredDescription": "Ke mana peringatan minggu ini dikirim",
+    "manageIntegrations": "Kelola integrasi",
+    "recentInvoices": "Tagihan terbaru",
+    "recentInvoicesDescription": "Tagihan terakhir yang dikirim ke pelanggan",
+    "viewAll": "Lihat semua",
+    "latestActivity": "Aktivitas terbaru",
+    "latestActivityDescription": "Yang terjadi di workspace Anda",
+    "viewActivity": "Lihat semua aktivitas"
+  },
+  "deliveries": {
+    "rules": {
+      "refunds": "Refund melewati batas",
+      "digest": "Ringkasan harian",
+      "signups": "Lonjakan pendaftaran"
+    },
+    "channels": {
+      "slack": "{target} · Slack",
+      "email": "Email · ke {target}",
+      "push": "Push · {target}"
+    },
+    "sent": "{count} peringatan minggu ini"
+  },
+  "plans": {
+    "starter": "Starter",
+    "growth": "Growth",
+    "scale": "Scale"
+  },
+  "customerStatus": {
+    "active": "Aktif",
+    "trial": "Uji coba",
+    "atRisk": "Berisiko",
+    "churned": "Berhenti"
+  },
+  "invoiceStatus": {
+    "paid": "Lunas",
+    "open": "Terbuka",
+    "overdue": "Terlambat",
+    "draft": "Draf"
+  },
+  "customers": {
+    "title": "Pelanggan",
+    "description": "Semua yang berlangganan, pendapatannya, dan kondisinya.",
+    "summary": {
+      "total": "Pelanggan",
+      "paying": "{count} membayar",
+      "mrr": "Pendapatan berulang",
+      "perCustomer": "{amount} per pelanggan berbayar",
+      "atRisk": "Berisiko",
+      "atRiskHint": "Pembayaran gagal atau pemakaian turun",
+      "trials": "Uji coba",
+      "trialsHint": "Dimulai dalam 14 hari terakhir"
+    },
+    "all": "Semua pelanggan",
+    "allDescription": "{count} pelanggan di {plans} paket",
+    "search": "Cari pelanggan...",
+    "columns": {
+      "customer": "Pelanggan",
+      "plan": "Paket",
+      "status": "Status",
+      "mrr": "MRR",
+      "since": "Pelanggan sejak",
+      "country": "Negara"
+    },
+    "empty": "Tidak ada pelanggan yang cocok.",
+    "details": {
+      "open": "Buka {name}",
+      "contact": "Kontak",
+      "company": "Perusahaan",
+      "country": "Negara",
+      "plan": "Paket",
+      "mrr": "Pendapatan berulang",
+      "since": "Pelanggan sejak",
+      "invoices": "Tagihan",
+      "noInvoices": "Belum ada tagihan.",
+      "email": "Kirim email",
+      "perMonth": "{amount} / bulan"
+    }
+  },
+  "invoices": {
+    "title": "Tagihan",
+    "description": "Yang sudah ditagih, sudah dibayar, dan yang terlambat.",
+    "newInvoice": "Tagihan baru",
+    "summary": {
+      "paid": "Lunas",
+      "open": "Terbuka",
+      "overdue": "Terlambat",
+      "count": "{count} tagihan"
+    },
+    "all": "Semua tagihan",
+    "allDescription": "30 hari terakhir, terbaru di atas",
+    "search": "Cari tagihan...",
+    "columns": {
+      "invoice": "Tagihan",
+      "customer": "Pelanggan",
+      "issued": "Diterbitkan",
+      "due": "Jatuh tempo",
+      "status": "Status",
+      "amount": "Jumlah"
+    },
+    "empty": "Tidak ada tagihan yang cocok.",
+    "actions": {
+      "label": "Aksi untuk {id}",
+      "markPaid": "Tandai lunas",
+      "copyId": "Salin nomor tagihan",
+      "copied": "{id} disalin",
+      "markedPaid": "{id} ditandai lunas",
+      "download": "Unduh PDF",
+      "downloading": "Menyiapkan {id}.pdf…"
+    },
+    "created": "Draf tagihan dibuat"
+  },
+  "activity": {
+    "title": "Aktivitas",
+    "description": "Semua yang terjadi di workspace Anda, terbaru di atas.",
+    "filter": "Tampilkan",
+    "kinds": {
+      "all": "Semua",
+      "billing": "Tagihan",
+      "customers": "Pelanggan",
+      "integrations": "Integrasi",
+      "team": "Tim"
+    },
+    "today": "Hari ini",
+    "yesterday": "Kemarin",
+    "count": "{count} kejadian",
+    "emptyTitle": "Belum ada apa-apa",
+    "emptyDescription": "Kejadian jenis ini akan muncul di sini saat terjadi.",
+    "by": "oleh {actor}",
+    "events": {
+      "invoicePaid": "{customer} membayar {invoice} ({amount})",
+      "invoiceOverdue": "{invoice} dari {customer} terlambat",
+      "invoiceSent": "{invoice} dikirim ke {customer} ({amount})",
+      "customerJoined": "{customer} dari {company} mendaftar",
+      "customerUpgraded": "{customer} pindah dari {from} ke {to}",
+      "customerChurned": "{customer} dari {company} berhenti berlangganan",
+      "trialStarted": "{customer} dari {company} memulai uji coba",
+      "integrationConnected": "{app} terhubung",
+      "alertDelivered": "“{rule}” dikirim ke {channel}",
+      "memberInvited": "{name} diundang sebagai {role}",
+      "memberJoined": "{name} bergabung dengan tim",
+      "roleChanged": "{name} sekarang {role}"
+    }
+  },
+  "integrations": {
+    "title": "Integrasi",
+    "description": "Hubungkan aplikasi yang dipakai tim Anda.",
+    "mapTitle": "Peta pengiriman",
+    "mapDescription": "Aturan peringatan dan ke mana dikirim",
+    "when": "Saat",
+    "deliveredTo": "Dikirim ke",
+    "search": "Cari aplikasi...",
+    "clearSearch": "Hapus pencarian",
+    "category": "Kategori",
+    "categories": {
+      "all": "Semua",
+      "messaging": "Pesan",
+      "payments": "Pembayaran",
+      "data": "Data",
+      "developer": "Developer"
+    },
+    "connected": "Terhubung",
+    "notConnected": "Belum terhubung",
+    "connectedCount": "{count} dari {total} terhubung",
+    "toggle": "Hubungkan {app}",
+    "connectedToast": "{app} terhubung",
+    "disconnectedToast": "{app} diputus",
+    "configure": "Atur",
+    "configureToast": "Pengaturan {app} akan terbuka di sini",
+    "emptyTitle": "Tidak ada aplikasi yang cocok",
+    "emptyDescription": "Coba nama lain, atau cari di semua kategori.",
+    "showAll": "Tampilkan semua aplikasi",
+    "apps": {
+      "slack": "Kirim peringatan dan ringkasan harian ke channel.",
+      "email": "Kirim laporan dan peringatan ke inbox mana pun.",
+      "push": "Sampai ke ponsel Anda begitu aturan terpicu.",
+      "stripe": "Sinkronkan pelanggan, tagihan, dan pembayaran.",
+      "paypal": "Terima pembayaran dan cocokkan dengan tagihan.",
+      "postgres": "Baca pelanggan dan pemakaian dari database Anda.",
+      "bigquery": "Kirim kejadian ke data warehouse setiap jam.",
+      "github": "Hubungkan rilis dengan perubahan yang dilihat pelanggan.",
+      "webhooks": "Panggil endpoint Anda sendiri saat apa pun terjadi."
+    },
+    "activeRules": "Aturan aktif",
+    "alertsWeek": "Peringatan minggu ini"
+  },
+  "panel": {
+    "collapse": "Ciutkan",
+    "expand": "Bentangkan",
+    "about": "Apa yang ditampilkan"
+  },
+  "reports": {
+    "title": "Laporan",
+    "description": "Dari mana pendapatan berulang datang dan ke mana perginya.",
+    "export": "Ekspor CSV",
+    "exported": "reports.csv diunduh",
+    "movement": "Pergerakan MRR",
+    "movementInfo": "Perubahan pendapatan berulang tiap bulan: pelanggan baru, upgrade, downgrade, dan pembatalan.",
+    "columns": {
+      "month": "Bulan",
+      "new": "Baru",
+      "expansion": "Ekspansi",
+      "contraction": "Kontraksi",
+      "churn": "Churn",
+      "net": "Bersih"
+    },
+    "net6": "Bersih, 6 bulan",
+    "newTotal": "Baru",
+    "byPlan": "Pendapatan per paket",
+    "byPlanInfo": "Pendapatan berulang dari pelanggan berbayar, menurut paketnya.",
+    "total": "Total",
+    "top": "Pelanggan teratas",
+    "topInfo": "Pelanggan dengan pendapatan berulang terbesar."
+  },
+  "team": {
+    "title": "Tim",
+    "description": "Siapa yang bisa membuka workspace ini, dan apa yang bisa mereka lakukan.",
+    "invite": "Undang",
+    "members": "Anggota",
+    "membersInfo": "Owner dan admin mengelola tim; billing melihat tagihan dan paket; member bekerja dengan pelanggan dan laporan.",
+    "seats": "{used} dari {total} kursi",
+    "pending": "Diundang",
+    "lastActive": "Aktif {time}",
+    "never": "Belum bergabung",
+    "you": "Anda",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member",
+      "billing": "Billing"
+    },
+    "roleFor": "Peran untuk {name}",
+    "actionsFor": "Aksi untuk {name}",
+    "remove": "Keluarkan dari tim",
+    "resend": "Kirim ulang undangan",
+    "removed": "{name} dikeluarkan",
+    "resent": "Undangan dikirim ulang ke {email}",
+    "roleChanged": "{name} sekarang {role}",
+    "inviteTitle": "Undang rekan tim",
+    "inviteDescription": "Mereka akan menerima email berisi link untuk bergabung ke workspace ini.",
+    "email": "Email",
+    "emailPlaceholder": "nama@perusahaan.com",
+    "role": "Peran",
+    "send": "Kirim undangan",
+    "cancel": "Batal",
+    "invalidEmail": "Masukkan alamat email seperti nama@perusahaan.com.",
+    "alreadyIn": "{email} sudah ada di tim.",
+    "invited": "Undangan dikirim ke {email}"
+  },
+  "billing": {
+    "title": "Penagihan",
+    "description": "Paket Anda, pemakaian, dan cara membayar.",
+    "plan": "Paket saat ini",
+    "perMonth": "{amount} / bulan",
+    "renews": "Diperpanjang pada {date}",
+    "changePlan": "Ganti paket",
+    "usage": "Pemakaian",
+    "usageInfo": "Periode tagihan ini. Melewati batas tidak menghentikan workspace Anda; kami akan menyarankan paket yang lebih besar.",
+    "meters": {
+      "seats": "Kursi",
+      "events": "Kejadian",
+      "storage": "Penyimpanan"
+    },
+    "of": "{used} dari {limit}",
+    "gb": "{value} GB",
+    "payment": "Metode pembayaran",
+    "expires": "Berlaku sampai {date}",
+    "update": "Perbarui",
+    "updateToast": "Formulir kartu akan terbuka di sini",
+    "history": "Riwayat tagihan",
+    "historyInfo": "Tagihan untuk paket workspace ini.",
+    "columns": {
+      "invoice": "Tagihan",
+      "date": "Tanggal",
+      "amount": "Jumlah",
+      "status": "Status"
+    },
+    "paid": "Lunas",
+    "download": "Unduh {id}",
+    "downloading": "Menyiapkan {id}.pdf…"
+  },
+  "apiKeys": {
+    "title": "API key",
+    "description": "Key memungkinkan kode Anda sendiri membaca dan menulis data workspace ini.",
+    "create": "Buat key",
+    "keys": "Key",
+    "keysInfo": "Perlakukan key seperti password: siapa pun yang memilikinya bisa memakai API atas nama workspace ini.",
+    "count": "{count} key",
+    "columns": {
+      "name": "Nama",
+      "key": "Key",
+      "created": "Dibuat",
+      "lastUsed": "Terakhir dipakai"
+    },
+    "never": "Belum pernah",
+    "revoke": "Cabut",
+    "revokeFor": "Cabut {name}",
+    "revokeTitle": "Cabut {name}?",
+    "revokeDescription": "Aplikasi yang memakai key ini langsung berhenti bekerja. Ini tidak bisa dibatalkan.",
+    "revoked": "{name} dicabut",
+    "createTitle": "Buat API key",
+    "createDescription": "Beri nama sesuai tempat pemakaiannya, supaya nanti tahu mana yang harus dicabut.",
+    "name": "Nama",
+    "namePlaceholder": "mis. Server produksi",
+    "nameRequired": "Beri nama untuk key ini.",
+    "live": "Live",
+    "test": "Test",
+    "mode": "Mode",
+    "generate": "Buat key",
+    "cancel": "Batal",
+    "shownOnce": "Key baru Anda",
+    "shownOnceDescription": "Salin ke pengaturan aplikasi Anda. Di daftar key ini tetap tersamar; klik di sana untuk menyalinnya lagi.",
+    "copy": "Salin",
+    "done": "Selesai",
+    "emptyTitle": "Belum ada key",
+    "emptyDescription": "Buat key untuk memanggil API dari kode Anda sendiri.",
+    "copyKey": "Salin key {name}",
+    "keyCopied": "Key {name} disalin"
+  }
+}

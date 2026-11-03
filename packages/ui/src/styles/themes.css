@@ -1,0 +1,356 @@
+/*
+ * Theme presets for @dashral/ui: a choice of primary color (with its gradient), light and dark backgrounds, card
+ * style, text font, radius and monochrome, each as a data attribute that overrides the tokens of globals.css. Import it
+ * after globals.css. Put the attributes on <html> to theme a whole app, or on any element to theme only what's inside
+ * it (a preview, say): dark-mode variants follow a `.dark` on that element or any ancestor. Every text/background pair
+ * keeps WCAG AA (4.5:1).
+ *
+ *   data-primary  blue | indigo | purple | green | amber | rose   (ink = default, no attribute: near-black, white in dark)
+ *   data-light    gray | slate                             (neutral = default, no attribute)
+ *   data-dark     navy | zinc | black | mint               (default = no attribute)
+ *   data-card     soft | shadow — the default Card variant (default = no attribute)
+ *   data-radius   0 | sm | md | xl                         (lg = default)
+ *   data-font     geist | system — the text font            (inter = default; headings stay Geist)
+ *   data-mono     present = monochrome
+ */
+
+/* ---------- Primary color (Tailwind palettes) ---------- */
+
+[data-primary="indigo"] {
+  --primary: oklch(0.511 0.262 276.966); /* indigo-600 */
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.457 0.24 277.023); /* indigo-700 */
+  --ring: oklch(0.511 0.262 276.966);
+}
+
+.dark[data-primary="indigo"],
+.dark [data-primary="indigo"] {
+  --primary-text: oklch(0.673 0.182 276.935); /* indigo-400 */
+  --ring: oklch(0.585 0.233 277.117);
+}
+
+[data-primary="purple"] {
+  --primary: oklch(0.558 0.288 302.321); /* purple-600 */
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.496 0.265 301.924); /* purple-700 */
+  --ring: oklch(0.558 0.288 302.321);
+}
+
+.dark[data-primary="purple"],
+.dark [data-primary="purple"] {
+  --primary-text: oklch(0.714 0.203 305.504); /* purple-400 */
+  --ring: oklch(0.627 0.265 303.9);
+}
+
+[data-primary="green"] {
+  --primary: oklch(0.527 0.154 150.069); /* green-700 */
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.448 0.119 151.328); /* green-800 */
+  --ring: oklch(0.627 0.194 149.214);
+}
+
+.dark[data-primary="green"],
+.dark [data-primary="green"] {
+  --primary-text: oklch(0.792 0.209 151.711); /* green-400 */
+}
+
+[data-primary="amber"] {
+  --primary: oklch(0.769 0.188 70.08); /* amber-500 */
+  --primary-foreground: oklch(0.25 0.06 60); /* dark text — white fails on amber */
+  --primary-text: oklch(0.473 0.137 46.201); /* amber-800 */
+  --ring: oklch(0.769 0.188 70.08);
+}
+
+.dark[data-primary="amber"],
+.dark [data-primary="amber"] {
+  --primary-text: oklch(0.828 0.189 84.429); /* amber-400 */
+}
+
+[data-primary="rose"] {
+  --primary: oklch(0.514 0.222 16.935); /* rose-700 */
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.455 0.188 13.697); /* rose-800 */
+  --ring: oklch(0.586 0.253 17.585);
+}
+
+.dark[data-primary="rose"],
+.dark [data-primary="rose"] {
+  --primary-text: oklch(0.712 0.194 13.428); /* rose-400 */
+  --ring: oklch(0.645 0.246 16.439);
+}
+
+/* Black: monochrome, near-black fills in light mode and near-white ones in dark mode (the Inset layout's color). */
+[data-primary="blue"] {
+  --primary: oklch(0.546 0.245 262.881); /* blue-600 */
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.488 0.243 264.376); /* blue-700 */
+  --ring: oklch(0.546 0.245 262.881);
+}
+
+.dark[data-primary="blue"],
+.dark [data-primary="blue"] {
+  --primary-text: oklch(0.707 0.165 254.624); /* blue-400 */
+  --ring: oklch(0.623 0.214 259.815); /* blue-500 */
+}
+
+/* The default ink is near-white in dark mode: a switch's white thumb would vanish on its checked track, so it takes the
+   dark foreground instead (not under a colored primary, whose track keeps the white thumb). */
+.dark [data-slot="switch"][data-color="primary"][data-state="checked"]:not([data-primary] *, [data-primary]) [data-slot="switch-thumb"] {
+  background: var(--primary-foreground);
+}
+
+/* The charts' first color is the primary (--chart-1 in globals.css). A custom property that names another is worked out
+   where it's declared, so on an element themed by its own data-primary (a preview, not <html>) it has to be declared
+   again, or the chart would keep the page's primary. */
+[data-primary] {
+  --chart-1: var(--primary);
+}
+
+/* ---------- The primary's gradient (--gradient-*, from @dashral/ui/globals.css) ----------
+ * Three neighboring hues around each primary, for gradient accents (the Pro tag and card), and an ink that reads on a
+ * faint tint of them. The default ink's is silver, in globals.css. */
+
+/* sky → blue → indigo */
+[data-primary="blue"] {
+  --gradient-from: oklch(0.8 0.1 225);
+  --gradient-via: oklch(0.66 0.17 262);
+  --gradient-to: oklch(0.72 0.13 290);
+  --gradient-ink: oklch(0.42 0.15 268);
+}
+
+.dark[data-primary="blue"],
+.dark [data-primary="blue"] {
+  --gradient-from: oklch(0.62 0.1 225);
+  --gradient-via: oklch(0.6 0.18 262);
+  --gradient-to: oklch(0.64 0.15 290);
+  --gradient-ink: oklch(0.86 0.07 268);
+}
+
+/* blue → indigo → violet */
+[data-primary="indigo"] {
+  --gradient-from: oklch(0.76 0.11 250);
+  --gradient-via: oklch(0.6 0.2 277);
+  --gradient-to: oklch(0.7 0.15 305);
+  --gradient-ink: oklch(0.42 0.17 280);
+}
+
+.dark[data-primary="indigo"],
+.dark [data-primary="indigo"] {
+  --gradient-from: oklch(0.6 0.11 250);
+  --gradient-via: oklch(0.58 0.2 277);
+  --gradient-to: oklch(0.62 0.16 305);
+  --gradient-ink: oklch(0.86 0.07 280);
+}
+
+/* indigo → purple → pink */
+[data-primary="purple"] {
+  --gradient-from: oklch(0.74 0.12 280);
+  --gradient-via: oklch(0.62 0.22 302);
+  --gradient-to: oklch(0.72 0.16 335);
+  --gradient-ink: oklch(0.45 0.2 302);
+}
+
+.dark[data-primary="purple"],
+.dark [data-primary="purple"] {
+  --gradient-from: oklch(0.58 0.12 280);
+  --gradient-via: oklch(0.6 0.22 302);
+  --gradient-to: oklch(0.64 0.17 335);
+  --gradient-ink: oklch(0.86 0.08 302);
+}
+
+/* teal → green → lime */
+[data-primary="green"] {
+  --gradient-from: oklch(0.8 0.1 185);
+  --gradient-via: oklch(0.62 0.15 150);
+  --gradient-to: oklch(0.8 0.14 125);
+  --gradient-ink: oklch(0.42 0.11 150);
+}
+
+.dark[data-primary="green"],
+.dark [data-primary="green"] {
+  --gradient-from: oklch(0.6 0.09 185);
+  --gradient-via: oklch(0.58 0.14 150);
+  --gradient-to: oklch(0.68 0.14 125);
+  --gradient-ink: oklch(0.86 0.08 150);
+}
+
+/* yellow → amber → orange */
+[data-primary="amber"] {
+  --gradient-from: oklch(0.86 0.13 95);
+  --gradient-via: oklch(0.75 0.17 70);
+  --gradient-to: oklch(0.7 0.17 45);
+  --gradient-ink: oklch(0.48 0.12 60);
+}
+
+.dark[data-primary="amber"],
+.dark [data-primary="amber"] {
+  --gradient-from: oklch(0.7 0.12 95);
+  --gradient-via: oklch(0.7 0.16 70);
+  --gradient-to: oklch(0.64 0.17 45);
+  --gradient-ink: oklch(0.88 0.09 75);
+}
+
+/* pink → rose → orange */
+[data-primary="rose"] {
+  --gradient-from: oklch(0.76 0.13 350);
+  --gradient-via: oklch(0.6 0.21 17);
+  --gradient-to: oklch(0.74 0.15 50);
+  --gradient-ink: oklch(0.45 0.17 17);
+}
+
+.dark[data-primary="rose"],
+.dark [data-primary="rose"] {
+  --gradient-from: oklch(0.6 0.14 350);
+  --gradient-via: oklch(0.6 0.2 17);
+  --gradient-to: oklch(0.66 0.15 50);
+  --gradient-ink: oklch(0.86 0.07 17);
+}
+
+/* grays */
+
+/* ---------- Light background (light mode only) ---------- */
+
+[data-light="slate"]:not(.dark, .dark *) {
+  --background: oklch(0.984 0.003 247.858);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.5 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.9 0.017 254);
+  --sidebar-foreground: oklch(0.372 0.044 257.287);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+}
+
+[data-light="gray"]:not(.dark, .dark *) {
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.18 0 0);
+  --card-foreground: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.18 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.22 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.22 0 0);
+  --border: oklch(0.935 0 0);
+  --input: oklch(0.92 0 0);
+  --sidebar-foreground: oklch(0.3 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.18 0 0);
+  --sidebar-border: oklch(0.965 0 0);
+}
+
+/* ---------- Dark background (dark mode only) ---------- */
+
+.dark[data-dark="navy"],
+.dark [data-dark="navy"] {
+  --background: oklch(0.129 0.042 264.695);
+  --card: oklch(0.208 0.042 265.755);
+  --popover: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --sidebar: oklch(0.17 0.042 265);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+}
+
+.dark[data-dark="zinc"],
+.dark [data-dark="zinc"] {
+  --background: oklch(0.141 0.005 285.823);
+  --card: oklch(0.21 0.006 285.885);
+  --popover: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --sidebar: oklch(0.175 0.005 286);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+}
+
+.dark[data-dark="black"],
+.dark [data-dark="black"] {
+  --background: oklch(0.1 0 0);
+  --card: oklch(0.16 0 0);
+  --popover: oklch(0.16 0 0);
+  --secondary: oklch(0.23 0 0);
+  --muted: oklch(0.23 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.23 0 0);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-accent: oklch(0.23 0 0);
+}
+
+.dark[data-dark="mint"],
+.dark [data-dark="mint"] {
+  --background: oklch(0.15 0.02 190);
+  --card: oklch(0.21 0.03 190);
+  --popover: oklch(0.21 0.03 190);
+  --secondary: oklch(0.27 0.03 190);
+  --muted: oklch(0.27 0.03 190);
+  --muted-foreground: oklch(0.72 0.03 190);
+  --accent: oklch(0.27 0.03 190);
+  --sidebar: oklch(0.18 0.025 190);
+  --sidebar-accent: oklch(0.27 0.03 190);
+}
+
+/* ---------- Card skin (applies to cards using the default variant) ---------- */
+
+/* Soft: no edges or shadows; cards stand out as white panels on a slightly darker page (an app darkens its page itself;
+   dark mode already has a lighter card than the page). */
+[data-card="soft"] [data-slot="card"][data-variant="default"] {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+[data-card="shadow"] [data-slot="card"][data-variant="default"] {
+  border-color: transparent;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1),
+    0 0 0 1px rgb(0 0 0 / 0.05);
+}
+
+.dark[data-card="shadow"] [data-slot="card"][data-variant="default"],
+.dark [data-card="shadow"] [data-slot="card"][data-variant="default"] {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.4),
+    0 4px 6px -4px rgb(0 0 0 / 0.4),
+    0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+/* ---------- Text font ---------- */
+
+/* The text everything inside inherits, like Tailwind's base sets it on <html>. --font-inter itself is left alone, so the
+   customizer can still show Inter in its own preview. Arabic keeps IBM Plex Sans Arabic in every choice. */
+[data-font="geist"] {
+  font-family: var(--font-geist, "Geist"), var(--font-arabic, "IBM Plex Sans Arabic"), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+[data-font="system"] {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, var(--font-arabic, "IBM Plex Sans Arabic"), "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Radius ---------- */
+
+[data-radius="0"] { --radius: 0rem; }
+
+[data-radius="sm"] { --radius: 0.375rem; }
+
+[data-radius="md"] { --radius: 0.625rem; }
+
+[data-radius="xl"] { --radius: 1.25rem; }
+
+/* ---------- Monochrome ---------- */
+
+[data-mono] {
+  filter: grayscale(1);
+}

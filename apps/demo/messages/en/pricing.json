@@ -1,0 +1,107 @@
+{
+  "title": "Pricing",
+  "description": "Simple plans that grow with you. Try any paid plan free for 14 days.",
+  "metaDescription": "A pricing page template: plans with monthly and yearly billing, a comparison and FAQ.",
+  "billing": "Billing",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "save": "Save about 20% yearly",
+  "plansLabel": "Plans",
+  "popular": "Most popular",
+  "custom": "Custom",
+  "perMonth": "/ month",
+  "billedYearly": "{amount} billed yearly",
+  "billedMonthly": "billed monthly",
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "For individuals trying things out.",
+      "cta": "Start for free",
+      "features": [
+        "1 project",
+        "Up to 1,000 events a month",
+        "7-day history",
+        "Community support"
+      ]
+    },
+    "growth": {
+      "name": "Growth",
+      "description": "For growing teams that ship every week.",
+      "cta": "Start a 14-day trial",
+      "features": [
+        "10 projects",
+        "Up to 100,000 events a month",
+        "1-year history",
+        "Team roles",
+        "Email support"
+      ]
+    },
+    "scale": {
+      "name": "Scale",
+      "description": "For companies with more data and more people.",
+      "cta": "Start a 14-day trial",
+      "features": [
+        "Unlimited projects",
+        "Up to 2 million events a month",
+        "Unlimited history",
+        "SSO & audit log",
+        "Priority support"
+      ]
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "For custom limits, contracts and security reviews.",
+      "cta": "Contact sales",
+      "features": [
+        "Everything in Scale",
+        "Custom limits",
+        "Uptime SLA",
+        "Dedicated manager"
+      ]
+    }
+  },
+  "compare": {
+    "title": "Compare plans",
+    "description": "What each plan includes.",
+    "feature": "Feature",
+    "included": "Included",
+    "notIncluded": "Not included",
+    "rows": {
+      "projects": "Projects",
+      "events": "Events a month",
+      "history": "History",
+      "roles": "Team roles",
+      "sso": "SSO & audit log",
+      "sla": "Uptime SLA"
+    },
+    "values": {
+      "unlimited": "Unlimited",
+      "custom": "Custom",
+      "million2": "2 million",
+      "days7": "7 days",
+      "year1": "1 year"
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Billing and plans.",
+    "items": {
+      "change": {
+        "question": "Can I change plans later?",
+        "answer": "Yes. Upgrade or downgrade at any time; the difference is prorated on your next invoice."
+      },
+      "trial": {
+        "question": "What happens after the trial?",
+        "answer": "You choose a plan, or the workspace moves to Starter. Nothing is deleted."
+      },
+      "discounts": {
+        "question": "Do you offer discounts?",
+        "answer": "Yearly billing saves about 20%. Non-profits and schools get 50% off — just ask."
+      },
+      "payment": {
+        "question": "Which payment methods do you accept?",
+        "answer": "Cards, PayPal and bank transfer for yearly plans."
+      }
+    }
+  }
+}

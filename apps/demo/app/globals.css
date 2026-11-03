@@ -1,0 +1,28 @@
+@import "@dashral/ui/globals.css";
+@import "@dashral/ui/themes.css";
+@import "./theme-presets.css";
+/* @dashral-if inset */
+@import "./layout-inset.css";
+/* @dashral-end */
+
+/* Styles for the minimized desktop sidebar: the panel itself and everything inside it. */
+@custom-variant collapsed (&:where([data-sidebar="collapsed"] [data-sidebar-panel], [data-sidebar="collapsed"] [data-sidebar-panel] *));
+
+/*
+ * Focus rings are for keyboard users. After a mouse or touch interaction (data-input="pointer", set in
+ * lib/input-modality.ts) hide them on buttons and menus — text fields keep theirs, since they show where
+ * you're typing. Unlayered, so it wins over the focus-visible:ring-* utilities.
+ */
+html[data-input="pointer"] :focus-visible:not(input, textarea, select, [contenteditable]) {
+  outline: none;
+  --tw-ring-shadow: 0 0 #0000;
+}
+
+/* A thin, quiet scrollbar (the sidebar's): a hairline thumb that darkens on hover, no track. */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--muted-foreground) 30%, transparent) transparent;
+}
+.thin-scrollbar:hover {
+  scrollbar-color: color-mix(in oklch, var(--muted-foreground) 55%, transparent) transparent;
+}

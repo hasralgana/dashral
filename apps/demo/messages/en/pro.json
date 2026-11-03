@@ -1,0 +1,80 @@
+{
+  "title": "{feature} (Pro)",
+  "eyebrow": "{dashral} Pro",
+  "get": "Get {dashral} Pro",
+  "star": "Star on GitHub",
+  "preview": "A screenshot of the Pro edition",
+  "fullSize": "Open full size",
+  "features": {
+    "analytics": {
+      "title": "Analytics Dashboard",
+      "description": "Traffic, conversion funnels and cohort retention in one view.",
+      "highlights": [
+        "Funnel & cohort charts",
+        "Date-range filters",
+        "Real-time visitors widget"
+      ],
+      "preview": "The Analytics dashboard: visitors, pageviews, bounce rate and visit duration, a traffic chart and live visitors"
+    },
+    "ecommerce": {
+      "title": "E-commerce Dashboard",
+      "description": "Orders, products, customers and revenue for online stores.",
+      "highlights": [
+        "Orders, products & customers",
+        "Product photos & stock alerts",
+        "Orders to ship at a glance"
+      ],
+      "preview": "The E-commerce dashboard: revenue, orders, average order and new customers, daily sales and top products"
+    },
+    "crm": {
+      "title": "CRM Dashboard",
+      "description": "Pipeline, deals and contacts for sales teams.",
+      "highlights": [
+        "Deal pipeline board",
+        "Contact profiles",
+        "Activity timeline"
+      ],
+      "preview": "The CRM pipeline: deals in Lead, Qualified, Proposal and Negotiation columns"
+    },
+    "services": {
+      "title": "Service Map",
+      "description": "Your services, what each one calls, and whether they're working.",
+      "highlights": [
+        "Live map of dependencies",
+        "Health checks every minute",
+        "See what breaks when one goes down"
+      ],
+      "preview": "The service map: services in groups with arrows to what they call, one down and one slow"
+    },
+    "kanban": {
+      "title": "Kanban Board",
+      "description": "Drag-and-drop task board with columns, labels and assignees.",
+      "highlights": [
+        "Drag & drop",
+        "Labels & due dates",
+        "Persisted to database"
+      ],
+      "preview": "A Kanban board with cards in columns, labels, due dates and assignees"
+    },
+    "calendar": {
+      "title": "Calendar",
+      "description": "Month, week and day views with event management.",
+      "highlights": [
+        "Month / week / day views",
+        "Create & edit events",
+        "Recurring events"
+      ],
+      "preview": "The team calendar's week view with events"
+    },
+    "chat": {
+      "title": "Chat",
+      "description": "Team messaging UI with conversations and attachments.",
+      "highlights": [
+        "Conversation list",
+        "Attachments & emoji",
+        "Unread indicators"
+      ],
+      "preview": "Chat: a conversation list and a conversation with replies and reactions"
+    }
+  }
+}

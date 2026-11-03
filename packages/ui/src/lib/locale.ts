@@ -1,0 +1,237 @@
+"use client"
+
+// The language and reading direction the components speak: their built-in words ("Search…", "Rows per page"), the
+// locale numbers and dates are written in, and right to left (Arabic). Without a LocaleProvider they're English,
+// left to right. Messages are plain strings with {placeholders}, or { one, other, … } plural forms, so a server
+// layout can pass them.
+
+import * as React from "react"
+import { Direction } from "radix-ui"
+
+export type PluralMessage = Partial<Record<Intl.LDMLPluralRule, string>> & { other: string }
+type Message = string | PluralMessage
+
+export const defaultMessages = {
+  close: "Close",
+  cancel: "Cancel",
+  continue: "Continue",
+  navigation: "Navigation",
+  collapseSidebar: "Collapse sidebar",
+  expandSidebar: "Expand sidebar",
+  done: "Done",
+  dismiss: "Dismiss",
+  loading: "Loading",
+  remove: "Remove {name}",
+  selected: "Selected",
+  noResults: "No results found.",
+  noMatches: "No matches",
+  noData: "No data",
+  search: "Search…",
+  selectOption: "Select an option",
+  selectOptions: "Select options",
+  increase: "Increase",
+  decrease: "Decrease",
+  /** A stepper meeting its limit: "Max 50", "Min 1". */
+  atMax: "Max {value}",
+  atMin: "Min {value}",
+  /** A button that runs only when held (said to screen readers after its label). */
+  pressAndHold: "(press and hold)",
+  resize: "Resize",
+  copy: "Copy",
+  copied: "Copied",
+  copyFailed: "Couldn't copy",
+  showPassword: "Show password",
+  hidePassword: "Hide password",
+  // Dates
+  pickDate: "Pick a date",
+  pickDateRange: "Pick a date range",
+  pickTime: "Pick a time",
+  typeTime: "Type a time",
+  shortcuts: "Shortcuts",
+  today: "Today",
+  yesterday: "Yesterday",
+  last7Days: "Last 7 days",
+  last30Days: "Last 30 days",
+  thisMonth: "This month",
+  lastMonth: "Last month",
+  // Tags and files
+  addTag: "Add a tag…",
+  tags: "Tags",
+  tagLimit: { one: "Up to {count} tag.", other: "Up to {count} tags." } as Message,
+  chosenFiles: "Chosen files",
+  dropFiles: "Drop files here or {browse}",
+  dropFile: "Drop a file here or {browse}",
+  browse: "browse",
+  fileType: "{name}: this type of file isn't accepted.",
+  fileSize: "{name} is larger than {size}.",
+  fileLimit: { one: "{name}: up to {count} file.", other: "{name}: up to {count} files." } as Message,
+  upToSize: "up to {size}",
+  filesMax: { one: "{count} file max", other: "{count} files max" } as Message,
+  images: "Images",
+  videos: "Videos",
+  audio: "Audio",
+  textFiles: "Text files",
+  // Pages
+  pagination: "Pagination",
+  previous: "Previous",
+  next: "Next",
+  previousPage: "Go to previous page",
+  nextPage: "Go to next page",
+  firstPage: "First page",
+  lastPage: "Last page",
+  page: "Page {page}",
+  pageOf: "Page {page} of {total}",
+  morePages: "More pages",
+  // Carousel
+  carousel: "Carousel",
+  slideOf: "{index} of {total}",
+  previousSlide: "Previous slide",
+  nextSlide: "Next slide",
+  goToSlide: "Go to slide {index}",
+  pauseSlides: "Pause",
+  playSlides: "Play",
+  // Data table
+  searchTable: "Search...",
+  noRows: "No results.",
+  tryAnother: "Try another search or clear the filters.",
+  clearFilters: "Clear filters",
+  clearFilter: "Clear filter",
+  reset: "Reset",
+  export: "Export",
+  exportAll: "Export all matching rows",
+  exportSelected: "Export {count} selected",
+  columns: "Columns",
+  toggleColumns: "Toggle columns",
+  rowsPerPage: "Rows per page",
+  rows: { one: "{count} row", other: "{count} rows" } as Message,
+  rowsSelected: "{selected} of {total} selected",
+  selectAllRows: "Select all rows on this page",
+  selectRow: "Select row",
+  // Command palette
+  commandTitle: "Command palette",
+  commandDescription: "Search for a command to run",
+  commandPlaceholder: "Type a command or search…",
+  // Charts
+  less: "Less",
+  more: "More",
+  trend: "Trend from {from} to {to}",
+  heatmapSummary: "{count} over {weeks} weeks to {date}",
+  heatmapBusiest: "; the busiest day was {date} with {value}.",
+  donutChart: "Donut chart",
+  treemap: "Treemap",
+  treemapLevels: "Treemap levels",
+  all: "All",
+  zoomIn: "{name}. Zoom in",
+  candlestickChart: "Candlestick chart",
+  areaChart: "Area chart",
+  lineChart: "Line chart",
+  barChart: "Bar chart",
+  candle: "{date}: open {open}, high {high}, low {low}, close {close}",
+  candleOpen: "O",
+  candleHigh: "H",
+  candleLow: "L",
+  candleClose: "C",
+  volume: "Vol",
+  // AI
+  message: "Message",
+  askAnything: "Ask anything…",
+  sendMessage: "Send message",
+  stopGenerating: "Stop generating",
+  attachFiles: "Attach files",
+  attachments: "Attachments",
+  dropToAttach: "Drop files to attach them",
+  charactersLeft: { one: "{count} character left", other: "{count} characters left" } as Message,
+  charactersOver: { one: "{count} character over the limit", other: "{count} characters over the limit" } as Message,
+  you: "You",
+  assistant: "Assistant",
+  regenerate: "Regenerate",
+  goodResponse: "Good response",
+  badResponse: "Bad response",
+  messageFailed: "Couldn't finish this answer.",
+  tryAgain: "Try again",
+  conversation: "Conversation",
+  jumpToLatest: "Jump to latest",
+  thinking: "Thinking…",
+  thoughtFor: { one: "Thought for {count} second", other: "Thought for {count} seconds" } as Message,
+  thoughtBriefly: "Thought for a moment",
+  toolActivity: "Tool activity",
+  toolPending: "Waiting",
+  toolRunning: "Running",
+  toolDone: "Done",
+  toolFailed: "Failed",
+  toolInput: "Input",
+  toolOutput: "Output",
+  toolStatus: "{name}: {status}",
+  needsApproval: "Needs your approval",
+  approve: "Approve",
+  allowOnce: "Allow once",
+  allowAlways: "Always allow",
+  deny: "Deny",
+  approved: "Approved",
+  denied: "Denied",
+  alwaysAllowed: "Always allowed",
+  suggestions: "Suggestions",
+}
+
+export type LocaleMessages = typeof defaultMessages
+export type MessageKey = keyof LocaleMessages
+
+type LocaleContextValue = {
+  /** BCP 47, e.g. "en-US", "id-ID", "ar". Numbers and dates are written in it. */
+  locale: string
+  dir: "ltr" | "rtl"
+  messages: LocaleMessages
+  /** For Calendar and the date pickers: a react-day-picker locale (month and day names, first day of the week). */
+  dateLocale?: unknown
+}
+
+const LocaleContext = React.createContext<LocaleContextValue>({ locale: "en-US", dir: "ltr", messages: defaultMessages })
+
+/**
+ * Sets the language and direction for the components inside, and Radix's direction (menus, sliders and tabs follow
+ * it with the keyboard). Pass only the messages you translate; the rest stay English.
+ */
+export function LocaleProvider({
+  locale,
+  dir = "ltr",
+  messages,
+  dateLocale,
+  children,
+}: {
+  locale: string
+  dir?: "ltr" | "rtl"
+  messages?: Partial<LocaleMessages>
+  dateLocale?: unknown
+  children: React.ReactNode
+}) {
+  const value = React.useMemo(
+    () => ({ locale, dir, messages: { ...defaultMessages, ...messages }, dateLocale }),
+    [locale, dir, messages, dateLocale]
+  )
+  return React.createElement(LocaleContext.Provider, { value }, React.createElement(Direction.Provider, { dir }, children))
+}
+
+/** Fills {placeholders} (numbers written in the locale); a plural message picks its form by `count` with the locale's rules (Arabic has six). */
+export function formatMessage(message: Message, values: Record<string, React.ReactNode> = {}, locale = "en-US"): string {
+  const template =
+    typeof message === "string"
+      ? message
+      : (message[new Intl.PluralRules(locale).select(Number(values.count ?? 0))] ?? message.other)
+  // Numbers are written in the locale (1,175 · 1.175 · ١٬١٧٥ by its own rules).
+  const number = new Intl.NumberFormat(locale)
+  return template.replace(/\{(\w+)\}/g, (match, key: string) => {
+    if (!(key in values)) return match
+    const value = values[key]
+    return typeof value === "number" ? number.format(value) : String(value)
+  })
+}
+
+/** The locale, direction and a translator for the components' words: t("pageOf", { page: 2, total: 7 }). */
+export function useLocale() {
+  const context = React.useContext(LocaleContext)
+  const t = React.useCallback(
+    (key: MessageKey, values?: Record<string, React.ReactNode>) => formatMessage(context.messages[key], values, context.locale),
+    [context]
+  )
+  return { ...context, t }
+}

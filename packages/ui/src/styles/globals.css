@@ -1,0 +1,296 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Scan the shared component library — node_modules is ignored by default. */
+@source "../components";
+@source "../lib";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Reduced motion: asked for by the OS, or chosen in the app with data-motion="reduce" on <html>. Every motion-reduce:
+   and motion-safe: class follows both. */
+@custom-variant motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @slot;
+  }
+  &:where([data-motion="reduce"], [data-motion="reduce"] *) {
+    @slot;
+  }
+}
+@custom-variant motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    &:not(:where([data-motion="reduce"], [data-motion="reduce"] *)) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * Design tokens.
+ * Change these to rebrand the whole dashboard. Chart colors are a validated,
+ * colorblind-safe categorical order — keep the order when swapping hues.
+ */
+:root {
+  --radius: 0.875rem;
+
+  /* Motion — one set of durations and curves for every component, so they all move alike. Transitions use
+     --duration-fast and --ease-standard unless a component says otherwise. */
+  --duration-fast: 160ms; /* hovers, presses, color changes */
+  --duration-standard: 240ms; /* menus, popovers, toggles */
+  --duration-considered: 480ms; /* sliding highlights (with --ease-standard), charts drawing in, panels, counting numbers */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* things already on screen moving or changing */
+  --ease-enter: cubic-bezier(0, 0, 0, 1); /* arriving: fast, then settling */
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1); /* leaving: gathering speed */
+  /* A spring with a little bounce (about 8% past the end, then back), in plain CSS — no animation library. */
+  --ease-spring: linear(0, 0.071 4%, 0.234 8%, 0.433 12%, 0.626 17%, 0.791 21%, 0.917 25%, 1.004 29%, 1.055 33%, 1.079 38%, 1.083 42%, 1.075 46%, 1.06 50%, 1.043 54%, 1.027 58%, 1.015 62%, 1.005 67%, 0.998 71%, 0.995 75%, 0.993 79%, 0.993 83%, 0.994 88%, 0.995 92%, 0.997 96%, 1);
+
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  /* Primary uses the Tailwind CSS blue scale: 600 for fills, 700 for text. */
+  /* Ink: Dashral's own look is neutral, near-black fills in light mode and near-white ones in dark mode. Every other
+     color is one data-primary away (themes.css), blue among them. */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-text: oklch(0.205 0 0);
+  /* The primary's gradient: three neighboring hues around it (sky → blue → indigo for blue), for accents such as a
+     gradient hairline or a tinted tag, and an ink that reads on a faint tint of them. A theme that changes the
+     primary changes these with it. */
+  /* The primary's gradient, for gradient touches (the Pro tag and card, a CTA's wash): silver for the default ink;
+     each color brings its own (themes.css), blue's sky → brand blue → indigo. */
+  --gradient-from: oklch(0.78 0 0);
+  --gradient-via: oklch(0.35 0 0);
+  --gradient-to: oklch(0.6 0 0);
+  --gradient-ink: oklch(0.25 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: #d52200; /* error, a touch darker than #e52e00 for white text */
+  --destructive-foreground: oklch(0.985 0 0);
+  --destructive-text: #bd2800;
+  /* Lines: --border for components (cards, tables, code), --divider for the page's own layout (header, sidebars,
+     separators) — fainter, so the structure recedes — and --input a notch firmer so fields read as fields. */
+  --border: oklch(0.922 0 0);
+  --divider: oklch(0.965 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.556 0 0);
+
+  /*
+   * Status colors come in three roles:
+   *   --x             fills and solid backgrounds (icons, stars, progress, solid buttons)
+   *   --x-foreground  text on a solid --x background
+   *   --x-text        colored text/icons on the page or a soft --x tint (WCAG AA 4.5:1)
+   * Info and success use the Tailwind sky/emerald scales; warning and error use custom hues.
+   */
+  --info: oklch(0.5 0.134 242.749); /* sky-700 */
+  --info-foreground: oklch(0.985 0 0);
+  --info-text: oklch(0.443 0.11 240.79); /* sky-800 */
+  --success: oklch(0.508 0.118 165.612); /* emerald-700 */
+  --success-foreground: oklch(0.985 0 0);
+  --success-text: oklch(0.432 0.095 166.913); /* emerald-800 */
+  --warning: #f59200;
+  --warning-foreground: oklch(0.3 0.07 60);
+  --warning-text: #964e00;
+  /* Highlight: a magenta brand accent, separate from the neutral --secondary. */
+  --highlight: #b8008c;
+  --highlight-foreground: oklch(0.985 0 0);
+  --highlight-text: #a3007b;
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.371 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.145 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+
+  /* Charts — a colorblind-safe categorical order for multi-series charts. The first series is the primary, so a chart
+     follows the theme's color (ink by default, whatever the customizer picks); the rest stay fixed to tell series apart. */
+  --chart-1: var(--primary);
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --chart-grid: #e8e8e8;
+  --chart-axis: #8a8a8a;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.97 0 0);
+  --card: oklch(0.2 0 0);
+  --card-foreground: oklch(0.97 0 0);
+  --popover: oklch(0.2 0 0);
+  --popover-foreground: oklch(0.97 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --primary-text: oklch(0.985 0 0);
+  --gradient-from: oklch(0.5 0 0);
+  --gradient-via: oklch(0.85 0 0);
+  --gradient-to: oklch(0.6 0 0);
+  --gradient-ink: oklch(0.92 0 0);
+  --secondary: oklch(0.26 0 0);
+  --secondary-foreground: oklch(0.97 0 0);
+  --muted: oklch(0.26 0 0);
+  --muted-foreground: oklch(0.71 0 0);
+  --accent: oklch(0.27 0 0);
+  --accent-foreground: oklch(0.97 0 0);
+  --destructive: #ff6933;
+  --destructive-foreground: oklch(0.2 0 0);
+  --destructive-text: #ff8a5c;
+  --border: oklch(1 0 0 / 10%);
+  --divider: oklch(1 0 0 / 7%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.708 0 0);
+
+  --info: oklch(0.685 0.169 237.323); /* sky-500 */
+  --info-foreground: oklch(0.2 0 0);
+  --info-text: oklch(0.746 0.16 232.661); /* sky-400 */
+  --success: oklch(0.696 0.17 162.48); /* emerald-500 */
+  --success-foreground: oklch(0.2 0.04 160);
+  --success-text: oklch(0.765 0.177 163.223); /* emerald-400 */
+  --warning: #f59200;
+  --warning-foreground: oklch(0.25 0.06 60);
+  --warning-text: #ffba42;
+  --highlight: #ff2ecf;
+  --highlight-foreground: oklch(0.2 0 0);
+  --highlight-text: #ff75df;
+
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(0.85 0 0);
+  --sidebar-accent: oklch(0.26 0 0);
+  --sidebar-accent-foreground: oklch(0.97 0 0);
+  --sidebar-border: oklch(1 0 0 / 7%);
+
+  --chart-1: var(--primary);
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #d55181;
+  --chart-grid: #2c2c2c;
+  --chart-axis: #8a8a8a;
+}
+
+@theme inline {
+  --ease-standard: var(--ease-standard);
+  --ease-enter: var(--ease-enter);
+  --ease-exit: var(--ease-exit);
+  --ease-spring: var(--ease-spring);
+  --default-transition-duration: var(--duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+  /* Inter for text and Geist for headings. Apps load them (next/font sets --font-inter and --font-geist); without
+     them the installed fonts of those names, then the system's, are used. */
+  --font-sans: var(--font-inter, "Inter"), var(--font-arabic, "IBM Plex Sans Arabic"), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-geist, "Geist"), var(--font-inter, "Inter"), var(--font-arabic, "IBM Plex Sans Arabic"), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-text: var(--primary-text);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-text: var(--destructive-text);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-text: var(--info-text);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-text: var(--success-text);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-text: var(--warning-text);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-highlight-text: var(--highlight-text);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+/* With reduced motion: no overshoot, and long animations get short. Components also drop movement (motion-reduce:). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ease-spring: var(--ease-standard);
+    --duration-standard: 160ms;
+    --duration-considered: 160ms;
+  }
+}
+:root[data-motion="reduce"] {
+  --ease-spring: var(--ease-standard);
+  --duration-standard: 160ms;
+  --duration-considered: 160ms;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  /* A search field's clear button: the browser draws its own (blue in Chrome and Safari); this one is a muted ×. */
+  input[type="search"]::-webkit-search-cancel-button {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--muted-foreground);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E")
+      center / 0.875rem no-repeat;
+  }
+  input[type="search"]::-webkit-search-cancel-button:hover {
+    background-color: var(--foreground);
+  }
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  /* Slightly tighter letters read as more polished at UI sizes. Headings (Geist) tighten further. */
+  body {
+    @apply bg-background text-foreground antialiased;
+    letter-spacing: -0.01em;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+    letter-spacing: -0.02em;
+  }
+  /* Lighter icon strokes everywhere (Lucide defaults to 2). CSS beats the stroke-width attribute,
+     so this also covers icons rendered in Server Components. */
+  .lucide {
+    stroke-width: 1.5;
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "title": "Pengaturan",
+  "description": "Profil, akun, notifikasi dan tampilan Anda.",
+  "tabs": {
+    "profile": "Profil",
+    "account": "Akun",
+    "notifications": "Notifikasi",
+    "appearance": "Tampilan"
+  },
+  "profile": {
+    "title": "Profil",
+    "description": "Bagaimana Anda terlihat oleh tim.",
+    "save": "Simpan profil",
+    "saved": "Profil disimpan",
+    "changePhoto": "Ganti foto",
+    "removePhoto": "Hapus",
+    "photoHint": "JPG, PNG atau WebP, maks. 2 MB.",
+    "name": "Nama",
+    "email": "Email",
+    "bio": "Bio",
+    "bioPlaceholder": "Satu-dua kalimat tentang Anda",
+    "bioHint": "Tampil di profil Anda. Maksimal 160 karakter."
+  },
+  "preferences": {
+    "title": "Preferensi",
+    "description": "Bahasa dan zona waktu untuk menampilkan tanggal.",
+    "save": "Simpan preferensi",
+    "saved": "Preferensi disimpan",
+    "language": "Bahasa",
+    "timeZone": "Zona waktu"
+  },
+  "password": {
+    "title": "Kata sandi",
+    "description": "Minimal 8 karakter. Anda tetap masuk di perangkat ini.",
+    "save": "Ganti kata sandi",
+    "saved": "Kata sandi diganti",
+    "current": "Kata sandi saat ini",
+    "new": "Kata sandi baru"
+  },
+  "delete": {
+    "title": "Hapus akun",
+    "description": "Menghapus akun Anda beserta semua isinya. Tindakan ini tidak bisa dibatalkan.",
+    "button": "Hapus akun",
+    "confirmTitle": "Hapus akun Anda?",
+    "confirmDescription": "Profil, pengaturan dan data Anda akan dihapus permanen.",
+    "cancel": "Batal",
+    "demo": "Ini demo — tidak ada yang dihapus."
+  },
+  "notifications": {
+    "title": "Notifikasi",
+    "description": "Pilih apa yang Anda terima, dan di mana.",
+    "save": "Simpan notifikasi",
+    "saved": "Pengaturan notifikasi disimpan",
+    "email": "Email",
+    "emailDescription": "Dikirim ke {email}.",
+    "app": "Di aplikasi",
+    "appDescription": "Di ikon lonceng di atas setiap halaman.",
+    "items": {
+      "orders": {
+        "label": "Pesanan baru",
+        "hint": "Setiap pesanan saat masuk."
+      },
+      "payments": {
+        "label": "Pembayaran gagal",
+        "hint": "Saat kartu ditolak atau pembayaran gagal."
+      },
+      "summary": {
+        "label": "Ringkasan mingguan",
+        "hint": "Penjualan, pelanggan dan trafik setiap Senin."
+      },
+      "mentions": {
+        "label": "Sebutan dan balasan",
+        "hint": "Saat seseorang menyebut atau membalas Anda."
+      },
+      "stock": {
+        "label": "Stok menipis",
+        "hint": "Saat stok produk di bawah batas minimum."
+      }
+    }
+  },
+  "appearance": {
+    "title": "Tampilan",
+    "description": "Terang, gelap, atau mengikuti perangkat Anda. Warna, radius dan gaya kartu ada di theme customizer (ikon kuas di atas).",
+    "theme": "Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem"
+  }
+}

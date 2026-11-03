@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The logo: a rounded tile with three dots cut out in a column, left of centre (components/icons.tsx draws the same).
+       Ink on a light tab, white on a dark one; lib/logo-mark.ts turns the ink light for images on dark backgrounds. -->
+  <style>@media (prefers-color-scheme: dark) { path { fill: #fafafa } }</style>
+  <path fill="#0a0a0a" fill-rule="evenodd" d="M18 4h28a14 14 0 0 1 14 14v28a14 14 0 0 1-14 14H18A14 14 0 0 1 4 46V18A14 14 0 0 1 18 4ZM17 21a4 4 0 1 0 8 0a4 4 0 1 0-8 0ZM17 32a4 4 0 1 0 8 0a4 4 0 1 0-8 0ZM17 43a4 4 0 1 0 8 0a4 4 0 1 0-8 0Z"/>
+</svg>

@@ -1,0 +1,340 @@
+{
+  "overview": {
+    "title": "Overview",
+    "description": "How your subscriptions are doing this month.",
+    "export": "Export",
+    "newInvoice": "New invoice",
+    "keyMetrics": "Key metrics",
+    "metrics": {
+      "mrr": "Recurring revenue",
+      "activeCustomers": "Active customers",
+      "outstanding": "Outstanding",
+      "churn": "Churn rate"
+    },
+    "vsLastMonth": "vs last month",
+    "trendLabel": "{label} over the last 12 months, {direction}",
+    "improving": "improving",
+    "worsening": "worsening",
+    "revenueTitle": "Recurring revenue",
+    "revenueDescription": "Monthly recurring revenue, {from} – {to} {year}",
+    "thisMonth": "This month",
+    "deliveredTo": "Delivered to",
+    "deliveredDescription": "Where this week's alerts went",
+    "manageIntegrations": "Manage integrations",
+    "recentInvoices": "Recent invoices",
+    "recentInvoicesDescription": "The latest bills sent to customers",
+    "viewAll": "View all",
+    "latestActivity": "Latest activity",
+    "latestActivityDescription": "What happened in your workspace",
+    "viewActivity": "View all activity"
+  },
+  "deliveries": {
+    "rules": {
+      "refunds": "Refunds above threshold",
+      "digest": "Daily digest",
+      "signups": "Signups spike"
+    },
+    "channels": {
+      "slack": "{target} · Slack",
+      "email": "Email · to {target}",
+      "push": "Push · {target}"
+    },
+    "sent": "{count, plural, one {# alert} other {# alerts}} this week"
+  },
+  "plans": {
+    "starter": "Starter",
+    "growth": "Growth",
+    "scale": "Scale"
+  },
+  "customerStatus": {
+    "active": "Active",
+    "trial": "Trial",
+    "atRisk": "At risk",
+    "churned": "Churned"
+  },
+  "invoiceStatus": {
+    "paid": "Paid",
+    "open": "Open",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  },
+  "customers": {
+    "title": "Customers",
+    "description": "Everyone on a plan, their revenue and how they're doing.",
+    "summary": {
+      "total": "Customers",
+      "paying": "{count} paying",
+      "mrr": "Recurring revenue",
+      "perCustomer": "{amount} per paying customer",
+      "atRisk": "At risk",
+      "atRiskHint": "Payment failed or usage dropped",
+      "trials": "On trial",
+      "trialsHint": "Started in the last 14 days"
+    },
+    "all": "All customers",
+    "allDescription": "{count, plural, one {# customer} other {# customers}} on {plans} plans",
+    "search": "Search customers...",
+    "columns": {
+      "customer": "Customer",
+      "plan": "Plan",
+      "status": "Status",
+      "mrr": "MRR",
+      "since": "Customer since",
+      "country": "Country"
+    },
+    "empty": "No customers match your search.",
+    "details": {
+      "open": "Open {name}",
+      "contact": "Contact",
+      "company": "Company",
+      "country": "Country",
+      "plan": "Plan",
+      "mrr": "Recurring revenue",
+      "since": "Customer since",
+      "invoices": "Invoices",
+      "noInvoices": "No invoices yet.",
+      "email": "Send email",
+      "perMonth": "{amount} / month"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "description": "What you've billed, what's been paid and what's late.",
+    "newInvoice": "New invoice",
+    "summary": {
+      "paid": "Paid",
+      "open": "Open",
+      "overdue": "Overdue",
+      "count": "{count, plural, one {# invoice} other {# invoices}}"
+    },
+    "all": "All invoices",
+    "allDescription": "The last 30 days, newest first",
+    "search": "Search invoices...",
+    "columns": {
+      "invoice": "Invoice",
+      "customer": "Customer",
+      "issued": "Issued",
+      "due": "Due",
+      "status": "Status",
+      "amount": "Amount"
+    },
+    "empty": "No invoices match your search.",
+    "actions": {
+      "label": "Actions for {id}",
+      "markPaid": "Mark as paid",
+      "copyId": "Copy invoice number",
+      "copied": "{id} copied",
+      "markedPaid": "{id} marked as paid",
+      "download": "Download PDF",
+      "downloading": "Preparing {id}.pdf…"
+    },
+    "created": "Draft invoice created"
+  },
+  "activity": {
+    "title": "Activity",
+    "description": "Everything that happened in your workspace, newest first.",
+    "filter": "Show",
+    "kinds": {
+      "all": "All",
+      "billing": "Billing",
+      "customers": "Customers",
+      "integrations": "Integrations",
+      "team": "Team"
+    },
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "count": "{count, plural, one {# event} other {# events}}",
+    "emptyTitle": "Nothing here yet",
+    "emptyDescription": "Events of this kind will show up here as they happen.",
+    "by": "by {actor}",
+    "events": {
+      "invoicePaid": "{customer} paid {invoice} ({amount})",
+      "invoiceOverdue": "{invoice} from {customer} is overdue",
+      "invoiceSent": "{invoice} sent to {customer} ({amount})",
+      "customerJoined": "{customer} from {company} signed up",
+      "customerUpgraded": "{customer} moved from {from} to {to}",
+      "customerChurned": "{customer} from {company} canceled",
+      "trialStarted": "{customer} from {company} started a trial",
+      "integrationConnected": "{app} was connected",
+      "alertDelivered": "“{rule}” delivered to {channel}",
+      "memberInvited": "{name} was invited as {role}",
+      "memberJoined": "{name} joined the team",
+      "roleChanged": "{name} is now {role}"
+    }
+  },
+  "integrations": {
+    "title": "Integrations",
+    "description": "Connect the apps your team works in.",
+    "mapTitle": "Delivery map",
+    "mapDescription": "Alert rules and where they're delivered",
+    "when": "When",
+    "deliveredTo": "Delivered to",
+    "search": "Search apps...",
+    "clearSearch": "Clear search",
+    "category": "Category",
+    "categories": {
+      "all": "All",
+      "messaging": "Messaging",
+      "payments": "Payments",
+      "data": "Data",
+      "developer": "Developer"
+    },
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "connectedCount": "{count} of {total} connected",
+    "toggle": "Connect {app}",
+    "connectedToast": "{app} connected",
+    "disconnectedToast": "{app} disconnected",
+    "configure": "Configure",
+    "configureToast": "{app} settings would open here",
+    "emptyTitle": "No apps match",
+    "emptyDescription": "Try another name, or look in every category.",
+    "showAll": "Show all apps",
+    "apps": {
+      "slack": "Post alerts and daily digests to channels.",
+      "email": "Send reports and alerts to any inbox.",
+      "push": "Reach your phone the moment a rule fires.",
+      "stripe": "Sync customers, invoices and payments.",
+      "paypal": "Take payments and match them to invoices.",
+      "postgres": "Read customers and usage from your database.",
+      "bigquery": "Send events to your warehouse every hour.",
+      "github": "Link releases to the changes customers see.",
+      "webhooks": "Call your own endpoint when anything happens."
+    },
+    "activeRules": "Active rules",
+    "alertsWeek": "Alerts this week"
+  },
+  "panel": {
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "about": "What this shows"
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "Where recurring revenue comes from and where it goes.",
+    "export": "Export CSV",
+    "exported": "reports.csv downloaded",
+    "movement": "MRR movement",
+    "movementInfo": "How recurring revenue changed each month: new customers, upgrades, downgrades and cancellations.",
+    "columns": {
+      "month": "Month",
+      "new": "New",
+      "expansion": "Expansion",
+      "contraction": "Contraction",
+      "churn": "Churn",
+      "net": "Net"
+    },
+    "net6": "Net, 6 months",
+    "newTotal": "New",
+    "byPlan": "Revenue by plan",
+    "byPlanInfo": "Recurring revenue of paying customers, by the plan they're on.",
+    "total": "Total",
+    "top": "Top customers",
+    "topInfo": "The customers bringing in the most recurring revenue."
+  },
+  "team": {
+    "title": "Team",
+    "description": "Who can open this workspace, and what they can do.",
+    "invite": "Invite",
+    "members": "Members",
+    "membersInfo": "Owners and admins manage the team; billing sees invoices and plans; members work with customers and reports.",
+    "seats": "{used} of {total} seats",
+    "pending": "Invited",
+    "lastActive": "Active {time}",
+    "never": "Hasn't joined yet",
+    "you": "You",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member",
+      "billing": "Billing"
+    },
+    "roleFor": "Role for {name}",
+    "actionsFor": "Actions for {name}",
+    "remove": "Remove from team",
+    "resend": "Resend invitation",
+    "removed": "{name} removed",
+    "resent": "Invitation sent again to {email}",
+    "roleChanged": "{name} is now {role}",
+    "inviteTitle": "Invite a teammate",
+    "inviteDescription": "They'll get an email with a link to join this workspace.",
+    "email": "Email",
+    "emailPlaceholder": "name@company.com",
+    "role": "Role",
+    "send": "Send invitation",
+    "cancel": "Cancel",
+    "invalidEmail": "Enter an email address like name@company.com.",
+    "alreadyIn": "{email} is already on the team.",
+    "invited": "Invitation sent to {email}"
+  },
+  "billing": {
+    "title": "Billing",
+    "description": "Your plan, what you've used, and how you pay.",
+    "plan": "Current plan",
+    "perMonth": "{amount} / month",
+    "renews": "Renews on {date}",
+    "changePlan": "Change plan",
+    "usage": "Usage",
+    "usageInfo": "This billing period. Going over a limit never stops your workspace; we'll suggest a bigger plan.",
+    "meters": {
+      "seats": "Seats",
+      "events": "Events",
+      "storage": "Storage"
+    },
+    "of": "{used} of {limit}",
+    "gb": "{value} GB",
+    "payment": "Payment method",
+    "expires": "Expires {date}",
+    "update": "Update",
+    "updateToast": "The card form would open here",
+    "history": "Billing history",
+    "historyInfo": "Invoices for this workspace's plan.",
+    "columns": {
+      "invoice": "Invoice",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status"
+    },
+    "paid": "Paid",
+    "download": "Download {id}",
+    "downloading": "Preparing {id}.pdf…"
+  },
+  "apiKeys": {
+    "title": "API keys",
+    "description": "Keys let your own code read and write this workspace's data.",
+    "create": "Create key",
+    "keys": "Keys",
+    "keysInfo": "Treat a key like a password: anyone with it can use the API as this workspace.",
+    "count": "{count, plural, one {# key} other {# keys}}",
+    "columns": {
+      "name": "Name",
+      "key": "Key",
+      "created": "Created",
+      "lastUsed": "Last used"
+    },
+    "never": "Never",
+    "revoke": "Revoke",
+    "revokeFor": "Revoke {name}",
+    "revokeTitle": "Revoke {name}?",
+    "revokeDescription": "Apps using this key stop working right away. This can't be undone.",
+    "revoked": "{name} revoked",
+    "createTitle": "Create an API key",
+    "createDescription": "Name it after where it's used, so you know which to revoke later.",
+    "name": "Name",
+    "namePlaceholder": "e.g. Production server",
+    "nameRequired": "Give the key a name.",
+    "live": "Live",
+    "test": "Test",
+    "mode": "Mode",
+    "generate": "Create key",
+    "cancel": "Cancel",
+    "shownOnce": "Your new key",
+    "shownOnceDescription": "Copy it into your app's settings. The list keeps it masked; click it there to copy it again.",
+    "copy": "Copy",
+    "done": "Done",
+    "emptyTitle": "No keys",
+    "emptyDescription": "Create a key to call the API from your own code.",
+    "copyKey": "Copy the {name} key",
+    "keyCopied": "{name} key copied"
+  }
+}

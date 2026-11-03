@@ -1,0 +1,21 @@
+{
+  "code": "Kode galat: {code}",
+  "back": "Kembali ke dashboard",
+  "retry": "Coba lagi",
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "description": "Maaf, halaman yang Anda cari tidak ditemukan. Mungkin sudah dipindah atau dihapus.",
+    "report": "Laporkan masalah"
+  },
+  "server": {
+    "meta": "Galat server",
+    "title": "Terjadi kesalahan",
+    "description": "Terjadi galat tak terduga di sisi kami. Silakan coba lagi — jika terus terjadi, beri tahu kami."
+  },
+  "maintenance": {
+    "meta": "Sedang pemeliharaan",
+    "title": "Kami segera kembali",
+    "description": "{brand} sedang dalam pemeliharaan terjadwal. Kami perkirakan kembali online dalam satu jam — terima kasih atas kesabaran Anda.",
+    "follow": "Ikuti kabar terbaru"
+  }
+}

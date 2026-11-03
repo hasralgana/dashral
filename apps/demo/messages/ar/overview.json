@@ -1,0 +1,65 @@
+{
+  "title": "نظرة عامة",
+  "description": "إليك ما يحدث في متجرك اليوم.",
+  "export": "تصدير",
+  "vsLastMonth": "مقارنة بالشهر الماضي",
+  "keyMetrics": "المؤشرات الرئيسية",
+  "trendLabel": "{label}، آخر 12 شهرًا: {direction}",
+  "improving": "في تحسّن",
+  "worsening": "في تراجع",
+  "stats": {
+    "revenueMonth": "إيرادات هذا الشهر",
+    "orders": "الطلبات",
+    "newCustomers": "عملاء جدد",
+    "refundRate": "نسبة الاسترداد"
+  },
+  "revenue": "الإيرادات",
+  "revenueDescription": "الإيرادات الشهرية، {from} – {to} {year}",
+  "yearToDate": "منذ بداية العام",
+  "ordersWeek": "طلبات هذا الأسبوع",
+  "ordersWeekDescription": "الطلبات عبر الإنترنت وفي المتجر يوميًا",
+  "online": "عبر الإنترنت",
+  "inStore": "في المتجر",
+  "legend": "وسيلة الإيضاح",
+  "monthlyRevenue": "الإيرادات الشهرية",
+  "month": "الشهر",
+  "revenueUsd": "الإيرادات (دولار أمريكي)",
+  "ordersPerDay": "الطلبات اليومية حسب القناة",
+  "day": "اليوم",
+  "recentOrders": "أحدث الطلبات",
+  "recentOrdersDescription": "آخر المعاملات من عملائك",
+  "viewAll": "عرض الكل",
+  "trafficSources": "مصادر الزيارات",
+  "trafficDescription": "الزوار خلال آخر 30 يومًا",
+  "visitorsTitle": "{source}: {count} زائر",
+  "sources": {
+    "organic": "البحث المجاني",
+    "direct": "مباشر",
+    "social": "وسائل التواصل",
+    "referral": "إحالة",
+    "email": "البريد الإلكتروني"
+  },
+  "topProducts": "الأكثر مبيعًا",
+  "topProductsDescription": "حسب الوحدات المباعة",
+  "sold": "تم بيع {count}",
+  "productSales": "مبيعات {name}",
+  "table": {
+    "invoice": "الفاتورة",
+    "customer": "العميل",
+    "product": "المنتج",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "amount": "المبلغ"
+  },
+  "status": {
+    "paid": "مدفوع",
+    "pending": "قيد الانتظار",
+    "refunded": "مسترد",
+    "failed": "فشل"
+  },
+  "starter": {
+    "description": "لوحة التحكم الخاصة بك تبدأ من هنا.",
+    "emptyTitle": "لا شيء هنا بعد",
+    "emptyDescription": "ابنِ هذه الصفحة في {path}. كل المكوّنات موجودة في @dashral/ui."
+  }
+}

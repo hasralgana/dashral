@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+allowBuilds:
+  unrs-resolver: false
+  "@parcel/watcher": false
+  "@swc/core": false
+
+# next-intl's plugin loads SWC with the config; SWC 1.16's macOS binaries need macOS 14 or later, so it stays on 1.15.
+overrides:
+  "@swc/core": "1.15.47"

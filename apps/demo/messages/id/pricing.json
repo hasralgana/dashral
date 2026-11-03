@@ -1,0 +1,107 @@
+{
+  "title": "Harga",
+  "description": "Paket sederhana yang tumbuh bersama Anda. Coba paket berbayar mana pun gratis selama 14 hari.",
+  "metaDescription": "Template halaman harga: paket bulanan dan tahunan, perbandingan dan FAQ.",
+  "billing": "Penagihan",
+  "monthly": "Bulanan",
+  "yearly": "Tahunan",
+  "save": "Hemat sekitar 20% per tahun",
+  "plansLabel": "Paket",
+  "popular": "Paling populer",
+  "custom": "Khusus",
+  "perMonth": "/ bulan",
+  "billedYearly": "{amount} ditagih per tahun",
+  "billedMonthly": "ditagih per bulan",
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Untuk perorangan yang ingin mencoba.",
+      "cta": "Mulai gratis",
+      "features": [
+        "1 proyek",
+        "Hingga 1.000 event per bulan",
+        "Riwayat 7 hari",
+        "Dukungan komunitas"
+      ]
+    },
+    "growth": {
+      "name": "Growth",
+      "description": "Untuk tim yang berkembang dan rilis tiap minggu.",
+      "cta": "Coba gratis 14 hari",
+      "features": [
+        "10 proyek",
+        "Hingga 100.000 event per bulan",
+        "Riwayat 1 tahun",
+        "Peran tim",
+        "Dukungan email"
+      ]
+    },
+    "scale": {
+      "name": "Scale",
+      "description": "Untuk perusahaan dengan data dan orang yang lebih banyak.",
+      "cta": "Coba gratis 14 hari",
+      "features": [
+        "Proyek tanpa batas",
+        "Hingga 2 juta event per bulan",
+        "Riwayat tanpa batas",
+        "SSO & log audit",
+        "Dukungan prioritas"
+      ]
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "Untuk batas khusus, kontrak dan tinjauan keamanan.",
+      "cta": "Hubungi sales",
+      "features": [
+        "Semua yang ada di Scale",
+        "Batas khusus",
+        "SLA uptime",
+        "Manajer khusus"
+      ]
+    }
+  },
+  "compare": {
+    "title": "Bandingkan paket",
+    "description": "Apa saja yang termasuk di tiap paket.",
+    "feature": "Fitur",
+    "included": "Termasuk",
+    "notIncluded": "Tidak termasuk",
+    "rows": {
+      "projects": "Proyek",
+      "events": "Event per bulan",
+      "history": "Riwayat",
+      "roles": "Peran tim",
+      "sso": "SSO & log audit",
+      "sla": "SLA uptime"
+    },
+    "values": {
+      "unlimited": "Tanpa batas",
+      "custom": "Khusus",
+      "million2": "2 juta",
+      "days7": "7 hari",
+      "year1": "1 tahun"
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Penagihan dan paket.",
+    "items": {
+      "change": {
+        "question": "Bisakah saya ganti paket nanti?",
+        "answer": "Bisa. Naik atau turun paket kapan saja; selisihnya dihitung prorata di tagihan berikutnya."
+      },
+      "trial": {
+        "question": "Apa yang terjadi setelah masa coba?",
+        "answer": "Anda memilih paket, atau workspace pindah ke Starter. Tidak ada yang dihapus."
+      },
+      "discounts": {
+        "question": "Apakah ada diskon?",
+        "answer": "Penagihan tahunan hemat sekitar 20%. Lembaga nirlaba dan sekolah dapat diskon 50% — cukup tanyakan."
+      },
+      "payment": {
+        "question": "Metode pembayaran apa saja yang diterima?",
+        "answer": "Kartu, PayPal dan transfer bank untuk paket tahunan."
+      }
+    }
+  }
+}

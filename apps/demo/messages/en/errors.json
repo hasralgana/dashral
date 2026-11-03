@@ -1,0 +1,21 @@
+{
+  "code": "Error code: {code}",
+  "back": "Back to dashboard",
+  "retry": "Try again",
+  "notFound": {
+    "title": "Page not found",
+    "description": "Sorry, we couldn't find the page you're looking for. It may have been moved or deleted.",
+    "report": "Report a problem"
+  },
+  "server": {
+    "meta": "Server error",
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred on our side. Please try again — if it keeps happening, let us know."
+  },
+  "maintenance": {
+    "meta": "Under maintenance",
+    "title": "We'll be back soon",
+    "description": "{brand} is down for scheduled maintenance. We expect to be back online within the hour — thanks for your patience.",
+    "follow": "Follow updates"
+  }
+}

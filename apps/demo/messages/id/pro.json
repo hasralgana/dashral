@@ -1,0 +1,80 @@
+{
+  "title": "{feature} (Pro)",
+  "eyebrow": "{dashral} Pro",
+  "get": "Dapatkan {dashral} Pro",
+  "star": "Beri bintang di GitHub",
+  "preview": "Tangkapan layar edisi Pro",
+  "fullSize": "Buka ukuran penuh",
+  "features": {
+    "analytics": {
+      "title": "Dashboard Analitik",
+      "description": "Trafik, funnel konversi dan retensi kohort dalam satu tampilan.",
+      "highlights": [
+        "Grafik funnel & kohort",
+        "Filter rentang tanggal",
+        "Widget pengunjung real-time"
+      ],
+      "preview": "Dashboard Analitik: pengunjung, tampilan halaman, rasio pentalan dan durasi kunjungan, grafik trafik dan pengunjung langsung"
+    },
+    "ecommerce": {
+      "title": "Dashboard E-commerce",
+      "description": "Pesanan, produk, pelanggan dan pendapatan untuk toko online.",
+      "highlights": [
+        "Pesanan, produk & pelanggan",
+        "Foto produk & peringatan stok",
+        "Pesanan yang perlu dikirim, sekilas"
+      ],
+      "preview": "Dashboard E-commerce: pendapatan, pesanan, rata-rata pesanan dan pelanggan baru, penjualan harian dan produk terlaris"
+    },
+    "crm": {
+      "title": "Dashboard CRM",
+      "description": "Pipeline, deal dan kontak untuk tim penjualan.",
+      "highlights": [
+        "Papan pipeline deal",
+        "Profil kontak",
+        "Linimasa aktivitas"
+      ],
+      "preview": "Pipeline CRM: deal di kolom Lead, Qualified, Proposal dan Negotiation"
+    },
+    "services": {
+      "title": "Peta Layanan",
+      "description": "Layanan Anda, apa yang dipanggil masing-masing, dan apakah semuanya berjalan.",
+      "highlights": [
+        "Peta dependensi langsung",
+        "Health check tiap menit",
+        "Lihat apa yang rusak saat satu layanan mati"
+      ],
+      "preview": "Peta layanan: layanan dalam grup dengan panah ke yang dipanggilnya, satu mati dan satu lambat"
+    },
+    "kanban": {
+      "title": "Papan Kanban",
+      "description": "Papan tugas drag-and-drop dengan kolom, label dan penanggung jawab.",
+      "highlights": [
+        "Drag & drop",
+        "Label & tenggat",
+        "Tersimpan di database"
+      ],
+      "preview": "Papan Kanban dengan kartu di kolom, label, tenggat dan penanggung jawab"
+    },
+    "calendar": {
+      "title": "Kalender",
+      "description": "Tampilan bulan, minggu dan hari dengan pengelolaan acara.",
+      "highlights": [
+        "Tampilan bulan / minggu / hari",
+        "Buat & ubah acara",
+        "Acara berulang"
+      ],
+      "preview": "Tampilan minggu kalender tim dengan acara"
+    },
+    "chat": {
+      "title": "Chat",
+      "description": "UI pesan tim dengan percakapan dan lampiran.",
+      "highlights": [
+        "Daftar percakapan",
+        "Lampiran & emoji",
+        "Penanda belum dibaca"
+      ],
+      "preview": "Chat: daftar percakapan dan percakapan dengan balasan dan reaksi"
+    }
+  }
+}

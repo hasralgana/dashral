@@ -1,0 +1,38 @@
+{
+  "title": "Notifications",
+  "titleUnread": "Notifications, {count} unread",
+  "unreadCount": "You have {count} unread",
+  "allCaughtUp": "All caught up",
+  "markAllRead": "Mark all as read",
+  "all": "All",
+  "unread": "Unread",
+  "emptyTitle": "You're all caught up",
+  "emptyDescription": "New notifications will show up here.",
+  "settings": "Notification settings",
+  "items": {
+    "newOrder": {
+      "title": "New order {invoice}",
+      "description": "{name} bought a {product} for {amount}."
+    },
+    "paymentFailed": {
+      "title": "Payment failed",
+      "description": "{name}'s card was declined for {invoice}."
+    },
+    "mention": {
+      "title": "{name} mentioned you",
+      "description": "“Can you review the Q3 revenue numbers?”"
+    },
+    "newCustomers": {
+      "title": "{count} new customers",
+      "description": "Your store gained {count} customers today."
+    },
+    "report": {
+      "title": "Monthly report is ready",
+      "description": "The September sales report is ready to download."
+    },
+    "maintenance": {
+      "title": "Scheduled maintenance",
+      "description": "Sunday, 01:00–02:00 UTC. Expect brief downtime."
+    }
+  }
+}

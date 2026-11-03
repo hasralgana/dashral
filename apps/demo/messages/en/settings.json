@@ -1,0 +1,89 @@
+{
+  "title": "Settings",
+  "description": "Your profile, account, notifications and appearance.",
+  "tabs": {
+    "profile": "Profile",
+    "account": "Account",
+    "notifications": "Notifications",
+    "appearance": "Appearance"
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "How you appear to your team.",
+    "save": "Save profile",
+    "saved": "Profile saved",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove",
+    "photoHint": "JPG, PNG or WebP, up to 2 MB.",
+    "name": "Name",
+    "email": "Email",
+    "bio": "Bio",
+    "bioPlaceholder": "A line or two about you",
+    "bioHint": "Shown on your profile. Up to 160 characters."
+  },
+  "preferences": {
+    "title": "Preferences",
+    "description": "Language and the time zone dates are shown in.",
+    "save": "Save preferences",
+    "saved": "Preferences saved",
+    "language": "Language",
+    "timeZone": "Time zone"
+  },
+  "password": {
+    "title": "Password",
+    "description": "At least 8 characters. You stay signed in on this device.",
+    "save": "Change password",
+    "saved": "Password changed",
+    "current": "Current password",
+    "new": "New password"
+  },
+  "delete": {
+    "title": "Delete account",
+    "description": "Removes your account and everything in it. This can't be undone.",
+    "button": "Delete account",
+    "confirmTitle": "Delete your account?",
+    "confirmDescription": "Your profile, settings and data are removed for good.",
+    "cancel": "Cancel",
+    "demo": "This is a demo — nothing was deleted."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Choose what reaches you, and where.",
+    "save": "Save notifications",
+    "saved": "Notification settings saved",
+    "email": "Email",
+    "emailDescription": "Sent to {email}.",
+    "app": "In the app",
+    "appDescription": "In the bell at the top of every page.",
+    "items": {
+      "orders": {
+        "label": "New orders",
+        "hint": "Each order as it comes in."
+      },
+      "payments": {
+        "label": "Failed payments",
+        "hint": "When a card is declined or a payment bounces."
+      },
+      "summary": {
+        "label": "Weekly summary",
+        "hint": "Sales, customers and traffic every Monday."
+      },
+      "mentions": {
+        "label": "Mentions and replies",
+        "hint": "When someone mentions you or answers you."
+      },
+      "stock": {
+        "label": "Low stock",
+        "hint": "When a product falls below its low-stock level."
+      }
+    }
+  },
+  "appearance": {
+    "title": "Appearance",
+    "description": "Light, dark, or whatever your device uses. Colors, radius and card style are in the theme customizer (the brush icon at the top).",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

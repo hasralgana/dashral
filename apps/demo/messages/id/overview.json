@@ -1,0 +1,65 @@
+{
+  "title": "Ringkasan",
+  "description": "Inilah yang terjadi di toko Anda hari ini.",
+  "export": "Ekspor",
+  "vsLastMonth": "dibanding bulan lalu",
+  "keyMetrics": "Metrik utama",
+  "trendLabel": "{label}, 12 bulan terakhir: {direction}",
+  "improving": "membaik",
+  "worsening": "memburuk",
+  "stats": {
+    "revenueMonth": "Pendapatan bulan ini",
+    "orders": "Pesanan",
+    "newCustomers": "Pelanggan baru",
+    "refundRate": "Tingkat refund"
+  },
+  "revenue": "Pendapatan",
+  "revenueDescription": "Pendapatan bulanan, {from} – {to} {year}",
+  "yearToDate": "Sepanjang tahun ini",
+  "ordersWeek": "Pesanan minggu ini",
+  "ordersWeekDescription": "Pesanan online dan di toko per hari",
+  "online": "Online",
+  "inStore": "Di toko",
+  "legend": "Keterangan",
+  "monthlyRevenue": "Pendapatan bulanan",
+  "month": "Bulan",
+  "revenueUsd": "Pendapatan (USD)",
+  "ordersPerDay": "Pesanan per hari per kanal",
+  "day": "Hari",
+  "recentOrders": "Pesanan terbaru",
+  "recentOrdersDescription": "Transaksi terakhir dari pelanggan Anda",
+  "viewAll": "Lihat semua",
+  "trafficSources": "Sumber trafik",
+  "trafficDescription": "Pengunjung 30 hari terakhir",
+  "visitorsTitle": "{source}: {count} pengunjung",
+  "sources": {
+    "organic": "Pencarian organik",
+    "direct": "Langsung",
+    "social": "Media sosial",
+    "referral": "Rujukan",
+    "email": "Email"
+  },
+  "topProducts": "Produk terlaris",
+  "topProductsDescription": "Berdasarkan unit terjual",
+  "sold": "{count} terjual",
+  "productSales": "Penjualan {name}",
+  "table": {
+    "invoice": "Faktur",
+    "customer": "Pelanggan",
+    "product": "Produk",
+    "date": "Tanggal",
+    "status": "Status",
+    "amount": "Jumlah"
+  },
+  "status": {
+    "paid": "Lunas",
+    "pending": "Menunggu",
+    "refunded": "Dikembalikan",
+    "failed": "Gagal"
+  },
+  "starter": {
+    "description": "Dashboard Anda dimulai di sini.",
+    "emptyTitle": "Belum ada apa-apa",
+    "emptyDescription": "Bangun halaman ini di {path}. Semua komponen ada di @dashral/ui."
+  }
+}

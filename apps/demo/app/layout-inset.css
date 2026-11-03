@@ -1,0 +1,130 @@
+/*
+ * The Inset template (app/inset): <html data-template="inset"> while its pages are open (lib/templates.ts).
+ * The sidebar and header sit on the shell with no lines between them; the page sits on a rounded panel inside it.
+ * Its layout is in app/inset/layout.tsx; these are its colors, unlayered and after theme-presets.css so they win over
+ * the background presets and the card styles. To drop Inset, delete app/inset, this file and its import.
+ */
+
+/* The shell: a notch darker than the page in light mode, near black in dark mode. */
+html[data-template="inset"]:not(.dark) {
+  --shell: color-mix(in oklab, var(--background), black 3.5%);
+  --sidebar: var(--shell);
+  --sidebar-accent: color-mix(in oklab, var(--shell), black 4.5%);
+  --sidebar-border: color-mix(in oklab, var(--shell), black 6%);
+}
+html.dark[data-template="inset"] {
+  --shell: color-mix(in oklab, var(--background), black 50%);
+  --sidebar: var(--shell);
+  --sidebar-accent: color-mix(in oklab, var(--shell), white 9%);
+  --sidebar-border: oklch(1 0 0 / 7%);
+}
+
+[data-slot="inset-shell"] {
+  background-color: var(--shell);
+  /* A faint dot grid on the shell; the panel covers it. */
+  background-image: radial-gradient(color-mix(in oklab, var(--shell), var(--foreground) 10%) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Sidebar and header sit on the shell: no fill, lines or shadows of their own, whatever the card style. */
+html[data-template="inset"] [data-sidebar-panel] {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+html[data-template="inset"] [data-slot="site-header"] {
+  position: static;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* The panel: white in light mode, the page color in dark mode. */
+[data-slot="inset-shell"] [data-slot="workspace"] {
+  border-color: var(--border);
+  background: var(--card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+html.dark [data-slot="inset-shell"] [data-slot="workspace"] {
+  background: var(--background);
+  box-shadow: none;
+}
+
+/* Card styles: soft cards are white panels on a gray page, so the panel takes the page color; shadow lifts the panel. */
+html[data-card="soft"]:not(.dark) [data-slot="inset-shell"] [data-slot="workspace"] {
+  background: var(--background);
+  border-color: transparent;
+  box-shadow: none;
+}
+html[data-card="shadow"] [data-slot="inset-shell"] [data-slot="workspace"] {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.05),
+    0 8px 24px -8px rgb(0 0 0 / 0.1);
+}
+html.dark[data-card="shadow"] [data-slot="inset-shell"] [data-slot="workspace"] {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 8px 24px -8px rgb(0 0 0 / 0.6);
+}
+
+/* ---------- Pro, in black and white ---------- */
+
+/* Pro's own ink in Inset: the primary's gradient ink, quieted toward the text color (near black with a touch of the
+   color; near white in dark mode), for the edges and the text of its tag and card. Soft fills of it instead of
+   Classic's gradient, and it follows the customizer's color too. */
+html[data-template="inset"] {
+  --pro-ink: color-mix(in oklab, var(--gradient-ink) 55%, var(--foreground));
+}
+
+/* The Pro tag: a soft tint with a hairline of the ink, everywhere in Inset (menus and the search palette too). */
+html[data-template="inset"] [data-slot="pro-tag"] {
+  background: color-mix(in oklab, var(--pro-ink) 7%, var(--background)) padding-box;
+  border-color: color-mix(in oklab, var(--pro-ink) 70%, transparent);
+  color: var(--pro-ink);
+}
+
+/* The sidebar's Pro card: the same soft tint and hairline, with a light in its corner (white in light mode, where a
+   tint of the dark ink reads as a smudge; the ink in dark mode). The sparkle takes the ink. */
+html[data-template="inset"] [data-slot="pro-card"] {
+  --tag-via: var(--pro-ink);
+  --pro-glow: rgb(255 255 255 / 0.9);
+  background:
+    radial-gradient(120% 90% at 100% 0%, var(--pro-glow), transparent 60%),
+    color-mix(in oklab, var(--pro-ink) 5%, var(--card)) padding-box;
+  border-color: color-mix(in oklab, var(--pro-ink) 55%, transparent);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+html[data-template="inset"] [data-slot="pro-card"]:hover {
+  background:
+    radial-gradient(120% 90% at 100% 0%, var(--pro-glow), transparent 60%),
+    color-mix(in oklab, var(--pro-ink) 9%, var(--card)) padding-box;
+  border-color: color-mix(in oklab, var(--pro-ink) 80%, transparent);
+}
+html.dark[data-template="inset"] [data-slot="pro-card"] {
+  --pro-glow: color-mix(in oklab, var(--pro-ink) 10%, transparent);
+  box-shadow: none;
+}
+
+/* ---------- Inset cards on the panel ---------- */
+
+/* One edge per layer: the frame is told apart by its tint alone, and the panel inside it by one hairline, with no
+   shadow. A border on both, 6px apart, reads as a double line. */
+[data-slot="inset-shell"] [data-slot="card"][data-variant="inset"] {
+  border-color: transparent;
+  background: color-mix(in oklab, var(--muted) 75%, var(--card));
+}
+[data-slot="inset-shell"] [data-slot="card"][data-variant="inset"] > [data-slot="card-section"] > [data-slot="card-content"] {
+  box-shadow: none;
+}
+html.dark [data-slot="inset-shell"] [data-slot="card"][data-variant="inset"] {
+  background: color-mix(in oklab, var(--muted) 45%, var(--background));
+}
+/* Panel cards share the frame's tint; their edge stays, since the panel runs along it and the two are one line. */
+[data-slot="inset-shell"] [data-slot="card"][data-variant="panel"] {
+  background: color-mix(in oklab, var(--muted) 75%, var(--card));
+}
+html.dark [data-slot="inset-shell"] [data-slot="card"][data-variant="panel"] {
+  background: color-mix(in oklab, var(--muted) 45%, var(--background));
+}

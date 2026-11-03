@@ -1,0 +1,65 @@
+{
+  "title": "Overview",
+  "description": "Here's what's happening with your store today.",
+  "export": "Export",
+  "vsLastMonth": "vs last month",
+  "keyMetrics": "Key metrics",
+  "trendLabel": "{label}, last 12 months: {direction}",
+  "improving": "improving",
+  "worsening": "worsening",
+  "stats": {
+    "revenueMonth": "Revenue this month",
+    "orders": "Orders",
+    "newCustomers": "New customers",
+    "refundRate": "Refund rate"
+  },
+  "revenue": "Revenue",
+  "revenueDescription": "Monthly revenue, {from} – {to} {year}",
+  "yearToDate": "Year to date",
+  "ordersWeek": "Orders this week",
+  "ordersWeekDescription": "Online vs in-store orders per day",
+  "online": "Online",
+  "inStore": "In store",
+  "legend": "Legend",
+  "monthlyRevenue": "Monthly revenue",
+  "month": "Month",
+  "revenueUsd": "Revenue (USD)",
+  "ordersPerDay": "Orders per day by channel",
+  "day": "Day",
+  "recentOrders": "Recent orders",
+  "recentOrdersDescription": "The latest transactions from your customers",
+  "viewAll": "View all",
+  "trafficSources": "Traffic sources",
+  "trafficDescription": "Visitors in the last 30 days",
+  "visitorsTitle": "{source}: {count} visitors",
+  "sources": {
+    "organic": "Organic search",
+    "direct": "Direct",
+    "social": "Social",
+    "referral": "Referral",
+    "email": "Email"
+  },
+  "topProducts": "Top products",
+  "topProductsDescription": "By units sold",
+  "sold": "{count} sold",
+  "productSales": "{name} sales",
+  "table": {
+    "invoice": "Invoice",
+    "customer": "Customer",
+    "product": "Product",
+    "date": "Date",
+    "status": "Status",
+    "amount": "Amount"
+  },
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "refunded": "Refunded",
+    "failed": "Failed"
+  },
+  "starter": {
+    "description": "Your dashboard starts here.",
+    "emptyTitle": "Nothing here yet",
+    "emptyDescription": "Build this page in {path}. Every component is in @dashral/ui."
+  }
+}

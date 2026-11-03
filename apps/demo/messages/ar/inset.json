@@ -1,0 +1,340 @@
+{
+  "overview": {
+    "title": "نظرة عامة",
+    "description": "حال اشتراكاتك هذا الشهر.",
+    "export": "تصدير",
+    "newInvoice": "فاتورة جديدة",
+    "keyMetrics": "المؤشرات الرئيسية",
+    "metrics": {
+      "mrr": "الإيراد المتكرر",
+      "activeCustomers": "العملاء النشطون",
+      "outstanding": "المستحق",
+      "churn": "معدل الإلغاء"
+    },
+    "vsLastMonth": "مقارنة بالشهر الماضي",
+    "trendLabel": "{label} خلال آخر 12 شهرًا، {direction}",
+    "improving": "يتحسن",
+    "worsening": "يتراجع",
+    "revenueTitle": "الإيراد المتكرر",
+    "revenueDescription": "الإيراد المتكرر الشهري، {from} – {to} {year}",
+    "thisMonth": "هذا الشهر",
+    "deliveredTo": "أُرسلت إلى",
+    "deliveredDescription": "إلى أين ذهبت تنبيهات هذا الأسبوع",
+    "manageIntegrations": "إدارة التكاملات",
+    "recentInvoices": "أحدث الفواتير",
+    "recentInvoicesDescription": "آخر الفواتير المرسلة إلى العملاء",
+    "viewAll": "عرض الكل",
+    "latestActivity": "آخر النشاط",
+    "latestActivityDescription": "ما حدث في مساحة عملك",
+    "viewActivity": "عرض كل النشاط"
+  },
+  "deliveries": {
+    "rules": {
+      "refunds": "المبالغ المستردة فوق الحد",
+      "digest": "الملخص اليومي",
+      "signups": "قفزة في التسجيلات"
+    },
+    "channels": {
+      "slack": "{target} · Slack",
+      "email": "البريد · إلى {target}",
+      "push": "إشعار · {target}"
+    },
+    "sent": "{count, plural, zero {لا تنبيهات} one {تنبيه واحد} two {تنبيهان} few {# تنبيهات} many {# تنبيهًا} other {# تنبيه}} هذا الأسبوع"
+  },
+  "plans": {
+    "starter": "Starter",
+    "growth": "Growth",
+    "scale": "Scale"
+  },
+  "customerStatus": {
+    "active": "نشط",
+    "trial": "تجربة",
+    "atRisk": "معرّض للخطر",
+    "churned": "ألغى"
+  },
+  "invoiceStatus": {
+    "paid": "مدفوعة",
+    "open": "مفتوحة",
+    "overdue": "متأخرة",
+    "draft": "مسودة"
+  },
+  "customers": {
+    "title": "العملاء",
+    "description": "كل المشتركين، وإيرادهم، وحالهم.",
+    "summary": {
+      "total": "العملاء",
+      "paying": "{count} يدفعون",
+      "mrr": "الإيراد المتكرر",
+      "perCustomer": "{amount} لكل عميل يدفع",
+      "atRisk": "معرّضون للخطر",
+      "atRiskHint": "فشل الدفع أو انخفض الاستخدام",
+      "trials": "في فترة تجربة",
+      "trialsHint": "بدأت خلال آخر 14 يومًا"
+    },
+    "all": "كل العملاء",
+    "allDescription": "{count, plural, zero {لا عملاء} one {عميل واحد} two {عميلان} few {# عملاء} many {# عميلًا} other {# عميل}} على {plans} خطط",
+    "search": "ابحث عن عملاء...",
+    "columns": {
+      "customer": "العميل",
+      "plan": "الخطة",
+      "status": "الحالة",
+      "mrr": "الإيراد الشهري",
+      "since": "عميل منذ",
+      "country": "البلد"
+    },
+    "empty": "لا يوجد عملاء مطابقون.",
+    "details": {
+      "open": "فتح {name}",
+      "contact": "التواصل",
+      "company": "الشركة",
+      "country": "البلد",
+      "plan": "الخطة",
+      "mrr": "الإيراد المتكرر",
+      "since": "عميل منذ",
+      "invoices": "الفواتير",
+      "noInvoices": "لا فواتير بعد.",
+      "email": "إرسال بريد",
+      "perMonth": "{amount} / شهريًا"
+    }
+  },
+  "invoices": {
+    "title": "الفواتير",
+    "description": "ما فوترته، وما دُفع، وما تأخر.",
+    "newInvoice": "فاتورة جديدة",
+    "summary": {
+      "paid": "مدفوعة",
+      "open": "مفتوحة",
+      "overdue": "متأخرة",
+      "count": "{count, plural, zero {لا فواتير} one {فاتورة واحدة} two {فاتورتان} few {# فواتير} many {# فاتورة} other {# فاتورة}}"
+    },
+    "all": "كل الفواتير",
+    "allDescription": "آخر 30 يومًا، الأحدث أولًا",
+    "search": "ابحث عن فواتير...",
+    "columns": {
+      "invoice": "الفاتورة",
+      "customer": "العميل",
+      "issued": "تاريخ الإصدار",
+      "due": "الاستحقاق",
+      "status": "الحالة",
+      "amount": "المبلغ"
+    },
+    "empty": "لا توجد فواتير مطابقة.",
+    "actions": {
+      "label": "إجراءات {id}",
+      "markPaid": "تعليم كمدفوعة",
+      "copyId": "نسخ رقم الفاتورة",
+      "copied": "نُسخ {id}",
+      "markedPaid": "عُلّمت {id} كمدفوعة",
+      "download": "تنزيل PDF",
+      "downloading": "جارٍ تجهيز {id}.pdf…"
+    },
+    "created": "أُنشئت مسودة فاتورة"
+  },
+  "activity": {
+    "title": "النشاط",
+    "description": "كل ما حدث في مساحة عملك، الأحدث أولًا.",
+    "filter": "عرض",
+    "kinds": {
+      "all": "الكل",
+      "billing": "الفوترة",
+      "customers": "العملاء",
+      "integrations": "التكاملات",
+      "team": "الفريق"
+    },
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "count": "{count, plural, zero {لا أحداث} one {حدث واحد} two {حدثان} few {# أحداث} many {# حدثًا} other {# حدث}}",
+    "emptyTitle": "لا شيء هنا بعد",
+    "emptyDescription": "ستظهر أحداث هذا النوع هنا عند حدوثها.",
+    "by": "بواسطة {actor}",
+    "events": {
+      "invoicePaid": "دفع {customer} الفاتورة {invoice} ({amount})",
+      "invoiceOverdue": "الفاتورة {invoice} من {customer} متأخرة",
+      "invoiceSent": "أُرسلت الفاتورة {invoice} إلى {customer} ({amount})",
+      "customerJoined": "سجّل {customer} من {company}",
+      "customerUpgraded": "انتقل {customer} من {from} إلى {to}",
+      "customerChurned": "ألغى {customer} من {company} اشتراكه",
+      "trialStarted": "بدأ {customer} من {company} فترة تجربة",
+      "integrationConnected": "تم ربط {app}",
+      "alertDelivered": "أُرسل «{rule}» إلى {channel}",
+      "memberInvited": "دُعي {name} بدور {role}",
+      "memberJoined": "انضم {name} إلى الفريق",
+      "roleChanged": "أصبح {name} {role}"
+    }
+  },
+  "integrations": {
+    "title": "التكاملات",
+    "description": "اربط التطبيقات التي يعمل بها فريقك.",
+    "mapTitle": "خريطة الإرسال",
+    "mapDescription": "قواعد التنبيه وإلى أين تُرسل",
+    "when": "عندما",
+    "deliveredTo": "أُرسلت إلى",
+    "search": "ابحث عن تطبيقات...",
+    "clearSearch": "مسح البحث",
+    "category": "الفئة",
+    "categories": {
+      "all": "الكل",
+      "messaging": "المراسلة",
+      "payments": "المدفوعات",
+      "data": "البيانات",
+      "developer": "المطورون"
+    },
+    "connected": "مرتبط",
+    "notConnected": "غير مرتبط",
+    "connectedCount": "{count} من {total} مرتبطة",
+    "toggle": "ربط {app}",
+    "connectedToast": "تم ربط {app}",
+    "disconnectedToast": "تم فصل {app}",
+    "configure": "الإعداد",
+    "configureToast": "ستُفتح إعدادات {app} هنا",
+    "emptyTitle": "لا تطبيقات مطابقة",
+    "emptyDescription": "جرّب اسمًا آخر، أو ابحث في كل الفئات.",
+    "showAll": "عرض كل التطبيقات",
+    "apps": {
+      "slack": "انشر التنبيهات والملخصات اليومية في القنوات.",
+      "email": "أرسل التقارير والتنبيهات إلى أي بريد.",
+      "push": "تصل إلى هاتفك لحظة تفعيل القاعدة.",
+      "stripe": "زامن العملاء والفواتير والمدفوعات.",
+      "paypal": "استلم المدفوعات وطابقها مع الفواتير.",
+      "postgres": "اقرأ العملاء والاستخدام من قاعدة بياناتك.",
+      "bigquery": "أرسل الأحداث إلى مستودع البيانات كل ساعة.",
+      "github": "اربط الإصدارات بالتغييرات التي يراها العملاء.",
+      "webhooks": "استدعِ نقطة النهاية الخاصة بك عند حدوث أي شيء."
+    },
+    "activeRules": "قواعد نشطة",
+    "alertsWeek": "تنبيهات هذا الأسبوع"
+  },
+  "panel": {
+    "collapse": "طي",
+    "expand": "توسيع",
+    "about": "ماذا يعرض هذا"
+  },
+  "reports": {
+    "title": "التقارير",
+    "description": "من أين يأتي الإيراد المتكرر وإلى أين يذهب.",
+    "export": "تصدير CSV",
+    "exported": "تم تنزيل reports.csv",
+    "movement": "حركة الإيراد المتكرر",
+    "movementInfo": "كيف تغيّر الإيراد المتكرر كل شهر: عملاء جدد وترقيات وتخفيضات وإلغاءات.",
+    "columns": {
+      "month": "الشهر",
+      "new": "جديد",
+      "expansion": "توسّع",
+      "contraction": "انكماش",
+      "churn": "إلغاء",
+      "net": "الصافي"
+    },
+    "net6": "الصافي، 6 أشهر",
+    "newTotal": "جديد",
+    "byPlan": "الإيراد حسب الخطة",
+    "byPlanInfo": "الإيراد المتكرر من العملاء الذين يدفعون، حسب خطتهم.",
+    "total": "الإجمالي",
+    "top": "أكبر العملاء",
+    "topInfo": "العملاء الذين يجلبون أكبر إيراد متكرر."
+  },
+  "team": {
+    "title": "الفريق",
+    "description": "من يستطيع فتح مساحة العمل هذه، وماذا يستطيع أن يفعل.",
+    "invite": "دعوة",
+    "members": "الأعضاء",
+    "membersInfo": "المالكون والمسؤولون يديرون الفريق؛ الفوترة ترى الفواتير والخطط؛ الأعضاء يعملون مع العملاء والتقارير.",
+    "seats": "{used} من {total} مقاعد",
+    "pending": "مدعو",
+    "lastActive": "نشط {time}",
+    "never": "لم ينضم بعد",
+    "you": "أنت",
+    "roles": {
+      "owner": "مالك",
+      "admin": "مسؤول",
+      "member": "عضو",
+      "billing": "فوترة"
+    },
+    "roleFor": "دور {name}",
+    "actionsFor": "إجراءات {name}",
+    "remove": "إزالة من الفريق",
+    "resend": "إعادة إرسال الدعوة",
+    "removed": "تمت إزالة {name}",
+    "resent": "أُعيد إرسال الدعوة إلى {email}",
+    "roleChanged": "أصبح {name} {role}",
+    "inviteTitle": "دعوة زميل",
+    "inviteDescription": "سيصله بريد فيه رابط للانضمام إلى مساحة العمل هذه.",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "name@company.com",
+    "role": "الدور",
+    "send": "إرسال الدعوة",
+    "cancel": "إلغاء",
+    "invalidEmail": "أدخل بريدًا إلكترونيًا مثل name@company.com.",
+    "alreadyIn": "{email} موجود في الفريق بالفعل.",
+    "invited": "أُرسلت الدعوة إلى {email}"
+  },
+  "billing": {
+    "title": "الفوترة",
+    "description": "خطتك، وما استخدمته، وطريقة الدفع.",
+    "plan": "الخطة الحالية",
+    "perMonth": "{amount} / شهريًا",
+    "renews": "تتجدد في {date}",
+    "changePlan": "تغيير الخطة",
+    "usage": "الاستخدام",
+    "usageInfo": "فترة الفوترة هذه. تجاوز الحد لا يوقف مساحة عملك أبدًا؛ سنقترح خطة أكبر.",
+    "meters": {
+      "seats": "المقاعد",
+      "events": "الأحداث",
+      "storage": "التخزين"
+    },
+    "of": "{used} من {limit}",
+    "gb": "{value} غيغابايت",
+    "payment": "طريقة الدفع",
+    "expires": "تنتهي في {date}",
+    "update": "تحديث",
+    "updateToast": "سيُفتح نموذج البطاقة هنا",
+    "history": "سجل الفوترة",
+    "historyInfo": "فواتير خطة مساحة العمل هذه.",
+    "columns": {
+      "invoice": "الفاتورة",
+      "date": "التاريخ",
+      "amount": "المبلغ",
+      "status": "الحالة"
+    },
+    "paid": "مدفوعة",
+    "download": "تنزيل {id}",
+    "downloading": "جارٍ تجهيز {id}.pdf…"
+  },
+  "apiKeys": {
+    "title": "مفاتيح API",
+    "description": "تتيح المفاتيح لشيفرتك قراءة بيانات مساحة العمل هذه وكتابتها.",
+    "create": "إنشاء مفتاح",
+    "keys": "المفاتيح",
+    "keysInfo": "تعامل مع المفتاح ككلمة مرور: أي شخص يملكه يستطيع استخدام الواجهة باسم مساحة العمل هذه.",
+    "count": "{count, plural, zero {لا مفاتيح} one {مفتاح واحد} two {مفتاحان} few {# مفاتيح} many {# مفتاحًا} other {# مفتاح}}",
+    "columns": {
+      "name": "الاسم",
+      "key": "المفتاح",
+      "created": "أُنشئ",
+      "lastUsed": "آخر استخدام"
+    },
+    "never": "أبدًا",
+    "revoke": "إلغاء",
+    "revokeFor": "إلغاء {name}",
+    "revokeTitle": "إلغاء {name}؟",
+    "revokeDescription": "تتوقف التطبيقات التي تستخدم هذا المفتاح فورًا. لا يمكن التراجع عن ذلك.",
+    "revoked": "أُلغي {name}",
+    "createTitle": "إنشاء مفتاح API",
+    "createDescription": "سمّه باسم مكان استخدامه، لتعرف أيها تلغي لاحقًا.",
+    "name": "الاسم",
+    "namePlaceholder": "مثل: خادم الإنتاج",
+    "nameRequired": "أعطِ المفتاح اسمًا.",
+    "live": "حقيقي",
+    "test": "تجريبي",
+    "mode": "الوضع",
+    "generate": "إنشاء المفتاح",
+    "cancel": "إلغاء",
+    "shownOnce": "مفتاحك الجديد",
+    "shownOnceDescription": "انسخه إلى إعدادات تطبيقك. تبقيه القائمة مخفيًا؛ انقر عليه هناك لنسخه مرة أخرى.",
+    "copy": "نسخ",
+    "done": "تم",
+    "emptyTitle": "لا مفاتيح",
+    "emptyDescription": "أنشئ مفتاحًا لاستدعاء الواجهة من شيفرتك.",
+    "copyKey": "نسخ مفتاح {name}",
+    "keyCopied": "نُسخ مفتاح {name}"
+  }
+}

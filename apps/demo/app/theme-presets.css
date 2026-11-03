@@ -1,0 +1,44 @@
+/*
+ * The dashboard's own parts of the theme presets: the page behind soft cards, and the sidebar and header following the
+ * card style. The presets themselves are @dashral/ui/themes.css; the customizer sets their data attributes on <html>
+ * (lib/theme-settings.ts).
+ *
+ *   data-template inset on the Inset template's pages (lib/templates.ts) — styled in app/layout-inset.css
+ */
+
+/* Soft cards stand out as white panels on a slightly darker page (dark mode already has a lighter card than the page). */
+html[data-card="soft"]:not(.dark) {
+  --soft-page: color-mix(in oklab, var(--background), black 3.5%);
+}
+html[data-card="soft"]:not(.dark) body {
+  --background: var(--soft-page);
+}
+
+/* The sidebar and header follow the card style too, so surfaces read as one system. */
+html[data-card="soft"] [data-sidebar-panel],
+html[data-card="soft"] [data-slot="site-header"] {
+  border-color: transparent;
+}
+
+html[data-card="shadow"] [data-sidebar-panel] {
+  border-right-color: transparent;
+  box-shadow:
+    1px 0 2px rgb(0 0 0 / 0.04),
+    6px 0 16px -6px rgb(0 0 0 / 0.08);
+}
+html[data-card="shadow"] [data-slot="site-header"] {
+  border-bottom-color: transparent;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 6px 16px -8px rgb(0 0 0 / 0.08);
+}
+html.dark[data-card="shadow"] [data-sidebar-panel] {
+  box-shadow:
+    1px 0 0 rgb(255 255 255 / 0.06),
+    6px 0 16px -6px rgb(0 0 0 / 0.5);
+}
+html.dark[data-card="shadow"] [data-slot="site-header"] {
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.06),
+    0 6px 16px -8px rgb(0 0 0 / 0.5);
+}
