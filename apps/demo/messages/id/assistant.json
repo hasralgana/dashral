@@ -1,0 +1,63 @@
+{
+  "title": "Asisten AI",
+  "description": "Tanyakan angka, tiket, dan faktur Anda, dan biarkan ia mengerjakan yang rutin.",
+  "back": "Kembali ke dashboard",
+  "conversation": "Percakapan",
+  "newChat": "Chat baru",
+  "placeholder": "Tanya soal kas, tiket, faktur…",
+  "disclaimer": "Jawaban contoh dari data demo. Periksa hal-hal penting.",
+  "feedback": "Terima kasih, ini membantu jawabannya makin baik.",
+  "toolsLabel": "Yang ia periksa",
+  "empty": {
+    "title": "Ada yang bisa saya bantu?",
+    "description": "Saya bisa membaca data keuangan, dukungan, dan proyek Anda, lalu menyiapkan langkah berikutnya."
+  },
+  "history": {
+    "label": "Percakapan",
+    "recent": "Terbaru",
+    "demo": "Di demo, percakapan lama tetap tertutup.",
+    "0": "Pendapatan Q3 per paket",
+    "1": "Draf email perpanjangan",
+    "2": "Kenapa pengembalian dana naik?"
+  },
+  "tools": {
+    "balances": "Membaca saldo rekening",
+    "burn": "Merata-ratakan pengeluaran 3 bulan terakhir",
+    "tickets": "Mencari tiket terbuka",
+    "invoices": "Mencari faktur yang lewat jatuh tempo"
+  },
+  "scenarios": {
+    "runway": {
+      "prompt": "Berapa lama kas kita akan bertahan?",
+      "thoughts": "Kas tersedia adalah rekening operasional ditambah cadangan. Pengeluaran berubah tiap bulan, jadi saya merata-ratakan pengeluaran bersih tiga bulan terakhir, bukan hanya Oktober.",
+      "answer": "Sekitar 40 bulan. Anda punya $1,662,800 di rekening operasional dan cadangan, dan pengeluaran bersih rata-rata $41,200 per bulan selama kuartal terakhir. Pengeluaran turun 6,8% dibanding bulan lalu, terutama karena kampanye iklan berakhir lebih awal. Jika gaji naik sesuai rencana di Januari, ketahanan kas turun menjadi sekitar 34 bulan."
+    },
+    "tickets": {
+      "prompt": "Tiket mana yang terlambat?",
+      "thoughts": "Terlambat berarti melewati waktu respons yang dijanjikan paket pelanggan. Saya akan mencari tiket terbuka yang ditandai terlambat dan mengurutkannya menurut prioritas.",
+      "answer": "Tiga tiket melewati waktu yang dijanjikan. Lucas Silva (Rio Freight) ditagih dua kali dan belum ada yang memegang tiketnya: ini mendesak, dan sebaiknya ditangani lebih dulu. Grace Lee (Pinecone Health) tidak bisa masuk dengan SSO, dan Olivia Martin (Northwind) tidak bisa mengekspor faktur. Mau saya tugaskan tiket tagihan itu ke Maya?"
+    },
+    "reminders": {
+      "prompt": "Kirim pengingat untuk faktur yang lewat jatuh tempo",
+      "thoughts": "Saya akan mencari faktur yang lewat jatuh tempo dan belum dibayar, lalu menyiapkan satu pengingat ramah untuk tiap pelanggan. Mengirim email perlu persetujuan Anda dulu.",
+      "answer": "Tiga faktur lewat jatuh tempo, totalnya $1,240. Saya sudah menyiapkan pengingat singkat dan ramah untuk tiap pelanggan, lengkap dengan tautan pembayaran. Tidak ada yang terkirim sebelum Anda setujui."
+    },
+    "general": {
+      "prompt": "",
+      "thoughts": "Demo ini menjawab dari data contoh, jadi saya akan menunjukkan apa saja yang bisa saya periksa.",
+      "answer": "Di demo ini saya menjawab dari data contoh. Coba tanyakan berapa lama kas akan bertahan, tiket mana yang terlambat, atau minta kirim pengingat untuk faktur yang lewat jatuh tempo. Hubungkan model Anda sendiri dan saya bisa menjawab apa pun tentang workspace Anda."
+    }
+  },
+  "approval": {
+    "title": "Kirim 3 pengingat pembayaran",
+    "description": "Mengirim email ke setiap pelanggan yang fakturnya lewat jatuh tempo, dengan tautan pembayaran.",
+    "to": "Kepada",
+    "toValue": "3 pelanggan",
+    "total": "Total tagihan",
+    "approve": "Kirim pengingat",
+    "deny": "Nanti saja",
+    "sent": "3 pengingat terkirim",
+    "approved": "Terkirim. Saya akan kabari saat sudah dibayar.",
+    "denied": "Oke, tidak ada yang dikirim."
+  }
+}

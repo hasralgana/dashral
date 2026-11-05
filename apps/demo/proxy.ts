@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { DEMO_COOKIE, demoSignIn } from "@/lib/demo-sign-in"
 
-const publicPaths = new Set(["/login", "/register"])
+const publicPaths = new Set(["/login", "/register", "/two-factor"])
 
 /**
  * The hosted demo's front door (lib/demo-sign-in.ts): signed out, every page sends you to /login first, then back

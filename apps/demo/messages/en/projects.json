@@ -1,0 +1,98 @@
+{
+  "title": "Projects",
+  "description": "Every client project, where it stands and who leads it.",
+  "metrics": {
+    "label": "Projects at a glance",
+    "active": "Active projects",
+    "activeHint": "{count, plural, one {# delivered} other {# delivered}} this month",
+    "onTrack": "On track",
+    "onTrackHint": "Moving as planned",
+    "atRisk": "Need attention",
+    "atRiskHint": "At risk or behind",
+    "dueSoon": "Due in 14 days",
+    "dueSoonHint": "Plan the reviews now"
+  },
+  "stages": {
+    "brief": "Brief",
+    "design": "Design",
+    "build": "Build",
+    "review": "Review",
+    "launch": "Launch"
+  },
+  "stageHints": {
+    "brief": "Goals, scope and budget agreed",
+    "design": "Flows and screens signed off",
+    "build": "Made and tested",
+    "review": "The client tries it",
+    "launch": "Live, with a handover"
+  },
+  "health": {
+    "onTrack": "On track",
+    "atRisk": "At risk",
+    "offTrack": "Behind",
+    "done": "Delivered"
+  },
+  "labels": {
+    "web": "Web",
+    "mobile": "Mobile",
+    "branding": "Branding",
+    "ecommerce": "E-commerce",
+    "seo": "SEO",
+    "content": "Content"
+  },
+  "roles": {
+    "lead": "Project lead",
+    "designer": "Designer",
+    "engineer": "Engineer",
+    "strategist": "Strategist"
+  },
+  "owner": {
+    "leads": "{count, plural, one {Leads # project} other {Leads # projects}}"
+  },
+  "table": {
+    "title": "All projects",
+    "description": "Right-click a project for more",
+    "search": "Search projects or clients…",
+    "project": "Project",
+    "stage": "Stage",
+    "health": "Health",
+    "progress": "Progress",
+    "progressOf": "{name} progress",
+    "owner": "Owner",
+    "due": "Due",
+    "overdue": "overdue",
+    "labels": "Labels",
+    "allLabels": "All labels",
+    "empty": "No projects match."
+  },
+  "menu": {
+    "open": "Open",
+    "duplicate": "Duplicate",
+    "copyOf": "{name} (copy)",
+    "duplicated": "{name} duplicated",
+    "archive": "Archive",
+    "archived": "{name} archived"
+  },
+  "details": {
+    "budget": "Budget",
+    "stages": "Stages"
+  },
+  "new": {
+    "button": "New project",
+    "title": "New project",
+    "description": "It starts at the brief; you can change everything later.",
+    "name": "Name",
+    "namePlaceholder": "Website relaunch",
+    "nameRequired": "Give the project a name.",
+    "client": "Client",
+    "internal": "Internal",
+    "searchPeople": "Search people…",
+    "deliverables": "Deliverables",
+    "deliverablesHint": "Press Enter after each one.",
+    "deliverablesPlaceholder": "Homepage, checkout…",
+    "withDeliverables": "{count, plural, one {With # deliverable} other {With # deliverables}}",
+    "cancel": "Cancel",
+    "create": "Create project",
+    "created": "{name} created"
+  }
+}

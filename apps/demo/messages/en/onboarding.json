@@ -1,0 +1,63 @@
+{
+  "title": "Getting started",
+  "description": "A few steps to set {brand} up for your team. Tick them off as you go.",
+  "phaseCount": "{done} of {total} done",
+  "phases": {
+    "account": {
+      "title": "Your account",
+      "description": "Who you are, kept safe"
+    },
+    "workspace": {
+      "title": "Your workspace",
+      "description": "Money and work, in view"
+    },
+    "operations": {
+      "title": "Day to day",
+      "description": "Customers and stock"
+    }
+  },
+  "tasks": {
+    "profile": {
+      "title": "Complete your profile",
+      "description": "Your name and photo show on comments and assignments.",
+      "action": "Settings"
+    },
+    "security": {
+      "title": "Secure your sign-in",
+      "description": "Add a second step, like a code or a passkey, so a password alone can't get in.",
+      "action": "Set it up"
+    },
+    "finance": {
+      "title": "Review this month's cash flow",
+      "description": "See what came in, what went out and how long the cash lasts.",
+      "action": "Finance"
+    },
+    "project": {
+      "title": "Create your first project",
+      "description": "Give it a client, an owner and a due date.",
+      "action": "Projects"
+    },
+    "tickets": {
+      "title": "Assign the open tickets",
+      "description": "Three tickets have no agent yet, and one of them is urgent.",
+      "action": "Support"
+    },
+    "stock": {
+      "title": "Set a safety margin for stock",
+      "description": "Get warned before a best seller runs out.",
+      "action": "Inventory"
+    }
+  },
+  "progress": {
+    "title": "Your setup",
+    "count": "{done} of {total} steps done",
+    "finishedTitle": "All set",
+    "finished": "Your workspace is ready to go."
+  },
+  "help": {
+    "title": "Need a hand?",
+    "description": "Guides for every page, or a person to ask.",
+    "docs": "Read the docs",
+    "support": "Contact support"
+  }
+}

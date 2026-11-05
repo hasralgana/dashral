@@ -1,0 +1,79 @@
+{
+  "title": "Finance",
+  "description": "Cash, spending and every transaction, in one place.",
+  "period": "Period",
+  "export": "Export",
+  "exported": "The report for this period is on its way to your email.",
+  "metrics": {
+    "label": "Finance at a glance",
+    "cash": "Cash on hand",
+    "burn": "Net burn per month",
+    "runway": "Runway",
+    "revenue": "Revenue this month",
+    "vsLastMonth": "vs last month",
+    "monthsShort": " mo",
+    "monthsLonger": "vs last quarter"
+  },
+  "cashFlow": {
+    "title": "Cash flow",
+    "description": "Money in and out, {from} to {to}, against the spending plan",
+    "netThisMonth": "Net this month",
+    "inflow": "Money in",
+    "outflow": "Money out",
+    "plan": "Spending plan"
+  },
+  "budget": {
+    "title": "Quarter budget",
+    "description": "October to December",
+    "used": "Used",
+    "ofPlanned": "{spent} of {planned}",
+    "lineLabel": "{category} budget used"
+  },
+  "accounts": {
+    "operating": "Operating",
+    "reserve": "Reserve",
+    "card": "Company card"
+  },
+  "categories": {
+    "revenue": "Revenue",
+    "payroll": "Payroll",
+    "software": "Software",
+    "marketing": "Marketing",
+    "office": "Office",
+    "travel": "Travel",
+    "tax": "Tax"
+  },
+  "statuses": {
+    "cleared": "Cleared",
+    "pending": "Pending",
+    "review": "To review"
+  },
+  "memos": {
+    "subscription": "Subscription",
+    "invoice": "Invoice payment",
+    "salary": "Salaries",
+    "contractor": "Contractor",
+    "license": "Software license",
+    "campaign": "Ad campaign",
+    "rent": "Office rent",
+    "flight": "Flight",
+    "hotel": "Hotel",
+    "vat": "VAT payment",
+    "refund": "Refund"
+  },
+  "table": {
+    "title": "Transactions",
+    "description": "{count} transactions, {review} to review",
+    "search": "Search transactions…",
+    "date": "Date",
+    "party": "Party",
+    "memo": "Memo",
+    "category": "Category",
+    "account": "Account",
+    "status": "Status",
+    "amount": "Amount",
+    "markCleared": "Mark cleared",
+    "markedCleared": "{count, plural, one {# transaction} other {# transactions}} marked cleared",
+    "empty": "No transactions match."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "title": "Support",
+  "description": "Tickets from every channel, who has them and what's late.",
+  "metrics": {
+    "label": "Support at a glance",
+    "open": "Open tickets",
+    "firstResponse": "First response",
+    "satisfaction": "Satisfaction",
+    "breached": "Past the promised time",
+    "breachedHint": "Answer these first",
+    "vsLastWeek": "vs last week"
+  },
+  "volume": {
+    "title": "Tickets per day",
+    "description": "The last {weeks} weeks · {count} this week",
+    "ticket": "ticket",
+    "tickets": "tickets"
+  },
+  "shortcuts": {
+    "title": "Shortcuts",
+    "description": "Faster through the queue",
+    "send": "Send a reply",
+    "close": "Close a ticket's panel",
+    "search": "Search anything",
+    "noteTitle": "Tuesdays are busiest",
+    "note": "Most tickets arrive between 9 and 11 AM on Tuesday and Wednesday. Plan cover for those hours."
+  },
+  "priorities": {
+    "urgent": "Urgent",
+    "high": "High",
+    "normal": "Normal",
+    "low": "Low"
+  },
+  "priorityHints": {
+    "urgent": "Answer within 1 hour",
+    "high": "Answer within 4 hours",
+    "normal": "Answer within a day",
+    "low": "When there's time"
+  },
+  "statuses": {
+    "open": "Open",
+    "pending": "Waiting on customer",
+    "solved": "Solved"
+  },
+  "channels": {
+    "email": "Email",
+    "chat": "Chat",
+    "phone": "Phone"
+  },
+  "ago": {
+    "minutes": "{count, plural, one {# minute ago} other {# minutes ago}}",
+    "hours": "{count, plural, one {# hour ago} other {# hours ago}}",
+    "days": "{count, plural, one {# day ago} other {# days ago}}"
+  },
+  "table": {
+    "title": "Tickets",
+    "description": "{open} open, {unassigned} without an agent",
+    "search": "Search tickets, customers or companies…",
+    "ticket": "Ticket",
+    "breached": "late",
+    "priority": "Priority",
+    "status": "Status",
+    "assignee": "Agent",
+    "unassigned": "Unassigned",
+    "channel": "Channel",
+    "updated": "Updated",
+    "empty": "No tickets match."
+  },
+  "details": {
+    "reply": "Reply",
+    "replyPlaceholder": "Write to {name}…",
+    "send": "Send",
+    "sent": "Reply sent to {customer}",
+    "assigned": "Assigned to {name}",
+    "solve": "Mark solved",
+    "solveTitle": "Mark this ticket solved?",
+    "solveDescription": "{customer} gets a message that it's solved, and can reply to open it again.",
+    "solved": "Ticket {id} solved"
+  }
+}

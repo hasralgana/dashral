@@ -1,0 +1,80 @@
+{
+  "title": "Dukungan",
+  "description": "Tiket dari semua saluran, siapa yang memegang, dan apa yang terlambat.",
+  "metrics": {
+    "label": "Ringkasan dukungan",
+    "open": "Tiket terbuka",
+    "firstResponse": "Respons pertama",
+    "satisfaction": "Kepuasan",
+    "breached": "Lewat waktu yang dijanjikan",
+    "breachedHint": "Jawab ini lebih dulu",
+    "vsLastWeek": "dibanding minggu lalu"
+  },
+  "volume": {
+    "title": "Tiket per hari",
+    "description": "{weeks} minggu terakhir · {count} minggu ini",
+    "ticket": "tiket",
+    "tickets": "tiket"
+  },
+  "shortcuts": {
+    "title": "Pintasan",
+    "description": "Lebih cepat menyelesaikan antrean",
+    "send": "Kirim balasan",
+    "close": "Tutup panel tiket",
+    "search": "Cari apa saja",
+    "noteTitle": "Selasa paling sibuk",
+    "note": "Sebagian besar tiket masuk antara pukul 9 dan 11 pagi pada Selasa dan Rabu. Siapkan petugas untuk jam-jam itu."
+  },
+  "priorities": {
+    "urgent": "Mendesak",
+    "high": "Tinggi",
+    "normal": "Normal",
+    "low": "Rendah"
+  },
+  "priorityHints": {
+    "urgent": "Jawab dalam 1 jam",
+    "high": "Jawab dalam 4 jam",
+    "normal": "Jawab dalam sehari",
+    "low": "Saat ada waktu"
+  },
+  "statuses": {
+    "open": "Terbuka",
+    "pending": "Menunggu pelanggan",
+    "solved": "Selesai"
+  },
+  "channels": {
+    "email": "Email",
+    "chat": "Chat",
+    "phone": "Telepon"
+  },
+  "ago": {
+    "minutes": "{count, plural, other {# menit lalu}}",
+    "hours": "{count, plural, other {# jam lalu}}",
+    "days": "{count, plural, other {# hari lalu}}"
+  },
+  "table": {
+    "title": "Tiket",
+    "description": "{open} terbuka, {unassigned} belum punya agen",
+    "search": "Cari tiket, pelanggan, atau perusahaan…",
+    "ticket": "Tiket",
+    "breached": "terlambat",
+    "priority": "Prioritas",
+    "status": "Status",
+    "assignee": "Agen",
+    "unassigned": "Belum ditugaskan",
+    "channel": "Saluran",
+    "updated": "Diperbarui",
+    "empty": "Tidak ada tiket yang cocok."
+  },
+  "details": {
+    "reply": "Balasan",
+    "replyPlaceholder": "Tulis untuk {name}…",
+    "send": "Kirim",
+    "sent": "Balasan terkirim ke {customer}",
+    "assigned": "Ditugaskan ke {name}",
+    "solve": "Tandai selesai",
+    "solveTitle": "Tandai tiket ini selesai?",
+    "solveDescription": "{customer} akan menerima pesan bahwa masalahnya selesai, dan bisa membalas untuk membukanya lagi.",
+    "solved": "Tiket {id} selesai"
+  }
+}

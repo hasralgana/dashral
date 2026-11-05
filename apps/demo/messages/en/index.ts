@@ -14,7 +14,15 @@ import pro from "./pro.json"
 import auth from "./auth.json"
 import errors from "./errors.json"
 import inset from "./inset.json"
+import finance from "./finance.json"
+import projects from "./projects.json"
+import support from "./support.json"
+import inventory from "./inventory.json"
+import monitoring from "./monitoring.json"
+import assistant from "./assistant.json"
+import onboarding from "./onboarding.json"
+import verify from "./verify.json"
 
-const en = { kit, nav, layout, notifications, customizer, overview, settings, pricing, files, pro, auth, errors, inset }
+const en = { kit, nav, layout, notifications, customizer, overview, settings, pricing, files, pro, auth, errors, inset, finance, projects, support, inventory, monitoring, assistant, onboarding, verify }
 
 export default en

@@ -1,0 +1,63 @@
+{
+  "title": "AI assistant",
+  "description": "Ask about your numbers, tickets and invoices, and let it do the busywork.",
+  "back": "Back to the dashboard",
+  "conversation": "Conversation",
+  "newChat": "New chat",
+  "placeholder": "Ask about cash, tickets, invoices…",
+  "disclaimer": "Sample answers from the demo's data. Check anything important.",
+  "feedback": "Thanks, that helps the answers get better.",
+  "toolsLabel": "What it looked up",
+  "empty": {
+    "title": "What can I help with?",
+    "description": "I can read your finance, support and project data, and draft the next step."
+  },
+  "history": {
+    "label": "Conversations",
+    "recent": "Recent",
+    "demo": "In the demo, past conversations stay closed.",
+    "0": "Q3 revenue by plan",
+    "1": "Draft a renewal email",
+    "2": "Why did refunds go up?"
+  },
+  "tools": {
+    "balances": "Read account balances",
+    "burn": "Average the last 3 months of spending",
+    "tickets": "Search open tickets",
+    "invoices": "Find overdue invoices"
+  },
+  "scenarios": {
+    "runway": {
+      "prompt": "How long will our cash last?",
+      "thoughts": "Cash on hand is the operating account plus the reserve. Spending varies month to month, so I'll average the net burn over the last three months rather than use October alone.",
+      "answer": "About 40 months. You have $1,662,800 across the operating account and the reserve, and the net burn has averaged $41,200 a month over the last quarter. Burn is down 6.8% on last month, mostly because the ad campaigns ended early. If payroll grows as planned in January, runway drops to about 34 months."
+    },
+    "tickets": {
+      "prompt": "Which tickets are late?",
+      "thoughts": "Late means past the response time the customer's plan promises. I'll look for open tickets flagged as breached and sort them by priority.",
+      "answer": "Three tickets are past the promised time. Lucas Silva (Rio Freight) was charged twice and nobody has the ticket yet: that's urgent, and I'd take it first. Grace Lee (Pinecone Health) can't sign in with SSO, and Olivia Martin (Northwind) can't export invoices. Want me to assign the billing one to Maya?"
+    },
+    "reminders": {
+      "prompt": "Send reminders for overdue invoices",
+      "thoughts": "I'll find invoices past their due date that haven't been paid, then prepare one friendly reminder per customer. Sending emails needs your OK first.",
+      "answer": "Three invoices are overdue, $1,240 in total. I've drafted a short, friendly reminder for each customer with a link to pay. Nothing is sent until you approve."
+    },
+    "general": {
+      "prompt": "",
+      "thoughts": "This demo answers from sample data, so I'll point to what I can look at.",
+      "answer": "In this demo I answer from the sample data. Try asking how long the cash will last, which tickets are late, or to send reminders for overdue invoices. Connect your own model and I can answer anything about your workspace."
+    }
+  },
+  "approval": {
+    "title": "Send 3 payment reminders",
+    "description": "Emails each customer whose invoice is overdue, with a link to pay.",
+    "to": "To",
+    "toValue": "3 customers",
+    "total": "Total due",
+    "approve": "Send reminders",
+    "deny": "Not now",
+    "sent": "3 reminders sent",
+    "approved": "Sent. I'll tell you when they're paid.",
+    "denied": "Okay, nothing was sent."
+  }
+}

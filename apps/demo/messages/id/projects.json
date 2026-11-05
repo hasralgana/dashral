@@ -1,0 +1,98 @@
+{
+  "title": "Proyek",
+  "description": "Setiap proyek klien, posisinya, dan siapa yang memimpin.",
+  "metrics": {
+    "label": "Ringkasan proyek",
+    "active": "Proyek aktif",
+    "activeHint": "{count, plural, other {# selesai}} bulan ini",
+    "onTrack": "Sesuai rencana",
+    "onTrackHint": "Berjalan seperti direncanakan",
+    "atRisk": "Perlu perhatian",
+    "atRiskHint": "Berisiko atau terlambat",
+    "dueSoon": "Tenggat dalam 14 hari",
+    "dueSoonHint": "Rencanakan review sekarang"
+  },
+  "stages": {
+    "brief": "Brief",
+    "design": "Desain",
+    "build": "Pengerjaan",
+    "review": "Review",
+    "launch": "Rilis"
+  },
+  "stageHints": {
+    "brief": "Tujuan, cakupan, dan anggaran disepakati",
+    "design": "Alur dan layar disetujui",
+    "build": "Dibuat dan diuji",
+    "review": "Klien mencobanya",
+    "launch": "Live, dengan serah terima"
+  },
+  "health": {
+    "onTrack": "Sesuai rencana",
+    "atRisk": "Berisiko",
+    "offTrack": "Terlambat",
+    "done": "Selesai"
+  },
+  "labels": {
+    "web": "Web",
+    "mobile": "Mobile",
+    "branding": "Branding",
+    "ecommerce": "E-commerce",
+    "seo": "SEO",
+    "content": "Konten"
+  },
+  "roles": {
+    "lead": "Pemimpin proyek",
+    "designer": "Desainer",
+    "engineer": "Engineer",
+    "strategist": "Strategist"
+  },
+  "owner": {
+    "leads": "{count, plural, other {Memimpin # proyek}}"
+  },
+  "table": {
+    "title": "Semua proyek",
+    "description": "Klik kanan sebuah proyek untuk pilihan lain",
+    "search": "Cari proyek atau klien…",
+    "project": "Proyek",
+    "stage": "Tahap",
+    "health": "Kondisi",
+    "progress": "Progres",
+    "progressOf": "Progres {name}",
+    "owner": "Penanggung jawab",
+    "due": "Tenggat",
+    "overdue": "lewat tenggat",
+    "labels": "Label",
+    "allLabels": "Semua label",
+    "empty": "Tidak ada proyek yang cocok."
+  },
+  "menu": {
+    "open": "Buka",
+    "duplicate": "Duplikat",
+    "copyOf": "{name} (salinan)",
+    "duplicated": "{name} diduplikat",
+    "archive": "Arsipkan",
+    "archived": "{name} diarsipkan"
+  },
+  "details": {
+    "budget": "Anggaran",
+    "stages": "Tahapan"
+  },
+  "new": {
+    "button": "Proyek baru",
+    "title": "Proyek baru",
+    "description": "Dimulai dari brief; semuanya bisa diubah nanti.",
+    "name": "Nama",
+    "namePlaceholder": "Peluncuran ulang website",
+    "nameRequired": "Beri nama proyeknya.",
+    "client": "Klien",
+    "internal": "Internal",
+    "searchPeople": "Cari orang…",
+    "deliverables": "Hasil kerja",
+    "deliverablesHint": "Tekan Enter setelah setiap item.",
+    "deliverablesPlaceholder": "Beranda, checkout…",
+    "withDeliverables": "{count, plural, other {Dengan # hasil kerja}}",
+    "cancel": "Batal",
+    "create": "Buat proyek",
+    "created": "{name} dibuat"
+  }
+}

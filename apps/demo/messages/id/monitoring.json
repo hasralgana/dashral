@@ -1,0 +1,49 @@
+{
+  "title": "Pemantauan",
+  "description": "Seberapa cepat aplikasi merespons, apa yang berjalan, dan apa yang dicatatnya.",
+  "metrics": {
+    "label": "Ringkasan pemantauan",
+    "requests": "Permintaan",
+    "perMinute": "Per menit, saat ini",
+    "p95": "5% paling lambat (p95)",
+    "errors": "Tingkat error",
+    "vsYesterday": "dibanding kemarin"
+  },
+  "latency": {
+    "title": "Waktu respons",
+    "description": "24 jam terakhir, per jam",
+    "p50": "Umumnya (p50)",
+    "p95": "5% paling lambat (p95)"
+  },
+  "uptime": {
+    "title": "Uptime",
+    "description": "30 hari terakhir",
+    "label": "Uptime"
+  },
+  "services": {
+    "api": "API",
+    "web": "Aplikasi web",
+    "worker": "Proses latar",
+    "database": "Database"
+  },
+  "health": {
+    "operational": "Normal",
+    "degraded": "Terganggu"
+  },
+  "logs": {
+    "title": "Log",
+    "description": "Pilih satu baris untuk melihat isinya",
+    "list": "Baris log",
+    "from": "Dari",
+    "live": "Langsung",
+    "count": "{count, plural, other {# baris}}",
+    "emptyTitle": "Tidak ada baris di rentang ini",
+    "emptyDescription": "Pilih waktu yang lebih awal.",
+    "time": "Waktu",
+    "level": "Level",
+    "service": "Layanan",
+    "status": "Status",
+    "duration": "Durasi",
+    "copy": "Salin sebagai JSON"
+  }
+}

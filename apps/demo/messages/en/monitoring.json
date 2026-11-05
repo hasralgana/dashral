@@ -1,0 +1,49 @@
+{
+  "title": "Monitoring",
+  "description": "How fast the app answers, what's up and what it's logging.",
+  "metrics": {
+    "label": "Monitoring at a glance",
+    "requests": "Requests",
+    "perMinute": "Per minute, right now",
+    "p95": "Slowest 5% (p95)",
+    "errors": "Error rate",
+    "vsYesterday": "vs yesterday"
+  },
+  "latency": {
+    "title": "Response time",
+    "description": "The last 24 hours, hour by hour",
+    "p50": "Typical (p50)",
+    "p95": "Slowest 5% (p95)"
+  },
+  "uptime": {
+    "title": "Uptime",
+    "description": "The last 30 days",
+    "label": "Uptime"
+  },
+  "services": {
+    "api": "API",
+    "web": "Web app",
+    "worker": "Background jobs",
+    "database": "Database"
+  },
+  "health": {
+    "operational": "Operational",
+    "degraded": "Degraded"
+  },
+  "logs": {
+    "title": "Logs",
+    "description": "Pick a line to see everything in it",
+    "list": "Log lines",
+    "from": "From",
+    "live": "Live",
+    "count": "{count, plural, one {# line} other {# lines}}",
+    "emptyTitle": "No lines in this window",
+    "emptyDescription": "Pick an earlier time.",
+    "time": "Time",
+    "level": "Level",
+    "service": "Service",
+    "status": "Status",
+    "duration": "Duration",
+    "copy": "Copy as JSON"
+  }
+}

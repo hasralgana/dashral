@@ -39,5 +39,13 @@
   "team": "الفريق",
   "billing": "الفوترة",
   "developers": "المطورون",
-  "apiKeys": "مفاتيح API"
+  "apiKeys": "مفاتيح API",
+  "finance": "المالية",
+  "projects": "المشاريع",
+  "support": "الدعم",
+  "inventory": "المخزون",
+  "monitoring": "المراقبة",
+  "assistant": "المساعد الذكي",
+  "gettingStarted": "البدء",
+  "twoFactor": "التحقق بخطوتين"
 }

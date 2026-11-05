@@ -1,0 +1,63 @@
+{
+  "title": "Mulai",
+  "description": "Beberapa langkah untuk menyiapkan {brand} bagi tim Anda. Centang satu per satu.",
+  "phaseCount": "{done} dari {total} selesai",
+  "phases": {
+    "account": {
+      "title": "Akun Anda",
+      "description": "Siapa Anda, tetap aman"
+    },
+    "workspace": {
+      "title": "Workspace Anda",
+      "description": "Uang dan pekerjaan, terlihat jelas"
+    },
+    "operations": {
+      "title": "Sehari-hari",
+      "description": "Pelanggan dan stok"
+    }
+  },
+  "tasks": {
+    "profile": {
+      "title": "Lengkapi profil Anda",
+      "description": "Nama dan foto Anda muncul di komentar dan penugasan.",
+      "action": "Pengaturan"
+    },
+    "security": {
+      "title": "Amankan cara masuk Anda",
+      "description": "Tambahkan langkah kedua, seperti kode atau passkey, agar kata sandi saja tidak cukup untuk masuk.",
+      "action": "Atur sekarang"
+    },
+    "finance": {
+      "title": "Tinjau arus kas bulan ini",
+      "description": "Lihat yang masuk, yang keluar, dan berapa lama kas bertahan.",
+      "action": "Keuangan"
+    },
+    "project": {
+      "title": "Buat proyek pertama Anda",
+      "description": "Beri klien, penanggung jawab, dan tenggat.",
+      "action": "Proyek"
+    },
+    "tickets": {
+      "title": "Tugaskan tiket yang terbuka",
+      "description": "Tiga tiket belum punya agen, dan satu di antaranya mendesak.",
+      "action": "Dukungan"
+    },
+    "stock": {
+      "title": "Atur batas aman stok",
+      "description": "Dapat peringatan sebelum produk terlaris habis.",
+      "action": "Inventaris"
+    }
+  },
+  "progress": {
+    "title": "Persiapan Anda",
+    "count": "{done} dari {total} langkah selesai",
+    "finishedTitle": "Semua siap",
+    "finished": "Workspace Anda siap digunakan."
+  },
+  "help": {
+    "title": "Butuh bantuan?",
+    "description": "Panduan untuk setiap halaman, atau orang yang bisa ditanya.",
+    "docs": "Baca dokumentasi",
+    "support": "Hubungi dukungan"
+  }
+}

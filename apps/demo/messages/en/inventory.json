@@ -1,0 +1,66 @@
+{
+  "title": "Inventory",
+  "description": "Stock in every warehouse, and what to order before it runs out.",
+  "loading": "Loading stock",
+  "metrics": {
+    "label": "Inventory at a glance",
+    "skus": "Products",
+    "skusHint": "Across {count} warehouses",
+    "value": "Stock value",
+    "vsLastMonth": "vs last month",
+    "low": "Running low",
+    "lowHint": "At or under their reorder point",
+    "out": "Out of stock",
+    "outHint": "Customers can't buy these"
+  },
+  "alert": {
+    "title": "{count, plural, one {# product needs ordering} other {# products need ordering}}",
+    "order": "Order them",
+    "ordered": "{count, plural, one {Purchase order sent for # product} other {Purchase order sent for # products}}"
+  },
+  "view": {
+    "label": "View",
+    "table": "Table",
+    "grid": "Grid"
+  },
+  "filters": {
+    "warehouse": "Warehouse",
+    "allWarehouses": "All warehouses",
+    "margin": "Safety margin",
+    "marginHint": "Warns earlier: a product counts as running low this much above its reorder point."
+  },
+  "warehouses": {
+    "jakarta": "Jakarta",
+    "surabaya": "Surabaya",
+    "singapore": "Singapore"
+  },
+  "categories": {
+    "kitchen": "Kitchen",
+    "living": "Living room",
+    "bedroom": "Bedroom",
+    "outdoor": "Outdoor"
+  },
+  "statuses": {
+    "inStock": "In stock",
+    "low": "Running low",
+    "out": "Out of stock"
+  },
+  "table": {
+    "title": "Stock",
+    "description": "Change a count right in the table",
+    "search": "Search products or SKUs…",
+    "item": "Product",
+    "category": "Category",
+    "warehouse": "Warehouse",
+    "onHand": "On hand",
+    "onHandOf": "{name} on hand",
+    "reorderAt": "Reorder at",
+    "status": "Status",
+    "incoming": "{count} on the way",
+    "value": "Value",
+    "empty": "No products match."
+  },
+  "grid": {
+    "units": "{count, plural, one {# unit} other {# units}}"
+  }
+}

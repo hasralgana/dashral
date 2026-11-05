@@ -32,6 +32,10 @@ const themeKeys = ["primary", "light", "dark", "card", "radius", "font"]
 const pro = existsSync(join(app, "lib/edition.ts"))
 /** Pro's apps and where each opens. Each lives in its own folders (docs/ARCHITECTURE.md → Remove a feature). */
 const proApps = { analytics: "/analytics", services: "/services", ecommerce: "/ecommerce", crm: "/crm", kanban: "/kanban", calendar: "/calendar", chat: "/chat" }
+/** Classic's sample pages in app/(dashboard), each in a folder of its own: Inset only and blank pages leave them out. */
+const classicPages = ["files", "finance", "projects", "support", "inventory", "monitoring", "getting-started"]
+/** Classic's sample pages with a frame of their own, beside app/(dashboard): the full-page AI assistant. */
+const classicFramed = ["app/(assistant)"]
 
 // ── Arguments ────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -256,7 +260,8 @@ function keepTemplate(template) {
   const dashboard = join(app, "app/(dashboard)")
   const inset = join(app, "app/inset")
   write(join(dashboard, "layout.tsx"), read(join(inset, "layout.tsx")))
-  for (const page of ["page.tsx", "files", "pro"]) remove(join(dashboard, page))
+  for (const page of ["page.tsx", "pro", ...classicPages]) remove(join(dashboard, page))
+  for (const path of classicFramed) remove(join(app, path))
   for (const entry of readdirSync(inset)) {
     if (["layout.tsx", "template.tsx", "loading.tsx", "settings", "pricing"].includes(entry)) continue
     // A Classic page with the same name goes: Inset's is the one kept.
@@ -310,6 +315,7 @@ function blankPages(template) {
   const dashboard = join(app, "app/(dashboard)")
   const kept = ["layout.tsx", "template.tsx", "loading.tsx", "page.tsx", "settings"]
   for (const entry of readdirSync(dashboard)) if (!kept.includes(entry)) remove(join(dashboard, entry))
+  for (const path of classicFramed) remove(join(app, path))
   remove(join(app, "app/errors"))
   write(join(dashboard, "page.tsx"), blankPage("app/(dashboard)/page.tsx"))
   if (template === "both") {
@@ -383,7 +389,8 @@ function writeName(name) {
 function removeProSamples() {
   keepTemplate("classic")
   const dashboard = join(app, "app/(dashboard)")
-  for (const page of ["files", "pricing"]) remove(join(dashboard, page))
+  for (const page of [...classicPages, "pricing"]) remove(join(dashboard, page))
+  for (const path of classicFramed) remove(join(app, path))
   remove(join(app, "app/errors"))
   write(
     join(dashboard, "page.tsx"),
@@ -789,18 +796,24 @@ function continueUpdate() {
   const removedApps = removedAppsOf(answers)
   // What init removed, removed again: the release may have changed it or added to it.
   if (pro) {
-    if (answers.pages === "blank") for (const path of ["app/inset", "app/layout-inset.css", "app/(dashboard)/files", "app/(dashboard)/pricing", "app/errors"]) remove(join(app, path))
+    if (answers.pages === "blank") for (const path of ["app/inset", "app/layout-inset.css", ...[...classicPages, "pricing"].map((page) => `app/(dashboard)/${page}`), ...classicFramed, "app/errors"]) remove(join(app, path))
     removeApps(removedApps)
   } else {
     if (answers.template === "classic") for (const path of ["app/inset", "app/layout-inset.css"]) remove(join(app, path))
     if (answers.template === "inset" && existsSync(join(app, "app/inset")))
       console.log("  The release changed Inset pages under app/inset; your Inset pages are at the root. Copy over what you want, then delete app/inset.")
+    // Inset only: Classic pages the release adds go. Only new ones: a folder of that name you already had is yours.
+    if (answers.template === "inset")
+      for (const path of [...classicPages.map((page) => `apps/demo/app/(dashboard)/${page}`), ...classicFramed.map((framed) => `apps/demo/${framed}`)]) {
+        if (existsSync(join(root, path)) && !tryGit(`ls-tree -d HEAD -- ${JSON.stringify(path)}`)?.trim()) remove(join(root, path))
+      }
     if (answers.pages === "blank") {
       const kept = ["layout.tsx", "template.tsx", "loading.tsx", "page.tsx", "settings"]
       for (const dir of ["app/(dashboard)", ...(answers.template === "both" ? ["app/inset"] : [])]) {
         const path = join(app, dir)
         if (existsSync(path)) for (const entry of readdirSync(path)) if (!kept.includes(entry)) remove(join(path, entry))
       }
+      for (const path of classicFramed) remove(join(app, path))
       remove(join(app, "app/errors"))
     }
   }

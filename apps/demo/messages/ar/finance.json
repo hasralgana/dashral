@@ -1,0 +1,79 @@
+{
+  "title": "المالية",
+  "description": "النقد والمصروفات وكل معاملة، في مكان واحد.",
+  "period": "الفترة",
+  "export": "تصدير",
+  "exported": "تقرير هذه الفترة في طريقه إلى بريدك الإلكتروني.",
+  "metrics": {
+    "label": "المالية في لمحة",
+    "cash": "النقد المتاح",
+    "burn": "صافي الإنفاق الشهري",
+    "runway": "مدة كفاية النقد",
+    "revenue": "إيرادات هذا الشهر",
+    "vsLastMonth": "مقارنة بالشهر الماضي",
+    "monthsShort": " شهر",
+    "monthsLonger": "مقارنة بالربع الماضي"
+  },
+  "cashFlow": {
+    "title": "التدفق النقدي",
+    "description": "الأموال الداخلة والخارجة، من {from} إلى {to}، مقابل خطة الإنفاق",
+    "netThisMonth": "الصافي هذا الشهر",
+    "inflow": "الأموال الداخلة",
+    "outflow": "الأموال الخارجة",
+    "plan": "خطة الإنفاق"
+  },
+  "budget": {
+    "title": "ميزانية الربع",
+    "description": "من أكتوبر إلى ديسمبر",
+    "used": "المستخدم",
+    "ofPlanned": "{spent} من {planned}",
+    "lineLabel": "المستخدم من ميزانية {category}"
+  },
+  "accounts": {
+    "operating": "التشغيل",
+    "reserve": "الاحتياطي",
+    "card": "بطاقة الشركة"
+  },
+  "categories": {
+    "revenue": "الإيرادات",
+    "payroll": "الرواتب",
+    "software": "البرمجيات",
+    "marketing": "التسويق",
+    "office": "المكتب",
+    "travel": "السفر",
+    "tax": "الضرائب"
+  },
+  "statuses": {
+    "cleared": "مكتملة",
+    "pending": "قيد المعالجة",
+    "review": "للمراجعة"
+  },
+  "memos": {
+    "subscription": "اشتراك",
+    "invoice": "سداد فاتورة",
+    "salary": "رواتب",
+    "contractor": "متعاقد",
+    "license": "ترخيص برمجيات",
+    "campaign": "حملة إعلانية",
+    "rent": "إيجار المكتب",
+    "flight": "رحلة طيران",
+    "hotel": "فندق",
+    "vat": "دفعة ضريبة القيمة المضافة",
+    "refund": "استرداد"
+  },
+  "table": {
+    "title": "المعاملات",
+    "description": "{count} معاملة، {review} للمراجعة",
+    "search": "ابحث في المعاملات…",
+    "date": "التاريخ",
+    "party": "الطرف",
+    "memo": "البيان",
+    "category": "الفئة",
+    "account": "الحساب",
+    "status": "الحالة",
+    "amount": "المبلغ",
+    "markCleared": "وضع علامة مكتملة",
+    "markedCleared": "تم وضع علامة مكتملة على {count, plural, zero {لا معاملات} one {معاملة واحدة} two {معاملتين} few {# معاملات} many {# معاملة} other {# معاملة}}",
+    "empty": "لا توجد معاملات مطابقة."
+  }
+}

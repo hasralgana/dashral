@@ -1,0 +1,79 @@
+{
+  "title": "Keuangan",
+  "description": "Kas, pengeluaran, dan setiap transaksi, di satu tempat.",
+  "period": "Periode",
+  "export": "Ekspor",
+  "exported": "Laporan periode ini sedang dikirim ke email Anda.",
+  "metrics": {
+    "label": "Ringkasan keuangan",
+    "cash": "Kas tersedia",
+    "burn": "Pengeluaran bersih per bulan",
+    "runway": "Ketahanan kas",
+    "revenue": "Pendapatan bulan ini",
+    "vsLastMonth": "dibanding bulan lalu",
+    "monthsShort": " bln",
+    "monthsLonger": "dibanding kuartal lalu"
+  },
+  "cashFlow": {
+    "title": "Arus kas",
+    "description": "Uang masuk dan keluar, {from} sampai {to}, dibanding rencana pengeluaran",
+    "netThisMonth": "Bersih bulan ini",
+    "inflow": "Uang masuk",
+    "outflow": "Uang keluar",
+    "plan": "Rencana pengeluaran"
+  },
+  "budget": {
+    "title": "Anggaran kuartal",
+    "description": "Oktober sampai Desember",
+    "used": "Terpakai",
+    "ofPlanned": "{spent} dari {planned}",
+    "lineLabel": "Anggaran {category} terpakai"
+  },
+  "accounts": {
+    "operating": "Operasional",
+    "reserve": "Cadangan",
+    "card": "Kartu perusahaan"
+  },
+  "categories": {
+    "revenue": "Pendapatan",
+    "payroll": "Gaji",
+    "software": "Software",
+    "marketing": "Pemasaran",
+    "office": "Kantor",
+    "travel": "Perjalanan",
+    "tax": "Pajak"
+  },
+  "statuses": {
+    "cleared": "Selesai",
+    "pending": "Diproses",
+    "review": "Perlu dicek"
+  },
+  "memos": {
+    "subscription": "Langganan",
+    "invoice": "Pembayaran faktur",
+    "salary": "Gaji",
+    "contractor": "Kontraktor",
+    "license": "Lisensi software",
+    "campaign": "Kampanye iklan",
+    "rent": "Sewa kantor",
+    "flight": "Penerbangan",
+    "hotel": "Hotel",
+    "vat": "Pembayaran PPN",
+    "refund": "Pengembalian dana"
+  },
+  "table": {
+    "title": "Transaksi",
+    "description": "{count} transaksi, {review} perlu dicek",
+    "search": "Cari transaksi…",
+    "date": "Tanggal",
+    "party": "Pihak",
+    "memo": "Keterangan",
+    "category": "Kategori",
+    "account": "Rekening",
+    "status": "Status",
+    "amount": "Jumlah",
+    "markCleared": "Tandai selesai",
+    "markedCleared": "{count, plural, other {# transaksi}} ditandai selesai",
+    "empty": "Tidak ada transaksi yang cocok."
+  }
+}

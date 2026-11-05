@@ -1,0 +1,66 @@
+{
+  "title": "Inventaris",
+  "description": "Stok di setiap gudang, dan apa yang perlu dipesan sebelum habis.",
+  "loading": "Memuat stok",
+  "metrics": {
+    "label": "Ringkasan inventaris",
+    "skus": "Produk",
+    "skusHint": "Di {count} gudang",
+    "value": "Nilai stok",
+    "vsLastMonth": "dibanding bulan lalu",
+    "low": "Hampir habis",
+    "lowHint": "Di atau di bawah titik pesan ulang",
+    "out": "Stok habis",
+    "outHint": "Pelanggan tidak bisa membelinya"
+  },
+  "alert": {
+    "title": "{count, plural, other {# produk perlu dipesan}}",
+    "order": "Pesan sekarang",
+    "ordered": "{count, plural, other {Pesanan pembelian dikirim untuk # produk}}"
+  },
+  "view": {
+    "label": "Tampilan",
+    "table": "Tabel",
+    "grid": "Grid"
+  },
+  "filters": {
+    "warehouse": "Gudang",
+    "allWarehouses": "Semua gudang",
+    "margin": "Batas aman",
+    "marginHint": "Memberi peringatan lebih awal: produk dianggap hampir habis sebanyak ini di atas titik pesan ulangnya."
+  },
+  "warehouses": {
+    "jakarta": "Jakarta",
+    "surabaya": "Surabaya",
+    "singapore": "Singapura"
+  },
+  "categories": {
+    "kitchen": "Dapur",
+    "living": "Ruang tamu",
+    "bedroom": "Kamar tidur",
+    "outdoor": "Luar ruangan"
+  },
+  "statuses": {
+    "inStock": "Tersedia",
+    "low": "Hampir habis",
+    "out": "Stok habis"
+  },
+  "table": {
+    "title": "Stok",
+    "description": "Ubah jumlah langsung di tabel",
+    "search": "Cari produk atau SKU…",
+    "item": "Produk",
+    "category": "Kategori",
+    "warehouse": "Gudang",
+    "onHand": "Tersedia",
+    "onHandOf": "Stok tersedia {name}",
+    "reorderAt": "Pesan ulang di",
+    "status": "Status",
+    "incoming": "{count} dalam pengiriman",
+    "value": "Nilai",
+    "empty": "Tidak ada produk yang cocok."
+  },
+  "grid": {
+    "units": "{count, plural, other {# unit}}"
+  }
+}

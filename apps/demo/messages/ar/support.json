@@ -1,0 +1,80 @@
+{
+  "title": "الدعم",
+  "description": "التذاكر من كل القنوات، ومن يتولاها، وما تأخر منها.",
+  "metrics": {
+    "label": "الدعم في لمحة",
+    "open": "التذاكر المفتوحة",
+    "firstResponse": "أول رد",
+    "satisfaction": "الرضا",
+    "breached": "تجاوزت الوقت الموعود",
+    "breachedHint": "ابدأ بالرد على هذه",
+    "vsLastWeek": "مقارنة بالأسبوع الماضي"
+  },
+  "volume": {
+    "title": "التذاكر يوميًا",
+    "description": "آخر {weeks} أسبوعًا · {count} هذا الأسبوع",
+    "ticket": "تذكرة",
+    "tickets": "تذاكر"
+  },
+  "shortcuts": {
+    "title": "الاختصارات",
+    "description": "أسرع في إنجاز قائمة الانتظار",
+    "send": "إرسال رد",
+    "close": "إغلاق لوحة التذكرة",
+    "search": "البحث عن أي شيء",
+    "noteTitle": "الثلاثاء هو الأكثر ازدحامًا",
+    "note": "تصل معظم التذاكر بين التاسعة والحادية عشرة صباحًا يومي الثلاثاء والأربعاء. خطط لتغطية تلك الساعات."
+  },
+  "priorities": {
+    "urgent": "عاجلة",
+    "high": "عالية",
+    "normal": "عادية",
+    "low": "منخفضة"
+  },
+  "priorityHints": {
+    "urgent": "الرد خلال ساعة",
+    "high": "الرد خلال 4 ساعات",
+    "normal": "الرد خلال يوم",
+    "low": "عند توفر الوقت"
+  },
+  "statuses": {
+    "open": "مفتوحة",
+    "pending": "بانتظار العميل",
+    "solved": "محلولة"
+  },
+  "channels": {
+    "email": "البريد",
+    "chat": "الدردشة",
+    "phone": "الهاتف"
+  },
+  "ago": {
+    "minutes": "{count, plural, zero {الآن} one {قبل دقيقة} two {قبل دقيقتين} few {قبل # دقائق} many {قبل # دقيقة} other {قبل # دقيقة}}",
+    "hours": "{count, plural, zero {الآن} one {قبل ساعة} two {قبل ساعتين} few {قبل # ساعات} many {قبل # ساعة} other {قبل # ساعة}}",
+    "days": "{count, plural, zero {اليوم} one {قبل يوم} two {قبل يومين} few {قبل # أيام} many {قبل # يومًا} other {قبل # يوم}}"
+  },
+  "table": {
+    "title": "التذاكر",
+    "description": "{open} مفتوحة، {unassigned} بلا موظف",
+    "search": "ابحث في التذاكر أو العملاء أو الشركات…",
+    "ticket": "التذكرة",
+    "breached": "متأخرة",
+    "priority": "الأولوية",
+    "status": "الحالة",
+    "assignee": "الموظف",
+    "unassigned": "غير مُسندة",
+    "channel": "القناة",
+    "updated": "آخر تحديث",
+    "empty": "لا توجد تذاكر مطابقة."
+  },
+  "details": {
+    "reply": "الرد",
+    "replyPlaceholder": "اكتب إلى {name}…",
+    "send": "إرسال",
+    "sent": "تم إرسال الرد إلى {customer}",
+    "assigned": "أُسندت إلى {name}",
+    "solve": "وضع علامة محلولة",
+    "solveTitle": "هل تريد وضع علامة محلولة على هذه التذكرة؟",
+    "solveDescription": "سيتلقى {customer} رسالة بأنها حُلّت، ويمكنه الرد لإعادة فتحها.",
+    "solved": "تم حل التذكرة {id}"
+  }
+}

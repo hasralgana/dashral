@@ -1,0 +1,18 @@
+{
+  "meta": "Masuk dua langkah",
+  "title": "Masukkan kode Anda",
+  "description": "Buka aplikasi autentikator Anda dan ketik kode 6 digit untuk {brand}.",
+  "code": "Kode verifikasi",
+  "demo": "Di demo ini, 6 digit apa pun bisa dipakai.",
+  "incomplete": "Ketik keenam digitnya.",
+  "trust": "Percayai perangkat ini selama 30 hari",
+  "submit": "Verifikasi",
+  "checking": "Memeriksa…",
+  "verified": "Berhasil masuk",
+  "resend": "Kirim kode baru lewat SMS",
+  "resendIn": "Kirim kode baru dalam {seconds} dtk",
+  "resent": "Kode baru sedang dikirim ke ponsel Anda.",
+  "recovery": "Pakai kode pemulihan",
+  "recoveryDemo": "Kode pemulihan adalah kode yang Anda simpan saat mengaktifkan masuk dua langkah.",
+  "back": "Kembali ke halaman masuk"
+}

@@ -1,0 +1,18 @@
+{
+  "meta": "Two-factor sign-in",
+  "title": "Enter your code",
+  "description": "Open your authenticator app and type the 6-digit code for {brand}.",
+  "code": "Verification code",
+  "demo": "In this demo, any 6 digits work.",
+  "incomplete": "Type all 6 digits.",
+  "trust": "Trust this device for 30 days",
+  "submit": "Verify",
+  "checking": "Checking…",
+  "verified": "Signed in",
+  "resend": "Send a new code by text",
+  "resendIn": "Send a new code in {seconds}s",
+  "resent": "A new code is on its way to your phone.",
+  "recovery": "Use a recovery code instead",
+  "recoveryDemo": "Recovery codes are the ones you saved when you turned on two-factor.",
+  "back": "Back to sign in"
+}

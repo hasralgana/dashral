@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Data Table: `autoResetPage={false}` keeps the page while rows are edited in place, such as a count typed into a cell; a new search or filter still starts from the first page
+- The Classic dashboard: Finance, Projects, Support, Inventory and Monitoring pages, built on data tables you can filter, select, export and edit in place and on the kit's charts, plus an AI assistant, Getting started and a two-factor sign-in page, in all three languages
+- `pnpm dashral init` and `pnpm dashral update` know Classic's new pages: Inset only and blank pages leave them out, and an update doesn't bring new Classic pages into an Inset-only app
+
 ## [1.0.0] - 2026-11-04
 
 The first release of Dashral: React components, their motion editions and a Next.js admin dashboard, free and open source.

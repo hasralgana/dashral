@@ -39,5 +39,13 @@
   "team": "Tim",
   "billing": "Penagihan",
   "developers": "Developer",
-  "apiKeys": "API key"
+  "apiKeys": "API key",
+  "finance": "Keuangan",
+  "projects": "Proyek",
+  "support": "Dukungan",
+  "inventory": "Inventaris",
+  "monitoring": "Pemantauan",
+  "assistant": "Asisten AI",
+  "gettingStarted": "Mulai",
+  "twoFactor": "Dua langkah"
 }

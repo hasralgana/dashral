@@ -1,0 +1,98 @@
+{
+  "title": "المشاريع",
+  "description": "كل مشروع للعملاء، وأين وصل، ومن يقوده.",
+  "metrics": {
+    "label": "المشاريع في لمحة",
+    "active": "المشاريع النشطة",
+    "activeHint": "{count, plural, zero {لم يُسلَّم شيء} one {سُلِّم مشروع واحد} two {سُلِّم مشروعان} few {سُلِّمت # مشاريع} many {سُلِّم # مشروعًا} other {سُلِّم # مشروع}} هذا الشهر",
+    "onTrack": "حسب الخطة",
+    "onTrackHint": "يسير كما خُطط له",
+    "atRisk": "تحتاج انتباهًا",
+    "atRiskHint": "معرضة للخطر أو متأخرة",
+    "dueSoon": "تستحق خلال 14 يومًا",
+    "dueSoonHint": "خطط للمراجعات الآن"
+  },
+  "stages": {
+    "brief": "الموجز",
+    "design": "التصميم",
+    "build": "التنفيذ",
+    "review": "المراجعة",
+    "launch": "الإطلاق"
+  },
+  "stageHints": {
+    "brief": "الاتفاق على الأهداف والنطاق والميزانية",
+    "design": "اعتماد المسارات والشاشات",
+    "build": "البناء والاختبار",
+    "review": "العميل يجربه",
+    "launch": "منشور، مع التسليم"
+  },
+  "health": {
+    "onTrack": "حسب الخطة",
+    "atRisk": "معرض للخطر",
+    "offTrack": "متأخر",
+    "done": "تم التسليم"
+  },
+  "labels": {
+    "web": "الويب",
+    "mobile": "الجوال",
+    "branding": "الهوية",
+    "ecommerce": "التجارة الإلكترونية",
+    "seo": "تحسين البحث",
+    "content": "المحتوى"
+  },
+  "roles": {
+    "lead": "قائد المشروع",
+    "designer": "مصمم",
+    "engineer": "مهندس",
+    "strategist": "مخطط استراتيجي"
+  },
+  "owner": {
+    "leads": "{count, plural, zero {لا يقود مشاريع} one {يقود مشروعًا واحدًا} two {يقود مشروعين} few {يقود # مشاريع} many {يقود # مشروعًا} other {يقود # مشروع}}"
+  },
+  "table": {
+    "title": "كل المشاريع",
+    "description": "انقر بزر الماوس الأيمن على مشروع لمزيد من الخيارات",
+    "search": "ابحث في المشاريع أو العملاء…",
+    "project": "المشروع",
+    "stage": "المرحلة",
+    "health": "الحالة",
+    "progress": "التقدم",
+    "progressOf": "تقدم {name}",
+    "owner": "المسؤول",
+    "due": "الاستحقاق",
+    "overdue": "متأخر",
+    "labels": "التصنيفات",
+    "allLabels": "كل التصنيفات",
+    "empty": "لا توجد مشاريع مطابقة."
+  },
+  "menu": {
+    "open": "فتح",
+    "duplicate": "تكرار",
+    "copyOf": "{name} (نسخة)",
+    "duplicated": "تم تكرار {name}",
+    "archive": "أرشفة",
+    "archived": "تمت أرشفة {name}"
+  },
+  "details": {
+    "budget": "الميزانية",
+    "stages": "المراحل"
+  },
+  "new": {
+    "button": "مشروع جديد",
+    "title": "مشروع جديد",
+    "description": "يبدأ من الموجز؛ ويمكنك تغيير كل شيء لاحقًا.",
+    "name": "الاسم",
+    "namePlaceholder": "إعادة إطلاق الموقع",
+    "nameRequired": "أعطِ المشروع اسمًا.",
+    "client": "العميل",
+    "internal": "داخلي",
+    "searchPeople": "ابحث عن أشخاص…",
+    "deliverables": "المخرجات",
+    "deliverablesHint": "اضغط Enter بعد كل واحد.",
+    "deliverablesPlaceholder": "الصفحة الرئيسية، الدفع…",
+    "withDeliverables": "{count, plural, zero {بلا مخرجات} one {مع مُخرَج واحد} two {مع مُخرَجين} few {مع # مخرجات} many {مع # مُخرَجًا} other {مع # مُخرَج}}",
+    "cancel": "إلغاء",
+    "create": "إنشاء المشروع",
+    "created": "تم إنشاء {name}"
+  }
+}

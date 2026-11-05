@@ -422,6 +422,11 @@ export type DataTableProps<TData extends RowData> = {
    */
   exportable?: boolean | DataTableExport<TData>
   emptyMessage?: string
+  /**
+   * Back to the first page whenever the rows change (the default). Turn it off when rows are edited in place, e.g. a
+   * count typed into a cell: the page stays. The search and filters still start from the first page either way.
+   */
+  autoResetPage?: boolean
   className?: string
 }
 
@@ -438,6 +443,7 @@ export function DataTable<TData extends RowData>({
   toolbar,
   exportable = false,
   emptyMessage,
+  autoResetPage = true,
   className,
 }: DataTableProps<TData>) {
   const { t } = useLocale()
@@ -449,7 +455,22 @@ export function DataTable<TData extends RowData>({
     getRowId,
     globalFilterFn: "includesString",
     initialState: { pagination: { pageIndex: 0, pageSize: pageSizes[0] ?? 10 } },
+    autoResetPageIndex: autoResetPage,
   })
+
+  // With autoResetPage off, the table resets the page itself where it still should: a new search or filter starts
+  // from the first page, and a page the rows no longer reach falls back to the last one.
+  const filterKey = autoResetPage ? "" : JSON.stringify([table.state.columnFilters, table.state.globalFilter ?? ""])
+  const lastFilterKey = React.useRef(filterKey)
+  const { pageIndex } = table.state.pagination
+  const pageCount = table.getPageCount()
+  React.useEffect(() => {
+    if (autoResetPage) return
+    if (filterKey !== lastFilterKey.current) {
+      lastFilterKey.current = filterKey
+      table.setPageIndex(0)
+    } else if (pageCount > 0 && pageIndex > pageCount - 1) table.setPageIndex(pageCount - 1)
+  }, [autoResetPage, filterKey, pageIndex, pageCount, table])
 
   const selectable = columns.some((column) => column.id === "select")
   const isFiltered = table.state.columnFilters.length > 0 || Boolean(table.state.globalFilter)

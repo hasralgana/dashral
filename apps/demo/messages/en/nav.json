@@ -39,5 +39,13 @@
   "team": "Team",
   "billing": "Billing",
   "developers": "Developers",
-  "apiKeys": "API keys"
+  "apiKeys": "API keys",
+  "finance": "Finance",
+  "projects": "Projects",
+  "support": "Support",
+  "inventory": "Inventory",
+  "monitoring": "Monitoring",
+  "assistant": "AI assistant",
+  "gettingStarted": "Getting started",
+  "twoFactor": "Two-factor"
 }
