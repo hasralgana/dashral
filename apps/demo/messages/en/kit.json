@@ -187,5 +187,13 @@
   "viewImage": "View {name}",
   "imageOf": "{index} of {total}",
   "previousImage": "Previous image",
-  "nextImage": "Next image"
+  "nextImage": "Next image",
+  "selectAll": "Select all",
+  "selectedCount": {
+    "one": "{count} selected",
+    "other": "{count} selected"
+  },
+  "selectionActions": "Actions for the selection",
+  "clearSelection": "Clear selection",
+  "time": "Time"
 }

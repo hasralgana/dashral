@@ -25,6 +25,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Progress Circle: progress as a ring for small spaces, with the percentage or an icon in the middle
 - Prose: good-looking text from the HTML that Markdown, MDX or a CMS produces, for a blog, docs or a changelog
 - Rating: a star rating that works with the keyboard and in forms, with words for each value, and a read-only average with fractions
+- Action Bar: the bar that rises from the bottom while rows are selected, with the count, actions for them and a way to clear the selection
+- Autocomplete: a text field that suggests as you type, where any text is still a valid answer, with rich suggestions and your own search
+- Checkbox Group: several checkboxes under one label, as a list or cards, with "Select all" and a limit
+- Indicator: a dot or a count on the corner of a button, an avatar or a tab, scaling in and out
+- List: rows with a picture, a title, details and actions, linking as a whole, that move their details under the text where it's narrow
+- Page Header: the top of an admin page, with a breadcrumb or a back link, the title, a description, details, actions and tabs
+- Relative Time: a moment as people say it ("3 minutes ago", "yesterday"), in the reader's language and kept current
+- Date Picker: `withTime` adds a time field under the calendar; the value is the day at that time
 
 ## [1.0.0] - 2026-11-04
 

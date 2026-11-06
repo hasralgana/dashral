@@ -187,5 +187,13 @@
   "viewImage": "Lihat {name}",
   "imageOf": "{index} dari {total}",
   "previousImage": "Gambar sebelumnya",
-  "nextImage": "Gambar berikutnya"
+  "nextImage": "Gambar berikutnya",
+  "selectAll": "Pilih semua",
+  "selectedCount": {
+    "one": "{count} dipilih",
+    "other": "{count} dipilih"
+  },
+  "selectionActions": "Tindakan untuk pilihan",
+  "clearSelection": "Hapus pilihan",
+  "time": "Waktu"
 }

@@ -191,6 +191,12 @@ export const defaultMessages = {
   imageOf: "{index} of {total}",
   previousImage: "Previous image",
   nextImage: "Next image",
+  // Selection and forms
+  selectAll: "Select all",
+  selectedCount: { one: "{count} selected", other: "{count} selected" } as Message,
+  selectionActions: "Actions for the selection",
+  clearSelection: "Clear selection",
+  time: "Time",
 }
 
 export type LocaleMessages = typeof defaultMessages

@@ -219,5 +219,17 @@
   "viewImage": "عرض {name}",
   "imageOf": "{index} من {total}",
   "previousImage": "الصورة السابقة",
-  "nextImage": "الصورة التالية"
+  "nextImage": "الصورة التالية",
+  "selectAll": "تحديد الكل",
+  "selectedCount": {
+    "zero": "لم يُحدَّد شيء",
+    "one": "عنصر واحد محدد",
+    "two": "عنصران محددان",
+    "few": "{count} عناصر محددة",
+    "many": "{count} عنصرًا محددًا",
+    "other": "{count} عنصر محدد"
+  },
+  "selectionActions": "إجراءات للعناصر المحددة",
+  "clearSelection": "مسح التحديد",
+  "time": "الوقت"
 }
