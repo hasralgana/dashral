@@ -1,6 +1,6 @@
 {
   "name": "dashral",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Free & open-source admin dashboard template built with Next.js, React, TypeScript and Tailwind CSS.",
   "license": "MIT",

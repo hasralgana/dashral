@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-06
+
 ### Changed
 
 - `pnpm dashral init` (and so `npx create-dashral`) leaves out demo.dashral.com's stand-in sign-in (`app/api/demo`, `lib/demo-sign-in.ts`, `proxy.ts`, a cookie and no accounts): the sign-in, sign-up and two-factor pages stay, and `lib/sign-in.ts` is the one place to connect them to your auth (README → Make it yours, Add sign-in in a flat project's README)
@@ -68,6 +70,7 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/hasralgana/dashral/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/hasralgana/dashral/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/hasralgana/dashral/releases/tag/v1.0.0
