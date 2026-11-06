@@ -7,7 +7,10 @@ import { Checkbox } from "@dashral/ui/components/checkbox"
 import { Input } from "@dashral/ui/components/input"
 
 import { SocialSignIn } from "@/components/auth/social-sign-in"
+// @dashral-if hosted
 import { demoAccount, demoSignIn } from "@/lib/demo-sign-in"
+// @dashral-end
+import { signInForm } from "@/lib/sign-in"
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getTranslations("auth.login"))("meta") }
@@ -15,26 +18,29 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LoginPage() {
   const t = await getTranslations("auth.login")
-  // The hosted demo signs in for real (a cookie, lib/demo-sign-in.ts) with its account filled in; elsewhere this is a
-  // page to build on, whose buttons open the dashboard.
-  const action = demoSignIn ? "/api/demo/sign-in" : "/"
+  // Where the form goes: lib/sign-in.ts.
   return (
     <Card
       title={t("title")}
       description={t("description")}
       classNames={{ header: "text-center", title: "text-xl", body: "space-y-5" }}
     >
+      {/* @dashral-if hosted */}
+      {/* The hosted demo fills in its account (lib/demo-sign-in.ts). */}
       {demoSignIn && (
         <p className="rounded-lg bg-muted/60 px-3 py-2 text-center text-xs text-muted-foreground">{t("demo")}</p>
       )}
-      <SocialSignIn passkey action={action} />
-      <form action={action} method={demoSignIn ? "post" : undefined} className="space-y-4">
+      {/* @dashral-end */}
+      <SocialSignIn passkey action={signInForm.action} />
+      <form action={signInForm.action} method={signInForm.method} className="space-y-4">
         <Input
           label={t("email")}
           type="email"
           placeholder="you@example.com"
           autoComplete="email"
+          // @dashral-if hosted
           defaultValue={demoSignIn ? demoAccount.email : undefined}
+          // @dashral-end
           required
         />
         <Input
@@ -46,7 +52,9 @@ export default async function LoginPage() {
           }
           type="password"
           autoComplete="current-password"
+          // @dashral-if hosted
           defaultValue={demoSignIn ? demoAccount.password : undefined}
+          // @dashral-end
           required
         />
         <Checkbox label={t("remember")} />

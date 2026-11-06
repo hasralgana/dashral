@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- `pnpm dashral init` (and so `npx create-dashral`) leaves out demo.dashral.com's stand-in sign-in (`app/api/demo`, `lib/demo-sign-in.ts`, `proxy.ts`, a cookie and no accounts): the sign-in, sign-up and two-factor pages stay, and `lib/sign-in.ts` is the one place to connect them to your auth (README → Make it yours, Add sign-in in a flat project's README)
+
 ## [1.1.0] - 2026-11-06
 
 ### Added

@@ -6,8 +6,10 @@
 /** Read at build time (NEXT_PUBLIC_*): set it in the demo's own deployment only. */
 export const demoSignIn = process.env.NEXT_PUBLIC_DEMO_SIGN_IN === "true"
 
+import { account } from "@/lib/account"
+
 /** The account the demo signs in as, the same one the account menu shows. */
-export const demoAccount = { name: "Jane Doe", email: "jane@example.com", password: "dashral-demo" }
+export const demoAccount = { ...account, password: "dashral-demo" }
 
 export const DEMO_COOKIE = "dashral-demo-session"
 

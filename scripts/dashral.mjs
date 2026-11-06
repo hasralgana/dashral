@@ -247,7 +247,7 @@ function applyMarkers(features) {
       if (open.every(Boolean)) out.push(line)
     }
     if (open.length) fail(`An @dashral-if without its @dashral-end in ${relative(root, path)}`)
-    write(path, out.join("\n").replace(/\n{3,}/g, "\n\n"))
+    write(path, out.join("\n").replace(/\n{3,}/g, "\n\n").replace(/^\n+/, ""))
   }
 }
 
@@ -379,6 +379,32 @@ function removeUpgradePages() {
     .filter((line) => !/\bpro: true\b/.test(line))
     .join("\n")
   if (next !== text) write(nav, next)
+}
+
+/**
+ * demo.dashral.com's sign-in: a cookie and no accounts (lib/demo-sign-in.ts), off unless NEXT_PUBLIC_DEMO_SIGN_IN is
+ * set. A project of your own keeps the sign-in pages and connects them in lib/sign-in.ts, so the routes, the gate in
+ * proxy.ts, the setting and the demo's line on the sign-in page go (the code that used them goes with its markers).
+ */
+function removeHostedDemo() {
+  remove(join(app, "app/api/demo"))
+  remove(join(app, "lib/demo-sign-in.ts"))
+  remove(join(app, "proxy.ts"))
+  removeEmptyDirs(join(app, "app/api"))
+  const env = join(app, ".env.example")
+  if (existsSync(env)) {
+    const text = read(env)
+    const next = text.replace(/\n(?:#[^\n]*\n)*NEXT_PUBLIC_DEMO_SIGN_IN=[^\n]*\n?/, "\n")
+    if (next !== text) writeFileSync(env, next)
+  }
+  for (const locale of readdirSync(join(app, "messages"))) {
+    const file = join(app, "messages", locale, "auth.json")
+    if (!existsSync(file)) continue
+    const messages = JSON.parse(read(file))
+    if (messages.login?.demo === undefined) continue
+    delete messages.login.demo
+    writeFileSync(file, `${JSON.stringify(messages, null, 2)}\n`)
+  }
 }
 
 function writeName(name) {
@@ -1075,6 +1101,18 @@ The UI components come from [\`@dashral/ui\`](https://www.npmjs.com/package/@das
 \`pnpm up @dashral/ui\` brings in new components and fixes. To change a component's own code, copy it into the app from
 Dashral's registry (\`npx shadcn add https://dashral.com/r/button.json\`) and import it from there instead.
 
+## Add sign-in
+
+The sign-in, sign-up and two-factor pages (\`app/(auth)/\`) are designed and ready, without accounts behind them. Connect
+them to the auth library you use:
+
+1. \`lib/sign-in.ts\`: where the forms and the account menu's Sign out go, your sign-in route or server action.
+2. \`lib/account.ts\`: the person the account menu shows; read it from your session.
+3. Keep signed-out visitors out of the dashboard in a \`proxy.ts\` (Next.js's request middleware), as your library
+   describes.
+
+[Dashral Pro](https://dashral.com/pricing) comes with real sign-in: accounts, roles, two-factor and passkeys.
+
 ## Put it online
 
 Deploy to Vercel or any Node host, and set your address in \`NEXT_PUBLIC_SITE_URL\`${has(".env.example") ? " (see `.env.example`)" : ""}.
@@ -1108,6 +1146,8 @@ async function init(flags) {
     i18n: languages === "all",
     customizer: customizer === "keep",
     demo: pages === "demo",
+    // demo.dashral.com's own sign-in (lib/demo-sign-in.ts): never in a project of your own.
+    hosted: false,
     ...Object.fromEntries(Object.keys(proApps).map((name) => [`app-${name}`, kept.includes(name)])),
   }
 
@@ -1123,6 +1163,7 @@ async function init(flags) {
   applyMarkers(features)
   removeUpgradePages()
   if (languages === "en") keepEnglishOnly()
+  if (!pro) removeHostedDemo()
   writeTheme(template, theme)
   writeName(name)
   for (const path of touched) pruneImports(path)

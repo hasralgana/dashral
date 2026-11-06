@@ -38,7 +38,8 @@ pnpm build
 - **Accessibility matters.** Interactive elements need keyboard support and labels; status should never rely on color alone.
 - **Keep `pnpm dashral init` working.** Code that belongs to one template, the demo pages, the languages or the theme
   customizer, in a file the others share (the menu in `lib/nav.ts`, say), goes between `// @dashral-if <feature>` and
-  `// @dashral-end` (features: `classic`, `inset`, `switcher`, `i18n`, `customizer`, `demo`; `{/* … */}` in JSX).
+  `// @dashral-end` (features: `classic`, `inset`, `switcher`, `i18n`, `customizer`, `demo`, and `hosted` for demo.dashral.com's own
+  sign-in, which init always removes; `{/* … */}` in JSX).
   A new page of one template goes in that template's folder. Check a change with
   `pnpm dashral init --template inset --pages blank --yes` in a copy, then `pnpm typecheck` there.
 - **Keep `npx create-dashral` working.** It relies on the release tags (`vX.Y.Z`), on `scripts/dashral.mjs init` and its

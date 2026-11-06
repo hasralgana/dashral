@@ -260,6 +260,8 @@ The app's name, address and links are in one file, [`apps/demo/lib/site.ts`](app
 3. **Logo:** `Logo` in [`apps/demo/components/icons.tsx`](apps/demo/components/icons.tsx), drawn in the theme's colors, and [`apps/demo/app/icon.svg`](apps/demo/app/icon.svg), the favicon, which the Apple touch icon and link preview image use too.
 4. **Links to Dashral:** set `NEXT_PUBLIC_DASHRAL_LINKS=false`. The Pro card and Pro features in the menu, the Docs and GitHub links, "All templates" and the Free tag beside the logo disappear, and the app names only your brand.
 
+5. **Sign-in:** the sign-in, sign-up and two-factor pages are designed and ready, without accounts behind them (this dashboard has no database). Connect them in [`apps/demo/lib/sign-in.ts`](apps/demo/lib/sign-in.ts), where the forms and Sign out go, to the auth library you use, and read the signed-in person in [`lib/account.ts`](apps/demo/lib/account.ts) from its session. `pnpm dashral init` removes the hosted demo's stand-in sign-in (a cookie, no accounts). [Dashral Pro](#dashral-pro) comes with real sign-in: accounts, roles, two-factor and passkeys.
+
 The `@dashral/ui` package name stays: no one using your app sees it, and keeping it lets you merge new Dashral releases without conflicts.
 
 All colors live in [`packages/ui/src/styles/globals.css`](packages/ui/src/styles/globals.css). Change `--primary` (and `--primary-text`) to rebrand; chart colors (`--chart-1` … `--chart-5`) are in a colorblind-safe order, so keep the order if you swap hues.

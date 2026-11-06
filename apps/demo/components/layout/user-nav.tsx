@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl"
 import { Avatar } from "@dashral/ui/components/avatar"
 import { DropdownMenu } from "@dashral/ui/components/dropdown-menu"
 
-import { demoAccount, demoSignIn } from "@/lib/demo-sign-in"
+import { account } from "@/lib/account"
+import { signOut } from "@/lib/sign-in"
 import { useTemplateHref } from "@/lib/use-template"
 
 export function UserNav() {
@@ -19,7 +20,7 @@ export function UserNav() {
         <button type="button" className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50" aria-label={t("accountMenu")}>
           <Avatar
             src="https://randomuser.me/api/portraits/women/68.jpg"
-            name={demoAccount.name}
+            name={account.name}
             size="md"
             classNames={{ fallback: "bg-primary/15 text-primary-text" }}
           />
@@ -33,8 +34,8 @@ export function UserNav() {
           type: "label",
           label: (
             <>
-              <p className="text-sm font-medium">{demoAccount.name}</p>
-              <p className="text-xs text-muted-foreground">{demoAccount.email}</p>
+              <p className="text-sm font-medium">{account.name}</p>
+              <p className="text-xs text-muted-foreground">{account.email}</p>
             </>
           ),
           className: "font-normal",
@@ -46,8 +47,8 @@ export function UserNav() {
         // @dashral-end
         { href: href("/settings?tab=account"), label: nav("settings"), icon: <Settings /> },
         { type: "separator" },
-        // The hosted demo signs out for real (lib/demo-sign-in.ts); elsewhere it opens the sign-in page.
-        { href: demoSignIn ? "/api/demo/sign-out" : "/login", label: t("signOut"), icon: <LogOut /> },
+        // Where Sign out goes: lib/sign-in.ts.
+        { href: signOut.href, label: t("signOut"), icon: <LogOut /> },
       ]}
     />
   )
