@@ -42,8 +42,17 @@ pnpm build
   A new page of one template goes in that template's folder. Check a change with
   `pnpm dashral init --template inset --pages blank --yes` in a copy, then `pnpm typecheck` there.
 - **Keep `npx create-dashral` working.** It relies on the release tags (`vX.Y.Z`), on `scripts/dashral.mjs init` and its
-  flags, and on `pnpm install` at the root: a renamed flag keeps its old name working. Releases need nothing from it; a
-  change to its own `index.mjs` gets a new version in its `package.json` and an `npm publish` from that folder.
+  flags (`--layout flat` above all), and on `pnpm install`: a renamed flag keeps its old name working. Releases need
+  nothing from it; a change to its own `index.mjs` gets a new version in its `package.json` and an `npm publish` from
+  that folder.
+- **The dashboard imports only published packages.** `apps/demo` may import `@dashral/ui` and `@dashral/motion` (both on
+  npm) and its own files, nothing else from `packages/` (copy a block into the app instead): `--layout flat` turns
+  those imports into npm dependencies. Check a change with `pnpm dashral init --layout flat --yes` in a copy, then
+  `pnpm install && pnpm typecheck` there (until the release is on npm, point `@dashral/ui` at `pnpm pack`'s tarball).
+- **`@dashral/ui` and `@dashral/motion` are published from `dist/`.** `pnpm build:npm` in the package builds it (one file
+  per component, so a new component needs nothing else); keep its imports relative inside the package, and a component
+  that uses hooks or events starts with `"use client"`. They're published with `pnpm publish` (not npm: it turns
+  `workspace:^` and `publishConfig` into what npm needs) at each release, at the release's version.
 - **Update `CHANGELOG.md`** under `[Unreleased]` for user-facing changes, as described [below](#changelog).
 
 ## Changelog

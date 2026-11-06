@@ -8,9 +8,21 @@ cd my-app
 pnpm dev
 ```
 
-It clones Dashral's newest release into `my-app`, installs the dependencies and runs `pnpm dashral init`. That asks
-which template to keep (Classic, Inset or both), demo pages or a blank page, the languages, your app's name and its
-look. You need **Node.js 20+**, **Git** and **pnpm** (`corepack enable pnpm`).
+It asks which template to keep (Classic, Inset or both), demo pages or a blank page, the languages, your app's name
+and its look, then makes a Next.js project laid out like a new Next.js app, with its own Git history:
+
+```
+my-app/
+├── app/            pages
+├── components/     the app's own components
+├── lib/  messages/  public/
+├── package.json    "@dashral/ui" from npm
+└── next.config.ts  tsconfig.json
+```
+
+The UI components come from [`@dashral/ui`](https://www.npmjs.com/package/@dashral/ui)
+(`import { Button } from "@dashral/ui/components/button"`): `pnpm up @dashral/ui` brings in new ones and fixes. You need
+**Node.js 20+**, **Git** and **pnpm** (`corepack enable pnpm`).
 
 Every answer is also a flag, so it can run without questions:
 
@@ -22,14 +34,12 @@ The theme customizer's **Copy setup command** in the [live demo](https://demo.da
 
 | Option | |
 | --- | --- |
-| `--pro` | Start from Dashral Pro (your GitHub account needs access to it) |
+| `--monorepo` | Keep Dashral's whole repository (`apps/`, `packages/`) and history instead, so `pnpm dashral update` can bring in later releases, pages too ([Getting updates](https://github.com/hasralgana/dashral#getting-updates)) |
+| `--pro` | Start from Dashral Pro (your GitHub account needs access to it; monorepo for now) |
 | `--release v1.2.0` | An earlier release instead of the newest |
 | `--from <url>` | Clone another repository, e.g. a fork, or Pro over SSH |
 | `--no-install` | Skip `pnpm install` |
 
 Any other option goes to `pnpm dashral init`; `npx create-dashral --help` lists them.
-
-The project keeps the release's Git history, so later releases come in with `pnpm dashral update`. See
-[Getting updates](https://github.com/hasralgana/dashral#getting-updates).
 
 MIT licensed.

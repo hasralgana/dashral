@@ -147,15 +147,17 @@ The details are the point. Motion runs on three durations and four curves writte
 There are two ways to use Dashral:
 
 - **Start a new dashboard from the template.** Clone the repo below: every page, component and the theme are included, with no shadcn setup.
-- **Add components to a project you already have**, with the shadcn CLI or by copying the source. See [Use the components in another project](#use-the-components-in-another-project).
+- **Add components to a project you already have**, from npm (`npm install @dashral/ui`), with the shadcn CLI or by copying the source. See [Use the components in another project](#use-the-components-in-another-project).
 
 Requirements: **Node.js 20+**, **Git** and **pnpm** (`corepack enable pnpm`).
 
-To start your own app in one command (it clones the newest release, installs it and runs [`pnpm dashral init`](#start-your-project); every `init` option works here too):
+To start your own app in one command:
 
 ```bash
 npx create-dashral my-app
 ```
+
+It makes a Next.js project of its own, laid out like a new Next.js app (`app/`, `components/`, `lib/` and one `package.json`), with the components from npm as [`@dashral/ui`](https://www.npmjs.com/package/@dashral/ui): it takes the newest release, runs [`pnpm dashral init --layout flat`](#start-your-project) (every `init` option works here too), installs it and makes the first commit. Update its components with `pnpm up @dashral/ui`. Add `--monorepo` to keep this repository's layout and history instead, so [`pnpm dashral update`](#getting-updates) can bring in whole releases (pages too).
 
 Or clone the whole demo to look around:
 
@@ -201,7 +203,7 @@ What isn't used any more is deleted (the other template, the sample data, the up
 pnpm dashral init --template inset --pages blank --languages en --name "Acme" --primary indigo --card soft
 ```
 
-Try the looks in the [live demo](https://demo.dashral.com) first: the theme customizer's **Copy setup command** gives you a `npx create-dashral` command with these flags for what you picked, ready to start a new project. `pnpm dashral` lists every option.
+Try the looks in the [live demo](https://demo.dashral.com) first: the theme customizer's **Copy setup command** gives you a `npx create-dashral` command with these flags for what you picked, ready to start a new project. `--layout flat` also makes the clone a project of its own, the way `npx create-dashral` does (then `pnpm install`, since the workspace is gone). `pnpm dashral` lists every option.
 
 ### Getting updates
 
@@ -280,6 +282,27 @@ import { Button } from "@dashral/ui/components/button"
 ```
 
 ## Use the components in another project
+
+### From npm
+
+Install the components as a package and update them with your other dependencies. You need React 19, Tailwind CSS v4 and TypeScript, in any framework:
+
+```bash
+npm install @dashral/ui
+```
+
+```css
+/* In the CSS file that imports Tailwind, instead of @import "tailwindcss" */
+@import "@dashral/ui/globals.css";
+```
+
+```tsx
+import { Button } from "@dashral/ui/components/button"
+```
+
+The Motion editions are [`@dashral/motion`](https://www.npmjs.com/package/@dashral/motion) (`@import "@dashral/motion/styles.css"` after the line above). See the package's [README](packages/ui/README.md).
+
+### Copy the source
 
 Every component is a [shadcn registry](https://ui.shadcn.com/docs/registry) item. The shadcn CLI isn't a dependency: `npx` runs it once and it copies the component's source into your project, so the code is yours to edit. You need a React project with TypeScript, Tailwind CSS v4 and a `components.json` (created by `npx shadcn@latest init`; any style, Radix or Base UI). Then this adds the component, the components it builds on, its npm packages and the extra theme tokens it uses, all in `components/dashral/`, a folder of their own: your `components/ui/` is never touched, so Dashral sits beside shadcn's components:
 

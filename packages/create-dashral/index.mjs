@@ -1,16 +1,19 @@
 #!/usr/bin/env node
-// `npx create-dashral my-app`: a new dashboard from Dashral's newest release, in one command. It clones the repository
-// at the release's tag (with its history, so `pnpm dashral update` can merge later releases), installs the
-// dependencies, then runs the repository's own `pnpm dashral init` with every other flag you passed. Nothing about the
-// setup lives here: the release's scripts/dashral.mjs does it, so this file rarely needs a new version.
+// `npx create-dashral my-app`: a new dashboard from Dashral's newest release, in one command. By default it makes a
+// Next.js project of its own, like `create-next-app`: the release is cloned, `pnpm dashral init --layout flat` keeps
+// only the app (the components come from npm as @dashral/ui), the project starts a Git history of its own and its
+// dependencies are installed. With --monorepo it keeps the repository's layout and history instead, for
+// `pnpm dashral update`. Nothing about the setup lives here: the release's scripts/dashral.mjs does it, so this file
+// rarely needs a new version.
 //
 //   npx create-dashral my-app
 //   npx create-dashral my-app --template inset --pages blank --languages en --name "Acme" --primary indigo
+//   npx create-dashral my-app --monorepo                                   (the whole repository, for pnpm dashral update)
 //   npx create-dashral my-app --pro --apps crm,kanban --name "Acme"        (Dashral Pro: needs your GitHub access)
 
 import { spawnSync } from "node:child_process"
-import { existsSync, readdirSync } from "node:fs"
-import { resolve } from "node:path"
+import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs"
+import { join, resolve } from "node:path"
 import { argv, exit, platform, versions } from "node:process"
 
 const repos = {
@@ -20,14 +23,16 @@ const repos = {
 
 const help = `Usage: npx create-dashral <folder> [options]
 
-  Starts a new dashboard in <folder> from Dashral's newest release: clones it, installs the dependencies and runs
-  \`pnpm dashral init\`, which asks a few questions (or reads them from the flags below).
+  Starts a new Next.js dashboard in <folder> from Dashral's newest release, as a project of its own (the components
+  come from npm as @dashral/ui), and runs \`pnpm dashral init\`, which asks a few questions (or reads the flags below).
 
 Options of create-dashral:
-  --pro                Start from Dashral Pro (your GitHub account needs access to the repository)
+  --monorepo           Keep the whole repository (apps/, packages/) and its history, to bring in later releases
+                       with \`pnpm dashral update\`
+  --pro                Start from Dashral Pro (your GitHub account needs access to the repository; monorepo for now)
   --release v1.2.0     An earlier release instead of the newest
   --from <url>         Clone another repository (a fork, or Pro over SSH: git@github.com:hasralgana/dashral-pro.git)
-  --no-install         Clone and set up only; run \`pnpm install\` yourself
+  --no-install         Set up only; run \`pnpm install\` yourself
 
 Every other option goes to \`pnpm dashral init\`:
   --template classic|inset|both  --pages demo|blank  --languages all|en  --customizer keep|remove
@@ -41,7 +46,7 @@ Docs: https://dashral.com/docs/installation`
 
 /** This script's own flags, and the rest passed to `dashral init` as they were typed. */
 function parseArgs(args) {
-  const own = { pro: false, install: true, release: null, from: null, help: false }
+  const own = { pro: false, monorepo: false, install: true, release: null, from: null, help: false }
   const rest = []
   let folder = null
   for (let i = 0; i < args.length; i++) {
@@ -50,11 +55,13 @@ function parseArgs(args) {
     const value = () => (inline !== undefined ? inline : args[++i])
     if (arg === "-h" || key === "help") own.help = true
     else if (key === "pro") own.pro = true
+    else if (key === "monorepo") own.monorepo = true
     else if (key === "no-install") own.install = false
     else if (key === "release" || key === "from") {
       own[key] = value()
       if (!own[key] || own[key].startsWith("--")) fail(`--${key} needs a value.`)
-    } else if (key === null && folder === null) folder = arg
+    } else if (key === "layout") fail("Use --monorepo for the repository's layout; the project is flat without it.")
+    else if (key === null && folder === null) folder = arg
     else rest.push(arg)
   }
   return { folder, own, rest }
@@ -68,9 +75,10 @@ function fail(message) {
 }
 
 /** Runs a command in the terminal (its output and questions shown as they come); its exit code, or null. */
-function run(command, args, cwd) {
-  // Windows runs pnpm through a .cmd shim, which needs a shell.
-  const result = spawnSync(command, args, { cwd, stdio: "inherit", shell: platform === "win32" })
+function run(command, args, cwd, quiet = false) {
+  // Windows runs pnpm through a .cmd shim, which needs a shell. DASHRAL_CREATE: init leaves the next steps to us.
+  const env = { ...process.env, DASHRAL_CREATE: "1" }
+  const result = spawnSync(command, args, { cwd, env, stdio: quiet ? "ignore" : "inherit", shell: platform === "win32" })
   return result.error ? null : result.status
 }
 
@@ -123,23 +131,55 @@ if (own.release) {
 }
 if (!release) fail(`${url} has no releases yet.`)
 
-// The whole history, not a shallow copy: `pnpm dashral update` merges later releases into it.
+let flat = !own.monorepo
+if (flat && own.pro) {
+  console.log("  Dashral Pro starts as the monorepo for now (a project of its own is coming).")
+  flat = false
+}
+
+// Flat: the files are enough. The monorepo keeps the whole history: `pnpm dashral update` merges later releases into it.
 console.log(`\nCloning Dashral ${release} into ${folder}…`)
-if (run("git", ["clone", "--quiet", "--branch", release, url, target]) !== 0) fail(`Couldn't clone ${url}.${access}`)
-// A tag checks out without a branch: start yours, so your commits have one.
-if (run("git", ["switch", "--quiet", "-c", "main"], target) !== 0) fail("Couldn't start the main branch.")
-
-if (own.install) {
-  console.log("\nInstalling the dependencies…")
-  if (run("pnpm", ["install"], target) !== 0) fail(`pnpm install stopped. Fix what it says, then in ${folder}: pnpm install && pnpm dashral init`)
+const depth = flat ? ["--depth", "1"] : []
+if (run("git", ["-c", "advice.detachedHead=false", "clone", "--quiet", ...depth, "--branch", release, url, target]) !== 0) fail(`Couldn't clone ${url}.${access}`)
+if (flat && !readFileSync(join(target, "scripts/dashral.mjs"), "utf8").includes("--layout")) {
+  // A release from before the flat layout: set it up as the monorepo.
+  console.log(`  ${release} predates the flat layout, so it's set up as the monorepo.`)
+  flat = false
+  rmSync(target, { recursive: true, force: true })
+  if (run("git", ["-c", "advice.detachedHead=false", "clone", "--quiet", "--branch", release, url, target]) !== 0) fail(`Couldn't clone ${url}.${access}`)
 }
+const restart = `It's a fresh copy, so you can delete ${folder} and start again.`
 
-console.log("")
-if (run("node", ["scripts/dashral.mjs", "init", ...rest], target) !== 0) {
-  fail(`The setup stopped. It's a fresh clone, so you can delete ${folder} and start again, or fix what it says and run \`pnpm dashral init\` in it.`)
-}
-
-console.log(`
+if (flat) {
+  // Setting up needs no dependencies: install once, in the project as it ends up.
+  console.log("")
+  if (run("node", ["scripts/dashral.mjs", "init", "--layout", "flat", ...rest], target) !== 0) fail(`The setup stopped. ${restart}`)
+  // The project's own history, from its first commit.
+  rmSync(join(target, ".git"), { recursive: true, force: true })
+  run("git", ["init", "--quiet", "-b", "main"], target)
+  if (own.install) {
+    console.log("\nInstalling the dependencies…")
+    if (run("pnpm", ["install"], target) !== 0) fail(`pnpm install stopped. Fix what it says, then run \`pnpm install\` in ${folder}.`)
+  }
+  run("git", ["add", "-A"], target, true)
+  const committed = run("git", ["commit", "--quiet", "-m", "Initial commit from create-dashral"], target, true) === 0
+  console.log(`
+Your dashboard is in ${folder}:
+  cd ${folder}${own.install ? "" : "\n  pnpm install"}
+  pnpm dev${committed ? "" : "\n\n(Git has no name and email here yet, so nothing was committed: commit when you're ready.)"}`)
+} else {
+  // A tag checks out without a branch: start yours, so your commits have one.
+  if (run("git", ["switch", "--quiet", "-c", "main"], target) !== 0) fail("Couldn't start the main branch.")
+  if (own.install) {
+    console.log("\nInstalling the dependencies…")
+    if (run("pnpm", ["install"], target) !== 0) fail(`pnpm install stopped. Fix what it says, then in ${folder}: pnpm install && pnpm dashral init`)
+  }
+  console.log("")
+  if (run("node", ["scripts/dashral.mjs", "init", ...rest], target) !== 0) {
+    fail(`The setup stopped. ${restart} Or fix what it says and run \`pnpm dashral init\` in it.`)
+  }
+  console.log(`
 Your dashboard is in ${folder}:
   cd ${folder}${own.install ? "" : "\n  pnpm install"}
   pnpm dev`)
+}

@@ -65,6 +65,10 @@ const help = `Usage: pnpm dashral init [options]
   --name        "Your App"                 Your app's name, shown everywhere the template's was
   --primary, --light, --dark, --card, --radius, --font
                                            The look your app starts with (the customizer's options)
+  --layout      monorepo | flat            Keep this repository's layout (default), or make the app a project of its
+                                           own, like a new Next.js app: @dashral/ui from npm, no packages or
+                                           workspace. A flat app updates its components with \`pnpm up @dashral/ui\`;
+                                           \`pnpm dashral update\` needs the monorepo. \`npx create-dashral\` makes flat.
   --yes                                    Use the defaults for anything not given; ask nothing
   --force                                  Run even with uncommitted changes
 
@@ -943,12 +947,151 @@ function pruneUnreachable() {
   return removed
 }
 
+// ── Flat layout ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+/** Files of this repository that a project of its own doesn't need (it gets its own README). */
+const repositoryOnly = [
+  "packages",
+  "scripts",
+  "turbo.json",
+  ".turbo",
+  ".github",
+  "AGENTS.md",
+  "CHANGELOG.md",
+  "CODE_OF_CONDUCT.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "README.md",
+  "node_modules",
+]
+/** Files in apps/demo that stay behind: what the move replaces or what's made again. */
+const appLeftBehind = ["node_modules", ".next", ".turbo", "tsconfig.tsbuildinfo", "package.json", "tsconfig.json", ".gitignore"]
+
+/**
+ * `--layout flat`: apps/demo becomes the project, like a new Next.js app. Its files move to the root, the kit's
+ * workspace packages become npm dependencies at this release's versions (@dashral/ui stays imported as it was), the
+ * shared TypeScript settings are written into tsconfig.json, and the monorepo's files go: packages, turbo, the
+ * workspace list, this script and the repository's docs.
+ */
+function flatten() {
+  const json = (path) => JSON.parse(read(path))
+  const rootPkg = json(join(root, "package.json"))
+  const appPkg = json(join(app, "package.json"))
+
+  // package.json: the app's, named after the folder, with the kit from npm.
+  const kitVersion = (dep) => json(join(root, "packages", dep.slice("@dashral/".length), "package.json")).version
+  for (const field of ["dependencies", "devDependencies"]) {
+    for (const [dep, version] of Object.entries(appPkg[field] ?? {})) {
+      if (!String(version).startsWith("workspace:")) continue
+      if (dep === "@dashral/typescript-config") delete appPkg[field][dep]
+      else appPkg[field][dep] = `^${kitVersion(dep)}`
+    }
+  }
+  const folder = root.split(/[\\/]/).at(-1)
+  const slug = folder.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^[-._]+|[-._]+$/g, "") || "my-app"
+  const { name: _name, version: _version, license: _license, private: _private, ...rest } = appPkg
+  const pkg = { name: slug, version: "0.1.0", private: true, ...rest, packageManager: rootPkg.packageManager, engines: rootPkg.engines }
+  for (const key of ["clean"]) delete pkg.scripts?.[key]
+
+  // tsconfig.json: the shared settings (packages/typescript-config) written in, then the app's own.
+  const appTsconfig = json(join(app, "tsconfig.json"))
+  const shared = (file) => json(join(root, "packages/typescript-config", file))
+  const nextjs = shared(appTsconfig.extends.split("/").at(-1))
+  const base = nextjs.extends ? shared(nextjs.extends.replace("./", "")) : { compilerOptions: {} }
+  const { extends: _extends, ...appRest } = appTsconfig
+  const tsconfig = {
+    ...appRest,
+    compilerOptions: { ...base.compilerOptions, ...nextjs.compilerOptions, ...appTsconfig.compilerOptions },
+  }
+
+  // .gitignore: the repository's, without what only the monorepo had, and the app's own lines.
+  const appIgnore = existsSync(join(app, ".gitignore")) ? read(join(app, ".gitignore")) : ""
+  const gitignore = `${read(join(root, ".gitignore"))
+    .replace(/\n# turbo\n\.turbo\n/, "\n")
+    .replace(/\n# internal planning docs[^\n]*\n[^\n]*\n?/, "\n")
+    .trimEnd()}\n${appIgnore ? `\n${appIgnore.trimEnd()}\n` : ""}`
+
+  for (const entry of repositoryOnly) remove(join(root, entry))
+  for (const entry of readdirSync(app)) {
+    if (appLeftBehind.includes(entry)) continue
+    renameSync(join(app, entry), join(root, entry))
+  }
+  remove(join(root, "apps"))
+
+  writeFileSync(join(root, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`)
+  writeFileSync(join(root, "tsconfig.json"), `${JSON.stringify(tsconfig, null, 2)}\n`)
+  writeFileSync(join(root, ".gitignore"), gitignore)
+  // The workspace file keeps pnpm's settings (allowed builds, overrides) without its list of packages.
+  const workspace = join(root, "pnpm-workspace.yaml")
+  if (existsSync(workspace)) {
+    const settings = read(workspace).replace(/^packages:\n(?:\s+-[^\n]*\n)+/m, "").trimStart()
+    if (settings.trim()) writeFileSync(workspace, settings)
+    else remove(workspace)
+  }
+  // The lockfile was the monorepo's: `pnpm install` writes the project's own.
+  remove(join(root, "pnpm-lock.yaml"))
+  // The kit is a package from npm now: Next.js needn't compile it.
+  const nextConfig = join(root, "next.config.ts")
+  if (existsSync(nextConfig)) writeFileSync(nextConfig, read(nextConfig).replace(/\n  transpilePackages: \[[^\]]*\],/, ""))
+
+  writeFileSync(join(root, "README.md"), flatReadme(pkg))
+}
+
+/** The flat project's README: how to run it, where things are, how to update. */
+function flatReadme(pkg) {
+  const has = (path) => existsSync(join(root, path))
+  return `# ${pkg.name}
+
+A Next.js app started from [Dashral](https://dashral.com) with \`npx create-dashral\`.
+
+\`\`\`bash
+pnpm install
+pnpm dev
+\`\`\`
+
+Open [http://localhost:3000](http://localhost:3000).
+
+| Command | |
+| --- | --- |
+${Object.keys(pkg.scripts ?? {})
+  .map((script) => `| \`pnpm ${script}\` | \`${pkg.scripts[script]}\` |`)
+  .join("\n")}
+
+## Where things are
+
+| What | Where |
+| --- | --- |
+| Pages | \`app/\` |
+| The app's own components | \`components/\` |
+| The menu | \`lib/nav.ts\` |
+| Name, description and links | \`lib/site.ts\` |
+${has("messages") ? "| Text in each language | `messages/<locale>/` |\n" : ""}| Theme presets | \`app/theme-presets.css\` |
+
+The UI components come from [\`@dashral/ui\`](https://www.npmjs.com/package/@dashral/ui): \`import { Button } from
+"@dashral/ui/components/button"\`. Their docs and examples are at [dashral.com/components](https://dashral.com/components).
+
+## Updates
+
+\`pnpm up @dashral/ui\` brings in new components and fixes. To change a component's own code, copy it into the app from
+Dashral's registry (\`npx shadcn add https://dashral.com/r/button.json\`) and import it from there instead.
+
+## Put it online
+
+Deploy to Vercel or any Node host, and set your address in \`NEXT_PUBLIC_SITE_URL\`${has(".env.example") ? " (see `.env.example`)" : ""}.
+
+Built on Dashral, MIT licensed (see \`LICENSE\`).
+`
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 async function init(flags) {
   if (!existsSync(join(app, "lib/templates.ts"))) fail("Run this from a Dashral repository: apps/demo wasn't found.")
   const replay = Boolean(flags.replay)
   if (!replay && existsSync(record)) fail("This project was already set up (.dashral.json). Start again from a fresh clone to set it up differently.")
+  const layout = flags.layout ?? "monorepo"
+  if (!["monorepo", "flat"].includes(layout)) fail("--layout must be one of: monorepo, flat")
+  if (layout === "flat" && pro) fail("Dashral Pro keeps the monorepo layout for now: leave out --layout flat.")
   if (!flags.force && existsSync(join(root, ".git"))) {
     const status = execSync("git status --porcelain", { cwd: root }).toString().trim()
     if (status) fail("There are uncommitted changes. Commit them first (or pass --force), so you can see and undo what this changes.")
@@ -992,6 +1135,18 @@ async function init(flags) {
   // Next.js's build cache still knows the deleted pages (its generated route types fail the typecheck): start it afresh.
   remove(join(app, ".next"))
   if (replay) return
+  if (layout === "flat") {
+    flatten()
+    console.log(`
+✔ Done: ${template === "both" ? "Classic and Inset" : template === "classic" ? "Classic" : "Inset"}, ${pages === "blank" ? "a blank page" : "the demo pages"}, ${
+      languages === "en" ? "English" : "three languages"
+    }${customizer === "keep" ? ", the theme customizer" : ""}, named ${JSON.stringify(name)}, as a Next.js project of its own.${
+      removed.length ? ` ${removed.length} files nothing used any more were removed.` : ""
+    }
+
+${process.env.DASHRAL_CREATE ? "" : "Next:\n  pnpm install      @dashral/ui and the rest, from npm\n  pnpm dev          your app at http://localhost:3000\n\n"}Update the components with \`pnpm up @dashral/ui\`. The rest of the setup (logo, domain, links) is in README.md.`)
+    return
+  }
   // Where this clone came from, for `pnpm dashral update` (before you point origin at your own repository).
   const upstream = existsSync(join(root, ".git")) ? tryGit("remote get-url origin")?.trim() || undefined : undefined
   writeFileSync(record, `${JSON.stringify({ ...answers, ...(pro ? { removed: removedApps } : {}), upstream, setUpAt: new Date().toISOString() }, null, 2)}\n`)
