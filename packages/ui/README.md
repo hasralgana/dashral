@@ -38,7 +38,7 @@ Server components work: the interactive components are marked `"use client"`. Up
 ## Prefer to own the code?
 
 Every component is also in Dashral's shadcn registry, copied into your project for you to change:
-`npx shadcn add https://dashral.com/r/button.json`. See [Installation](https://dashral.com/docs/installation).
+`npx shadcn add @dashral/button`. See [Installation](https://dashral.com/docs/installation).
 
 Animated editions of the components: [@dashral/motion](https://www.npmjs.com/package/@dashral/motion). A whole admin
 dashboard built from them: `npx create-dashral my-app`.

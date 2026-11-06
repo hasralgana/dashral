@@ -1099,7 +1099,7 @@ The UI components come from [\`@dashral/ui\`](https://www.npmjs.com/package/@das
 ## Updates
 
 \`pnpm up @dashral/ui\` brings in new components and fixes. To change a component's own code, copy it into the app from
-Dashral's registry (\`npx shadcn add https://dashral.com/r/button.json\`) and import it from there instead.
+Dashral's registry (\`npx shadcn add @dashral/button\`) and import it from there instead.
 
 ## Add sign-in
 

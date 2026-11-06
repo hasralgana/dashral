@@ -318,7 +318,7 @@ npx shadcn@latest add @dashral/button
 Dashral is in [shadcn's registry directory](https://ui.shadcn.com/docs/directory?q=dashral), so the CLI knows `@dashral` with nothing to set up (the full URL, `https://dashral.com/r/button.json`, works too). Swap `button` for any component name from the [docs](https://dashral.com/components). Blocks install the same way, by their name on [dashral.com/blocks](https://dashral.com/blocks) (`npx shadcn@latest add @dashral/hero-centered`), or copy one from `packages/blocks/src`. To use the full Dashral color theme as well:
 
 ```bash
-npx shadcn@latest add https://dashral.com/r/dashral-theme.json
+npx shadcn@latest add @dashral/dashral-theme
 ```
 
 Prefer not to use the CLI? Each component page has a **Manual** tab with the dependencies and the full source to copy.
