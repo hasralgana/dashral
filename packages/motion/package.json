@@ -1,22 +1,61 @@
 {
   "name": "@dashral/motion",
   "version": "1.0.0",
-  "private": true,
+  "description": "Motion editions of Dashral's React components, on motion/react: drag, hold and sweep. MIT.",
   "license": "MIT",
+  "homepage": "https://dashral.com/docs/installation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasralgana/dashral.git",
+    "directory": "packages/motion"
+  },
+  "bugs": "https://github.com/hasralgana/dashral/issues",
+  "keywords": [
+    "react",
+    "components",
+    "animation",
+    "motion",
+    "tailwindcss",
+    "shadcn",
+    "dashral"
+  ],
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
+    "./styles.css": "./src/styles.css",
     "./lib/odometer": "./src/lib/odometer.tsx",
     "./lib/text-morph": "./src/lib/text-morph.tsx",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      "./styles.css": "./dist/styles.css",
+      "./lib/*": {
+        "types": "./dist/lib/*.d.ts",
+        "default": "./dist/lib/*.js"
+      },
+      "./components/*": {
+        "types": "./dist/components/*.d.ts",
+        "default": "./dist/components/*.js"
+      }
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "clean": "rm -rf .turbo node_modules"
+    "clean": "rm -rf .turbo node_modules",
+    "build:npm": "node ../../scripts/build-package.mjs",
+    "prepack": "node ../../scripts/build-package.mjs"
   },
   "dependencies": {
-    "@dashral/ui": "workspace:*",
+    "@dashral/ui": "workspace:^",
     "lucide-react": "^1.52.0",
     "motion": "14.3.0",
     "radix-ui": "^1.7.0"

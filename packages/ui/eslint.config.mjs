@@ -3,6 +3,8 @@ import reactHooks from "eslint-plugin-react-hooks"
 import tseslint from "typescript-eslint"
 
 export default defineConfig([
+  // The npm build (pnpm build:npm).
+  { ignores: ["dist"] },
   ...tseslint.configs.recommended,
   reactHooks.configs.flat.recommended,
   {

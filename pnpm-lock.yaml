@@ -277,10 +277,12 @@ importers:
         specifier: ^8.71.2
         version: 8.71.2(eslint@10.12.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
 
+  packages/create-dashral: {}
+
   packages/motion:
     dependencies:
       '@dashral/ui':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../ui
       lucide-react:
         specifier: ^1.52.0
