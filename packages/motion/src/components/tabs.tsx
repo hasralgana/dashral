@@ -108,6 +108,27 @@ export function Tabs({
     return () => observer.disconnect()
   }, [height, reduced])
 
+  // A row of tabs wider than its space (a phone) scrolls sideways, and keeps the picked tab in sight; only then, so a row
+  // that fits keeps its focus rings unclipped. Only the row moves, never the page.
+  const list = React.useRef<HTMLDivElement>(null)
+  const [overflowing, setOverflowing] = React.useState(false)
+  React.useLayoutEffect(() => {
+    const node = list.current
+    if (!node || vertical) return
+    const fit = () => {
+      const wide = node.scrollWidth > node.clientWidth + 1
+      setOverflowing(wide)
+      const tab = node.querySelector<HTMLElement>(":scope > [data-state=active]")
+      if (!tab || !wide) return
+      if (tab.offsetLeft < node.scrollLeft) node.scrollLeft = tab.offsetLeft
+      else if (tab.offsetLeft + tab.offsetWidth > node.scrollLeft + node.clientWidth) node.scrollLeft = tab.offsetLeft + tab.offsetWidth - node.clientWidth
+    }
+    fit()
+    const observer = new ResizeObserver(fit)
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [vertical, active])
+
   // Whether there's a tab to swipe to on that side of the panel (left is next in a left-to-right page).
   const neighbourAt = (side: "left" | "right") => {
     return Boolean(neighbour((side === "left") !== rtl ? 1 : -1))
@@ -132,11 +153,15 @@ export function Tabs({
       >
         <LayoutGroup id={id}>
           <TabsPrimitive.List
+            ref={list}
             data-slot="tabs-list"
             data-variant={variant}
+            data-overflowing={overflowing ? "" : undefined}
             onPointerLeave={hover.leave}
             className={cn(
               "relative isolate inline-flex w-fit items-center justify-center text-muted-foreground",
+              // Wider than its space (a phone): the row scrolls sideways, without a scrollbar, instead of running out of it.
+              !vertical && "max-w-full data-overflowing:justify-start data-overflowing:overflow-x-auto data-overflowing:[scrollbar-width:none] data-overflowing:[&::-webkit-scrollbar]:hidden",
               line ? "h-10 gap-5" : "h-9 rounded-lg bg-muted p-[3px]",
               // A column: the tabs stacked; line tabs on a hairline at their start edge.
               vertical && "h-auto flex-col items-stretch justify-start",

@@ -55,7 +55,7 @@ function PageHeader({
 }: PageHeaderProps) {
   const sm = size === "sm"
   return (
-    <header data-slot="page-header" className={cn("grid gap-4", divided && !tabs && (sm ? "border-b pb-4" : "border-b pb-6"), className)} {...props}>
+    <header data-slot="page-header" className={cn("grid grid-cols-1 gap-4", divided && !tabs && (sm ? "border-b pb-4" : "border-b pb-6"), className)} {...props}>
       {(breadcrumb || back) && (
         <div className="-mb-1">
           {breadcrumb ? (

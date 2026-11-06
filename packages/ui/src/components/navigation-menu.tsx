@@ -87,10 +87,10 @@ function NavigationMenu({ items, linkAs: Link = "a", align = "start", className,
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
       aria-label={ariaLabel ?? t("navigation")}
-      className={cn("relative z-10 flex max-w-max flex-1 items-center", className)}
+      className={cn("relative z-10 flex max-w-[min(100%,max-content)] flex-1 items-center", className)}
       {...props}
     >
-      <NavigationMenuPrimitive.List className={cn("flex flex-1 list-none items-center gap-1", classNames?.list)}>
+      <NavigationMenuPrimitive.List className={cn("flex flex-1 flex-wrap list-none items-center justify-center gap-1", classNames?.list)}>
         {items.map((item, i) => (
           <NavigationMenuPrimitive.Item key={i}>
             {"href" in item ? (

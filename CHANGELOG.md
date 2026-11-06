@@ -44,6 +44,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Time Zone Select: every time zone with today's offset, its city and its name in the reader's language, searchable, or the reader's own
 - Input: `strength` on a password shows a meter (weak to strong) and, with "rules", the rules it counts, ticked as they're met
 
+### Fixed
+
+- Tabs (and their Motion edition): a row of tabs wider than its space, on a phone, scrolls sideways and keeps the picked tab in sight, instead of running out of the page
+- Data Table: on a phone, the page count and its buttons move under "Rows per page" when they don't fit beside it
+
 ## [1.0.0] - 2026-11-04
 
 The first release of Dashral: React components, their motion editions and a Next.js admin dashboard, free and open source.

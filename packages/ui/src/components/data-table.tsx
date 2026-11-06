@@ -329,7 +329,7 @@ function DataTablePagination<TData extends RowData>({
           ? t("rowsSelected", { selected: selectedCount, total: t("rows", { count: filteredCount }) })
           : t("rows", { count: filteredCount })}
       </p>
-      <div className="flex items-center gap-x-3 gap-y-2 max-sm:w-full max-sm:justify-between sm:gap-x-6">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 max-sm:w-full max-sm:justify-between sm:gap-x-6">
         <div className="flex items-center gap-2">
           <span className="whitespace-nowrap">{t("rowsPerPage")}</span>
           <Select

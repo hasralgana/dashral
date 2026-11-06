@@ -89,6 +89,7 @@ function TabsList({
   const [thumb, setThumb] = React.useState<{ x: number; y: number; width: number; height: number } | null>(null)
 
   const [vertical, setVertical] = React.useState(false)
+  const [overflowing, setOverflowing] = React.useState(false)
 
   // Measure the selected tab so the card can move to it; again when the row resizes or the selection changes.
   React.useLayoutEffect(() => {
@@ -99,6 +100,13 @@ function TabsList({
       // Radix marks the list with its orientation.
       setVertical(list.dataset.orientation === "vertical")
       setThumb(tab ? { x: tab.offsetLeft, y: tab.offsetTop, width: tab.offsetWidth, height: tab.offsetHeight } : null)
+      // A row wider than its space scrolls, and keeps the picked tab in sight (only the row moves, never the page).
+      const wide = list.dataset.orientation !== "vertical" && list.scrollWidth > list.clientWidth + 1
+      setOverflowing(wide)
+      if (tab && wide) {
+        if (tab.offsetLeft < list.scrollLeft) list.scrollLeft = tab.offsetLeft
+        else if (tab.offsetLeft + tab.offsetWidth > list.scrollLeft + list.clientWidth) list.scrollLeft = tab.offsetLeft + tab.offsetWidth - list.clientWidth
+      }
     }
     measure()
     const resize = new ResizeObserver(measure)
@@ -121,8 +129,12 @@ function TabsList({
       data-slot="tabs-list"
       data-variant={variant}
       data-measured={thumb ? "" : undefined}
+      data-overflowing={overflowing ? "" : undefined}
       className={cn(
         "relative inline-flex w-fit items-center justify-center text-muted-foreground",
+        // Wider than its space (a phone): the row scrolls sideways, without a scrollbar, instead of running out of it. Only
+        // then, so a row that fits keeps its focus rings unclipped.
+        "max-w-full data-overflowing:justify-start data-overflowing:overflow-x-auto data-overflowing:[scrollbar-width:none] data-overflowing:[&::-webkit-scrollbar]:hidden",
         variant === "default" ? "h-9 rounded-lg bg-muted p-[3px]" : "h-10 gap-5",
         // A column: the tabs stacked and as wide as the widest; line tabs on a hairline at their start edge.
         "data-[orientation=vertical]:h-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch data-[orientation=vertical]:justify-start",
