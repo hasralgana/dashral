@@ -19,7 +19,7 @@ import { createInterface } from "node:readline/promises"
 
 const repos = {
   free: "https://github.com/hasralgana/dashral.git",
-  pro: "https://github.com/hasralgana/dashral-pro.git",
+  pro: "https://github.com/dashral-ui/dashral-pro.git",
 }
 
 const help = `Usage: npx create-dashral [folder] [options]
@@ -32,7 +32,7 @@ Options of create-dashral:
                        with \`pnpm dashral update\`
   --pro                Start from Dashral Pro (your GitHub account needs access to the repository; monorepo for now)
   --release v1.2.0     An earlier release instead of the newest
-  --from <url>         Clone another repository (a fork, or Pro over SSH: git@github.com:hasralgana/dashral-pro.git)
+  --from <url>         Clone another repository (a fork, or Pro over SSH: git@github.com:dashral-ui/dashral-pro.git)
   --no-install         Set up only; run \`pnpm install\` yourself
 
 Every other option goes to \`pnpm dashral init\`:
