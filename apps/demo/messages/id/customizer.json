@@ -41,7 +41,7 @@
   },
   "font": "Font",
   "copyCommand": "Salin perintah setup",
-  "copyCommandHint": "Jalankan di hasil clone baru untuk memulai dengan tampilan ini.",
+  "copyCommandHint": "Jalankan untuk memulai proyek baru dengan tampilan ini.",
   "presets": "Preset",
   "presetNames": {
     "ocean": "Samudra",

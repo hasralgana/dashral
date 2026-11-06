@@ -33,12 +33,13 @@ const fontPreview: Record<ThemeSettings["font"], string> = {
   system: "ui-sans-serif, system-ui, -apple-system, sans-serif",
 }
 
-/** The look as a `pnpm dashral init` command (scripts/dashral.mjs): the template, and each setting that isn't its default. */
+/** The look as a `npx create-dashral` command (packages/create-dashral, which runs `pnpm dashral init` with these
+ * flags): the template, and each setting that isn't its default. */
 function setupCommand(template: Template, settings: ThemeSettings) {
   const defaults = templateThemeDefaults[template]
   const keys = ["primary", "light", "dark", "card", "radius", "font"] as const
   const flags = keys.filter((key) => settings[key] !== defaults[key]).map((key) => ` --${key} ${settings[key]}`)
-  return `pnpm dashral init --template ${template}${flags.join("")}`
+  return `npx create-dashral my-app --template ${template}${flags.join("")}`
 }
 
 /** One setting: its name, what it's set to, and its control under them. */
@@ -394,7 +395,7 @@ export function CustomizerDock({ className }: { className?: string }) {
         </div>
 
         <div className="space-y-1.5 border-t p-4 pt-3">
-          {/* Starts a new project from a fresh clone with this look; only while the app points to Dashral. */}
+          {/* Starts a new project with this look (npx create-dashral); only while the app points to Dashral. */}
           {dashral.show && (
             <>
               <CopyButton value={setupCommand(template, settings)} label={t("copyCommand")} variant="outline" size="sm" className="w-full" />

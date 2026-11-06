@@ -27,6 +27,8 @@ pnpm build
 - `packages/blocks` — `@dashral/blocks`, the free blocks (each listed in `src/free.ts`), built from the components
 - `packages/typescript-config` — shared tsconfig presets
 - `scripts/dashral.mjs` — `pnpm dashral init` and `pnpm dashral update`, which turn the demo into someone's own app
+- `packages/create-dashral` — `npx create-dashral my-app`, published on npm: clones the newest `v*` tag, installs it and runs
+  `scripts/dashral.mjs init` with the flags given
 
 ## Guidelines
 
@@ -39,6 +41,9 @@ pnpm build
   `// @dashral-end` (features: `classic`, `inset`, `switcher`, `i18n`, `customizer`, `demo`; `{/* … */}` in JSX).
   A new page of one template goes in that template's folder. Check a change with
   `pnpm dashral init --template inset --pages blank --yes` in a copy, then `pnpm typecheck` there.
+- **Keep `npx create-dashral` working.** It relies on the release tags (`vX.Y.Z`), on `scripts/dashral.mjs init` and its
+  flags, and on `pnpm install` at the root: a renamed flag keeps its old name working. Releases need nothing from it; a
+  change to its own `index.mjs` gets a new version in its `package.json` and an `npm publish` from that folder.
 - **Update `CHANGELOG.md`** under `[Unreleased]` for user-facing changes, as described [below](#changelog).
 
 ## Changelog

@@ -41,7 +41,7 @@
   },
   "font": "Font",
   "copyCommand": "Copy setup command",
-  "copyCommandHint": "Run it in a fresh clone to start with this look.",
+  "copyCommandHint": "Run it to start a new project with this look.",
   "presets": "Presets",
   "presetNames": {
     "ocean": "Ocean",

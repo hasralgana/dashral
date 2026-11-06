@@ -201,7 +201,7 @@ What isn't used any more is deleted (the other template, the sample data, the up
 pnpm dashral init --template inset --pages blank --languages en --name "Acme" --primary indigo --card soft
 ```
 
-Try the looks in the [live demo](https://demo.dashral.com) first: the theme customizer's **Copy setup command** gives you this command for what you picked. `pnpm dashral` lists every option.
+Try the looks in the [live demo](https://demo.dashral.com) first: the theme customizer's **Copy setup command** gives you a `npx create-dashral` command with these flags for what you picked, ready to start a new project. `pnpm dashral` lists every option.
 
 ### Getting updates
 

@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Data Table: `autoResetPage={false}` keeps the page while rows are edited in place, such as a count typed into a cell; a new search or filter still starts from the first page
 - The Classic dashboard: Finance, Projects, Support, Inventory and Monitoring pages, built on data tables you can filter, select, export and edit in place and on the kit's charts, plus an AI assistant, Getting started and a two-factor sign-in page, in all three languages
-- `npx create-dashral my-app` starts a new dashboard in one command: it clones the newest release, installs it and runs `pnpm dashral init` with the options you give it (`--pro` for Dashral Pro)
+- `npx create-dashral my-app` starts a new dashboard in one command: it clones the newest release, installs it and runs `pnpm dashral init` with the options you give it (`--pro` for Dashral Pro); the theme customizer's **Copy setup command** now gives this command for the look you picked
 - `pnpm dashral init` and `pnpm dashral update` know Classic's new pages: Inset only and blank pages leave them out, and an update doesn't bring new Classic pages into an Inset-only app
 - Aspect Ratio: a box that keeps its shape (16 / 9, 4 / 3, a square) as it resizes, for an image, a video or a map
 - Banner: a strip across the page for news that concerns everyone, with a title, an action and a close button, full width or floating
