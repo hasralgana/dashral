@@ -160,6 +160,8 @@ npx create-dashral my-app
 
 It makes a Next.js project of its own, laid out like a new Next.js app (`app/`, `components/`, `lib/` and one `package.json`), with the components from npm as [`@dashral/ui`](https://www.npmjs.com/package/@dashral/ui): it takes the newest release, runs [`pnpm dashral init --layout flat`](#start-your-project) (every `init` option works here too), installs it and makes the first commit. Update its components with `pnpm up @dashral/ui`. Add `--monorepo` to keep this repository's layout and history instead, so [`pnpm dashral update`](#getting-updates) can bring in whole releases (pages too).
 
+Rather start from a repository? [dashral-starter-classic](https://github.com/hasralgana/dashral-starter-classic) and [dashral-starter-inset](https://github.com/hasralgana/dashral-starter-inset) are that command's blank output (one empty page, English), as GitHub templates: **Use this template**, then `pnpm install` and `pnpm dev`.
+
 Or clone the whole demo to look around:
 
 ```bash
