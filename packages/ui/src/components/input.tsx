@@ -1,12 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Eye, EyeOff } from "lucide-react"
+import { Check, Eye, EyeOff } from "lucide-react"
 
 import { countSignificant, inputFormatter, type CardBrand, type InputFormat } from "../lib/input-format"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
-import { FieldWrapper, splitFieldProps, useFieldControl, type FieldClassNames, type FieldOwnProps } from "./field"
+import { FieldWrapper, joinIds, splitFieldProps, useFieldControl, type FieldClassNames, type FieldOwnProps } from "./field"
 
 type InputProps = Omit<React.ComponentProps<"input">, "prefix"> &
   FieldOwnProps & {
@@ -19,6 +19,14 @@ type InputProps = Omit<React.ComponentProps<"input">, "prefix"> &
     /** With type="password": a button at the end that shows and hides the password. On by default. */
     revealable?: boolean
     /**
+     * With type="password": a meter under the box saying how strong the password is (weak, fair, good, strong), from
+     * how many of the rules it meets. "rules" also lists the rules, each ticked as it's met. Neutral until something is
+     * typed.
+     */
+    strength?: boolean | "rules"
+    /** With strength: your own rules in place of the built-in ones (8 characters, upper and lower case, a number, a symbol). */
+    passwordRules?: PasswordRule[]
+    /**
      * Formats as you type: "card", "phone", "date", "expiry", "time", "number" ({ type: "number", decimals: 2 } for
      * decimals) or { pattern: "##.###.###.#-###.###" } (# a digit, A a letter). The caret stays where you're typing.
      * value and onChange carry the text as shown; onValueChange gets the raw value too.
@@ -29,6 +37,9 @@ type InputProps = Omit<React.ComponentProps<"input">, "prefix"> &
     /** Classes for each part. className styles the box you see: the input, or the box around it and its affixes. */
     classNames?: FieldClassNames & { wrapper?: string; input?: string; prefix?: string; suffix?: string }
   }
+
+/** A rule a password meets or doesn't, with what it's called in the list. */
+type PasswordRule = { label: string; test: (password: string) => boolean }
 
 const boxClass = "flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent text-base shadow-xs transition-[color,box-shadow] md:text-sm"
 const textClass = "outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground"
@@ -116,6 +127,8 @@ function InputControl({
   suffix: suffixProp,
   unstyled,
   revealable = true,
+  strength,
+  passwordRules,
   format,
   onValueChange,
   className,
@@ -123,6 +136,19 @@ function InputControl({
   ...rest
 }: Omit<InputProps, keyof FieldOwnProps>) {
   const { type: typeProp, ...fieldProps } = useFieldControl(rest)
+  const meterId = React.useId()
+  const showMeter = Boolean(strength) && typeProp === "password"
+  // The password as it's typed, for the meter: the value when controlled, otherwise followed through onChange.
+  const [typed, setTyped] = React.useState(String(fieldProps.defaultValue ?? ""))
+  const password = fieldProps.value !== undefined ? String(fieldProps.value) : typed
+  if (showMeter) {
+    const { onChange } = fieldProps
+    fieldProps.onChange = (event) => {
+      setTyped(event.target.value)
+      onChange?.(event)
+    }
+    fieldProps["aria-describedby"] = joinIds(fieldProps["aria-describedby"], meterId)
+  }
   const props = useFormat(format, onValueChange, fieldProps)
   const { t } = useLocale()
   const [revealed, setRevealed] = React.useState(false)
@@ -149,8 +175,10 @@ function InputControl({
     suffixProp
   )
 
+  const meter = showMeter ? <PasswordStrength id={meterId} password={password} rules={passwordRules} listRules={strength === "rules"} /> : null
+
   if (!prefix && !suffix) {
-    return (
+    const box = (
       <input
         type={type}
         data-slot="input"
@@ -173,12 +201,20 @@ function InputControl({
         {...props}
       />
     )
+    return meter ? (
+      <>
+        {box}
+        {meter}
+      </>
+    ) : (
+      box
+    )
   }
 
   const affixClass =
     "flex h-full shrink-0 items-center gap-1.5 text-muted-foreground transition-colors select-none group-focus-within/input:text-foreground group-has-[[aria-invalid=true]]/input:text-destructive-text [&_svg]:size-4 [&_svg]:shrink-0"
 
-  return (
+  const box = (
     <div
       data-slot="input"
       data-disabled={props.disabled || undefined}
@@ -225,6 +261,91 @@ function InputControl({
       )}
     </div>
   )
+  return meter ? (
+    <>
+      {box}
+      {meter}
+    </>
+  ) : (
+    box
+  )
 }
 
-export { Input, type InputProps }
+// The four steps of the meter: how many segments fill, in which color, and what it's called. Every class is written out
+// in full so Tailwind finds it.
+const levels = [
+  { key: "passwordWeak", fill: "bg-destructive", text: "text-destructive-text" },
+  { key: "passwordFair", fill: "bg-warning", text: "text-warning-text" },
+  { key: "passwordGood", fill: "bg-info", text: "text-info-text" },
+  { key: "passwordStrong", fill: "bg-success", text: "text-success-text" },
+] as const
+
+/**
+ * How strong a password is: four segments that fill and change color as it meets more rules, with the level's name,
+ * and optionally the rules ticked off. Neutral (grey, no name) while it's empty, so it never scolds before anyone types.
+ */
+function PasswordStrength({ id, password, rules: rulesProp, listRules }: { id: string; password: string; rules?: PasswordRule[]; listRules: boolean }) {
+  const { t } = useLocale()
+  const rules = rulesProp ?? [
+    { label: t("ruleLength", { count: 8 }), test: (p: string) => p.length >= 8 },
+    { label: t("ruleCase"), test: (p: string) => /\p{Ll}/u.test(p) && /\p{Lu}/u.test(p) },
+    { label: t("ruleNumber"), test: (p: string) => /\p{Nd}/u.test(p) },
+    { label: t("ruleSymbol"), test: (p: string) => /[^\p{L}\p{Nd}\s]/u.test(p) },
+  ]
+  const met = rules.map((rule) => rule.test(password))
+  const passed = met.filter(Boolean).length
+  // Rules met, spread over the four levels (with four rules, one level each); at least "weak" once anything is typed.
+  const level = password ? Math.max(0, Math.ceil((passed / rules.length) * levels.length) - 1) : -1
+  const current = level >= 0 ? levels[level]! : null
+
+  return (
+    <div id={id} data-slot="password-strength" className="grid gap-1.5">
+      {/* The meter spans the field's width; the level's name and the rules sit under it, so nothing narrows it. */}
+      <div aria-hidden className="grid grid-cols-4 gap-1">
+        {levels.map((step, i) => (
+          <span
+            key={step.key}
+            className={cn(
+              "h-1 rounded-full transition-colors duration-(--duration-standard) ease-standard motion-reduce:transition-none",
+              current && i <= level ? current.fill : "bg-muted"
+            )}
+          />
+        ))}
+      </div>
+      <div className="flex items-start justify-between gap-3">
+        {listRules ? (
+          <ul className="grid flex-1 gap-1 text-xs text-muted-foreground sm:grid-cols-2">
+            {rules.map((rule, i) => (
+              <li key={rule.label} className={cn("flex items-center gap-1.5 transition-colors duration-(--duration-standard)", met[i] && "text-foreground")}>
+                <span
+                  aria-hidden
+                  className={cn(
+                    "grid size-3.5 shrink-0 place-items-center rounded-full border transition-[background-color,border-color] duration-(--duration-standard) ease-standard",
+                    met[i] ? "border-success bg-success text-success-foreground" : "border-input"
+                  )}
+                >
+                  <Check className={cn("size-2.5 transition-[opacity,scale] duration-(--duration-standard) ease-spring", met[i] ? "scale-100 opacity-100" : "scale-50 opacity-0")} strokeWidth={3} />
+                </span>
+                {rule.label}
+                <span className="sr-only">{met[i] ? t("ruleMet") : t("ruleNotMet")}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <span />
+        )}
+        {/* Always there, so the field doesn't grow when the first letter is typed; announced politely as it changes. */}
+        <span aria-live="polite" className={cn("min-h-4 shrink-0 text-xs leading-4 font-medium transition-colors duration-(--duration-standard)", current?.text)}>
+          {current && (
+            <>
+              <span className="sr-only">{t("passwordStrength")}: </span>
+              {t(current.key)}
+            </>
+          )}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+export { Input, type InputProps, type PasswordRule }

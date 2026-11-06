@@ -231,5 +231,45 @@
   },
   "selectionActions": "إجراءات للعناصر المحددة",
   "clearSelection": "مسح التحديد",
-  "time": "الوقت"
+  "time": "الوقت",
+  "passwordStrength": "قوة كلمة المرور",
+  "passwordWeak": "ضعيفة",
+  "passwordFair": "مقبولة",
+  "passwordGood": "جيدة",
+  "passwordStrong": "قوية",
+  "ruleLength": {
+    "zero": "{count} حرف على الأقل",
+    "one": "حرف واحد على الأقل",
+    "two": "حرفان على الأقل",
+    "few": "{count} أحرف على الأقل",
+    "many": "{count} حرفًا على الأقل",
+    "other": "{count} حرف على الأقل"
+  },
+  "ruleCase": "أحرف كبيرة وصغيرة",
+  "ruleNumber": "رقم",
+  "ruleSymbol": "رمز",
+  "ruleMet": "(متحقق)",
+  "ruleNotMet": "(غير متحقق بعد)",
+  "edit": "تعديل",
+  "cantBeEmpty": "لا يمكن أن يكون هذا فارغًا.",
+  "saveFailed": "تعذر الحفظ. حاول مرة أخرى.",
+  "pickTimeZone": "اختر منطقة زمنية",
+  "searchTimeZones": "ابحث عن منطقة زمنية…",
+  "jsonKeys": {
+    "zero": "{count} مفتاح",
+    "one": "مفتاح واحد",
+    "two": "مفتاحان",
+    "few": "{count} مفاتيح",
+    "many": "{count} مفتاحًا",
+    "other": "{count} مفتاح"
+  },
+  "jsonItems": {
+    "zero": "{count} عنصر",
+    "one": "عنصر واحد",
+    "two": "عنصران",
+    "few": "{count} عناصر",
+    "many": "{count} عنصرًا",
+    "other": "{count} عنصر"
+  },
+  "showMore": "عرض {count} أخرى"
 }

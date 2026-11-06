@@ -195,5 +195,33 @@
   },
   "selectionActions": "Actions for the selection",
   "clearSelection": "Clear selection",
-  "time": "Time"
+  "time": "Time",
+  "passwordStrength": "Password strength",
+  "passwordWeak": "Weak",
+  "passwordFair": "Fair",
+  "passwordGood": "Good",
+  "passwordStrong": "Strong",
+  "ruleLength": {
+    "one": "At least {count} character",
+    "other": "At least {count} characters"
+  },
+  "ruleCase": "Upper and lower case letters",
+  "ruleNumber": "A number",
+  "ruleSymbol": "A symbol",
+  "ruleMet": "(met)",
+  "ruleNotMet": "(not met yet)",
+  "edit": "Edit",
+  "cantBeEmpty": "This can't be empty.",
+  "saveFailed": "Couldn't save. Try again.",
+  "pickTimeZone": "Select a time zone",
+  "searchTimeZones": "Search time zones…",
+  "jsonKeys": {
+    "one": "{count} key",
+    "other": "{count} keys"
+  },
+  "jsonItems": {
+    "one": "{count} item",
+    "other": "{count} items"
+  },
+  "showMore": "Show {count} more"
 }

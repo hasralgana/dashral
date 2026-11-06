@@ -197,6 +197,29 @@ export const defaultMessages = {
   selectionActions: "Actions for the selection",
   clearSelection: "Clear selection",
   time: "Time",
+  // Passwords
+  passwordStrength: "Password strength",
+  passwordWeak: "Weak",
+  passwordFair: "Fair",
+  passwordGood: "Good",
+  passwordStrong: "Strong",
+  ruleLength: { one: "At least {count} character", other: "At least {count} characters" } as Message,
+  ruleCase: "Upper and lower case letters",
+  ruleNumber: "A number",
+  ruleSymbol: "A symbol",
+  ruleMet: "(met)",
+  ruleNotMet: "(not met yet)",
+  // Editing in place
+  edit: "Edit",
+  cantBeEmpty: "This can't be empty.",
+  saveFailed: "Couldn't save. Try again.",
+  // Time zones
+  pickTimeZone: "Select a time zone",
+  searchTimeZones: "Search time zones…",
+  // JSON
+  jsonKeys: { one: "{count} key", other: "{count} keys" } as Message,
+  jsonItems: { one: "{count} item", other: "{count} items" } as Message,
+  showMore: "Show {count} more",
 }
 
 export type LocaleMessages = typeof defaultMessages

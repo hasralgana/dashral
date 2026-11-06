@@ -195,5 +195,33 @@
   },
   "selectionActions": "Tindakan untuk pilihan",
   "clearSelection": "Hapus pilihan",
-  "time": "Waktu"
+  "time": "Waktu",
+  "passwordStrength": "Kekuatan kata sandi",
+  "passwordWeak": "Lemah",
+  "passwordFair": "Cukup",
+  "passwordGood": "Baik",
+  "passwordStrong": "Kuat",
+  "ruleLength": {
+    "one": "Minimal {count} karakter",
+    "other": "Minimal {count} karakter"
+  },
+  "ruleCase": "Huruf besar dan huruf kecil",
+  "ruleNumber": "Sebuah angka",
+  "ruleSymbol": "Sebuah simbol",
+  "ruleMet": "(terpenuhi)",
+  "ruleNotMet": "(belum terpenuhi)",
+  "edit": "Ubah",
+  "cantBeEmpty": "Ini tidak boleh kosong.",
+  "saveFailed": "Gagal menyimpan. Coba lagi.",
+  "pickTimeZone": "Pilih zona waktu",
+  "searchTimeZones": "Cari zona waktu…",
+  "jsonKeys": {
+    "one": "{count} kunci",
+    "other": "{count} kunci"
+  },
+  "jsonItems": {
+    "one": "{count} item",
+    "other": "{count} item"
+  },
+  "showMore": "Tampilkan {count} lagi"
 }

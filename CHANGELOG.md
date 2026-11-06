@@ -33,6 +33,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Page Header: the top of an admin page, with a breadcrumb or a back link, the title, a description, details, actions and tabs
 - Relative Time: a moment as people say it ("3 minutes ago", "yesterday"), in the reader's language and kept current
 - Date Picker: `withTime` adds a time field under the calendar; the value is the day at that time
+- Editable Text: text you click to change in place, the same size as it was, with checks and saves that can fail and undo themselves
+- Form Section: one group of a settings page, its title and description beside the fields, plain or in a card with a Save bar
+- JSON Viewer: JSON to read and explore, objects and arrays folding with their size shown, colored values, pages for long arrays and copy
+- Time Zone Select: every time zone with today's offset, its city and its name in the reader's language, searchable, or the reader's own
+- Input: `strength` on a password shows a meter (weak to strong) and, with "rules", the rules it counts, ticked as they're met
 
 ## [1.0.0] - 2026-11-04
 
