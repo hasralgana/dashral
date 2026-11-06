@@ -149,7 +149,15 @@ There are two ways to use Dashral:
 - **Start a new dashboard from the template.** Clone the repo below: every page, component and the theme are included, with no shadcn setup.
 - **Add components to a project you already have**, with the shadcn CLI or by copying the source. See [Use the components in another project](#use-the-components-in-another-project).
 
-Requirements: **Node.js 20+** and **pnpm** (`corepack enable pnpm`).
+Requirements: **Node.js 20+**, **Git** and **pnpm** (`corepack enable pnpm`).
+
+To start your own app in one command (it clones the newest release, installs it and runs [`pnpm dashral init`](#start-your-project); every `init` option works here too):
+
+```bash
+npx create-dashral my-app
+```
+
+Or clone the whole demo to look around:
 
 ```bash
 git clone https://github.com/hasralgana/dashral.git

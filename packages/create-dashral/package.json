@@ -1,0 +1,33 @@
+{
+  "name": "create-dashral",
+  "version": "0.1.0",
+  "description": "Start a new Dashral admin dashboard (Next.js, React, Tailwind CSS) in one command.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "create-dashral": "index.mjs"
+  },
+  "files": [
+    "index.mjs"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "homepage": "https://dashral.com/docs/installation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasralgana/dashral.git",
+    "directory": "packages/create-dashral"
+  },
+  "bugs": "https://github.com/hasralgana/dashral/issues",
+  "keywords": [
+    "dashral",
+    "dashboard",
+    "admin",
+    "template",
+    "nextjs",
+    "react",
+    "tailwindcss",
+    "shadcn"
+  ]
+}
