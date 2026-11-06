@@ -162,21 +162,7 @@ function Lightbox({
               </DialogPrimitive.Close>
             </div>
             <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 sm:px-20">
-              {image && (
-                <Image
-                  // Keyed by the picture, so each new one fades in.
-                  key={image.src + index}
-                  src={image.src}
-                  alt={image.alt}
-                  width={image.width}
-                  height={image.height}
-                  className={cn(
-                    "max-h-full max-w-full animate-in rounded-sm object-contain duration-(--duration-standard) ease-enter fade-in-0 select-none motion-reduce:animate-none",
-                    classNames?.image
-                  )}
-                  draggable={false}
-                />
-              )}
+              {image && <Stage images={images} index={index} Image={Image} className={classNames?.image} />}
               {count > 1 && (
                 <>
                   <button type="button" aria-label={t("previousImage")} onClick={() => go(index - 1)} className={cn(navButton, "absolute start-3 top-1/2 -translate-y-1/2 max-sm:hidden")}>
@@ -194,7 +180,15 @@ function Lightbox({
                   <ChevronLeftIcon aria-hidden className="rtl:-scale-x-100" />
                 </button>
               )}
-              <div className={cn("min-w-0 flex-1 text-center text-sm text-pretty text-white/80 sm:flex-none", classNames?.caption)}>{image?.caption}</div>
+              <div
+                key={index}
+                className={cn(
+                  "min-w-0 flex-1 animate-in text-center text-sm text-pretty text-white/80 duration-(--duration-considered) ease-standard fade-in-0 motion-reduce:animate-none sm:flex-none",
+                  classNames?.caption
+                )}
+              >
+                {image?.caption}
+              </div>
               {count > 1 && (
                 <button type="button" aria-label={t("nextImage")} onClick={() => go(index + 1)} className={cn(navButton, "sm:hidden")}>
                   <ChevronRightIcon aria-hidden className="rtl:-scale-x-100" />
@@ -205,6 +199,103 @@ function Lightbox({
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
     </>
+  )
+}
+
+type StageState = {
+  /** The picture to show, and the one it replaces (kept on screen until the new one has loaded). */
+  index: number
+  previous: number | null
+  /** 1 moving to the next picture, -1 to the previous: where the new one comes from. */
+  step: 1 | -1
+  /** Counts the changes, so each one gets fresh elements (and fresh animations). */
+  turn: number
+  loaded: boolean
+}
+
+const cell = "col-start-1 row-start-1 max-h-full max-w-full rounded-sm object-contain select-none"
+const roll = "duration-(--duration-considered) ease-standard motion-reduce:animate-none"
+
+/**
+ * The viewer's picture. Moving to another, the one on screen stays until the new one has loaded, then the two cross:
+ * the old one fades out toward the side it's left behind on, the new one fades in from the side it comes from (logical
+ * sides, so it reverses in Arabic). Never a blank frame, and no picture popping in after its fade. The neighbours are
+ * fetched ahead, so moving on is usually instant.
+ */
+function Stage({
+  images,
+  index,
+  Image,
+  className,
+}: {
+  images: LightboxImage[]
+  index: number
+  Image: React.ElementType
+  className?: string
+}) {
+  const count = images.length
+  const [state, setState] = React.useState<StageState>({ index, previous: null, step: 1, turn: 0, loaded: false })
+  if (state.index !== index) {
+    const delta = (index - state.index + count) % count
+    const step = delta === 1 ? 1 : delta === count - 1 ? -1 : index > state.index ? 1 : -1
+    // Pressed again before the last one loaded: the picture still on screen stays the one to leave.
+    setState({ index, previous: state.loaded ? state.index : state.previous, step, turn: state.turn + 1, loaded: false })
+  }
+  const { previous, step, turn, loaded } = state
+  const current = images[state.index]!
+  const leaving = previous === null ? undefined : images[previous]
+
+  const markLoaded = React.useCallback(
+    () => setState((s) => (s.turn === turn && !s.loaded ? { ...s, loaded: true } : s)),
+    [turn]
+  )
+
+  React.useEffect(() => {
+    if (Image !== "img" || count < 2) return
+    for (const i of [state.index + 1, state.index - 1]) {
+      const preload = new window.Image()
+      preload.src = images[(i + count) % count]!.src
+    }
+  }, [Image, images, count, state.index])
+
+  return (
+    <div className="grid size-full min-h-0 grid-cols-[minmax(0,1fr)] grid-rows-[minmax(0,1fr)] place-items-center">
+      {leaving && (
+        <Image
+          key={`out-${turn}`}
+          src={leaving.src}
+          alt=""
+          aria-hidden
+          width={leaving.width}
+          height={leaving.height}
+          draggable={false}
+          className={cn(
+            cell,
+            loaded && ["animate-out fade-out-0 fill-mode-forwards motion-reduce:hidden", step > 0 ? "slide-out-to-start-8" : "slide-out-to-end-8", roll],
+            className
+          )}
+        />
+      )}
+      <Image
+        key={`in-${turn}`}
+        ref={(node: HTMLImageElement | null) => {
+          // Already in the cache: it may have loaded before React was listening.
+          if (node?.complete && node.naturalWidth > 0) markLoaded()
+        }}
+        src={current.src}
+        alt={current.alt}
+        width={current.width}
+        height={current.height}
+        draggable={false}
+        onLoad={markLoaded}
+        onError={markLoaded}
+        className={cn(
+          cell,
+          !loaded ? "opacity-0" : ["animate-in fade-in-0", turn > 0 && (step > 0 ? "slide-in-from-end-8" : "slide-in-from-start-8"), roll],
+          className
+        )}
+      />
+    </div>
   )
 }
 
