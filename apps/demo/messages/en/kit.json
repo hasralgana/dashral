@@ -168,5 +168,24 @@
   "approved": "Approved",
   "denied": "Denied",
   "alwaysAllowed": "Always allowed",
-  "suggestions": "Suggestions"
+  "suggestions": "Suggestions",
+  "rating": "Rating",
+  "ratingStars": {
+    "one": "{count} star",
+    "other": "{count} stars"
+  },
+  "ratingOf": "{value} out of {max}",
+  "pickColor": "Pick a color",
+  "colorArea": "Saturation and brightness",
+  "colorAreaValue": "Saturation {saturation}%, brightness {brightness}%",
+  "hue": "Hue",
+  "swatches": "Swatches",
+  "pickFromScreen": "Pick a color from the screen",
+  "country": "Country",
+  "searchCountries": "Search countries…",
+  "imageViewer": "Image viewer",
+  "viewImage": "View {name}",
+  "imageOf": "{index} of {total}",
+  "previousImage": "Previous image",
+  "nextImage": "Next image"
 }

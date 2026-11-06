@@ -171,6 +171,26 @@ export const defaultMessages = {
   denied: "Denied",
   alwaysAllowed: "Always allowed",
   suggestions: "Suggestions",
+  // Rating
+  rating: "Rating",
+  ratingStars: { one: "{count} star", other: "{count} stars" } as Message,
+  ratingOf: "{value} out of {max}",
+  // Colors
+  pickColor: "Pick a color",
+  colorArea: "Saturation and brightness",
+  colorAreaValue: "Saturation {saturation}%, brightness {brightness}%",
+  hue: "Hue",
+  swatches: "Swatches",
+  pickFromScreen: "Pick a color from the screen",
+  // Phone numbers
+  country: "Country",
+  searchCountries: "Search countries…",
+  // Lightbox
+  imageViewer: "Image viewer",
+  viewImage: "View {name}",
+  imageOf: "{index} of {total}",
+  previousImage: "Previous image",
+  nextImage: "Next image",
 }
 
 export type LocaleMessages = typeof defaultMessages

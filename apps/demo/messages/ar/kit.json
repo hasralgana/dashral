@@ -196,5 +196,28 @@
   "approved": "تمت الموافقة",
   "denied": "مرفوض",
   "alwaysAllowed": "مسموح دائمًا",
-  "suggestions": "اقتراحات"
+  "suggestions": "اقتراحات",
+  "rating": "التقييم",
+  "ratingStars": {
+    "zero": "{count} نجمة",
+    "one": "نجمة واحدة",
+    "two": "نجمتان",
+    "few": "{count} نجوم",
+    "many": "{count} نجمة",
+    "other": "{count} نجمة"
+  },
+  "ratingOf": "{value} من {max}",
+  "pickColor": "اختر لونًا",
+  "colorArea": "التشبع والسطوع",
+  "colorAreaValue": "التشبع {saturation}٪، السطوع {brightness}٪",
+  "hue": "درجة اللون",
+  "swatches": "عينات الألوان",
+  "pickFromScreen": "التقط لونًا من الشاشة",
+  "country": "الدولة",
+  "searchCountries": "ابحث عن دولة…",
+  "imageViewer": "عارض الصور",
+  "viewImage": "عرض {name}",
+  "imageOf": "{index} من {total}",
+  "previousImage": "الصورة السابقة",
+  "nextImage": "الصورة التالية"
 }

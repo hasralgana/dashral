@@ -10,6 +10,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Data Table: `autoResetPage={false}` keeps the page while rows are edited in place, such as a count typed into a cell; a new search or filter still starts from the first page
 - The Classic dashboard: Finance, Projects, Support, Inventory and Monitoring pages, built on data tables you can filter, select, export and edit in place and on the kit's charts, plus an AI assistant, Getting started and a two-factor sign-in page, in all three languages
 - `pnpm dashral init` and `pnpm dashral update` know Classic's new pages: Inset only and blank pages leave them out, and an update doesn't bring new Classic pages into an Inset-only app
+- Aspect Ratio: a box that keeps its shape (16 / 9, 4 / 3, a square) as it resizes, for an image, a video or a map
+- Banner: a strip across the page for news that concerns everyone, with a title, an action and a close button, full width or floating
+- Button Group: buttons joined into one control, side by side or stacked, for a toolbar or a split button with a menu
+- Code Block: code to read and copy, with a file name or tabs, line numbers, marked lines and wrapping
+- Collapsible: one section that opens and closes under its title, with a count or badge beside it
+- Color Picker: a hex field with a swatch that opens saturation, brightness and hue (keyboard too), presets and a pick from the screen
+- Countdown: time left until a moment, in boxes or one line, with unit names in the reader's language
+- Description List: terms and their values in one tag, beside each other, at either end or stacked in columns
+- Lightbox: a grid of pictures that opens each one large, with arrows, swipes and captions
+- Menubar: the row of menus along the top of an app (File, Edit, View), with the same items as Dropdown Menu
+- Navigation Menu: a site's main navigation, with menus that open a panel of links with icons and descriptions
+- Phone Input: a phone number with a searchable country list, grouped as it's typed and given in international form (E.164)
+- Progress Circle: progress as a ring for small spaces, with the percentage or an icon in the middle
+- Prose: good-looking text from the HTML that Markdown, MDX or a CMS produces, for a blog, docs or a changelog
+- Rating: a star rating that works with the keyboard and in forms, with words for each value, and a read-only average with fractions
 
 ## [1.0.0] - 2026-11-04
 

@@ -168,5 +168,24 @@
   "approved": "Disetujui",
   "denied": "Ditolak",
   "alwaysAllowed": "Selalu diizinkan",
-  "suggestions": "Saran"
+  "suggestions": "Saran",
+  "rating": "Penilaian",
+  "ratingStars": {
+    "one": "{count} bintang",
+    "other": "{count} bintang"
+  },
+  "ratingOf": "{value} dari {max}",
+  "pickColor": "Pilih warna",
+  "colorArea": "Saturasi dan kecerahan",
+  "colorAreaValue": "Saturasi {saturation}%, kecerahan {brightness}%",
+  "hue": "Rona",
+  "swatches": "Contoh warna",
+  "pickFromScreen": "Ambil warna dari layar",
+  "country": "Negara",
+  "searchCountries": "Cari negara…",
+  "imageViewer": "Penampil gambar",
+  "viewImage": "Lihat {name}",
+  "imageOf": "{index} dari {total}",
+  "previousImage": "Gambar sebelumnya",
+  "nextImage": "Gambar berikutnya"
 }
