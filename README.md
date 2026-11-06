@@ -312,10 +312,10 @@ The Motion editions are [`@dashral/motion`](https://www.npmjs.com/package/@dashr
 Every component is a [shadcn registry](https://ui.shadcn.com/docs/registry) item. The shadcn CLI isn't a dependency: `npx` runs it once and it copies the component's source into your project, so the code is yours to edit. You need a React project with TypeScript, Tailwind CSS v4 and a `components.json` (created by `npx shadcn@latest init`; any style, Radix or Base UI). Then this adds the component, the components it builds on, its npm packages and the extra theme tokens it uses, all in `components/dashral/`, a folder of their own: your `components/ui/` is never touched, so Dashral sits beside shadcn's components:
 
 ```bash
-npx shadcn@latest add https://dashral.com/r/button.json
+npx shadcn@latest add @dashral/button
 ```
 
-Swap `button` for any component name from the [docs](https://dashral.com/components). Blocks install the same way, by their name on [dashral.com/blocks](https://dashral.com/blocks) (`npx shadcn@latest add https://dashral.com/r/hero-centered.json`), or copy one from `packages/blocks/src`. To use the full Dashral color theme as well:
+Dashral is in [shadcn's registry directory](https://ui.shadcn.com/docs/directory?q=dashral), so the CLI knows `@dashral` with nothing to set up (the full URL, `https://dashral.com/r/button.json`, works too). Swap `button` for any component name from the [docs](https://dashral.com/components). Blocks install the same way, by their name on [dashral.com/blocks](https://dashral.com/blocks) (`npx shadcn@latest add @dashral/hero-centered`), or copy one from `packages/blocks/src`. To use the full Dashral color theme as well:
 
 ```bash
 npx shadcn@latest add https://dashral.com/r/dashral-theme.json
