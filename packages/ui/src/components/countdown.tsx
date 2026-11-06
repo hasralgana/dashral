@@ -44,6 +44,49 @@ function unitName(locale: string, unit: CountdownUnit, value: number, display: "
 }
 
 /**
+ * One character that rolls when it changes: the old one slides down and fades out while the new one slides in from
+ * above, in the same cell, so a tick never blinks. Plain CSS animations (tw-animate), no library; with reduced motion
+ * it just changes.
+ */
+function RollingChar({ char }: { char: string }) {
+  // The character shown and the one leaving, with a count so each change gets fresh elements (and fresh animations).
+  const [state, setState] = React.useState({ current: char, previous: null as string | null, turn: 0 })
+  if (state.current !== char) setState({ current: char, previous: state.current, turn: state.turn + 1 })
+  const roll = "duration-(--duration-considered) ease-standard fill-mode-forwards motion-reduce:animate-none"
+  return (
+    <span className="inline-grid overflow-hidden [mask-image:linear-gradient(transparent,#000_22%,#000_78%,transparent)]">
+      {state.previous !== null && (
+        <span
+          key={`out-${state.turn}`}
+          className={cn("col-start-1 row-start-1 animate-out fade-out-0 blur-out-[2px] slide-out-to-bottom-[70%] motion-reduce:hidden", roll)}
+        >
+          {state.previous}
+        </span>
+      )}
+      <span
+        key={`in-${state.turn}`}
+        className={cn("col-start-1 row-start-1", state.turn > 0 && ["animate-in fade-in-0 blur-in-[2px] slide-in-from-top-[70%]", roll])}
+      >
+        {state.current}
+      </span>
+    </span>
+  )
+}
+
+/** A number (or any text) whose characters roll one by one: in "40" → "39" both turn, in "39" → "38" only the last. */
+function RollingText({ text }: { text: string }) {
+  // Keyed from the end, so a number that loses a digit (100 → 99) keeps its units in place.
+  const chars = [...text]
+  return (
+    <span className="inline-flex">
+      {chars.map((char, i) => (
+        <RollingChar key={chars.length - i} char={char} />
+      ))}
+    </span>
+  )
+}
+
+/**
  * Time left until a moment, ticking each second: a launch, a sale's end, a webinar. Unit names come from the locale,
  * so they're in the reader's language without translations. The numbers fill in once the page is in the browser
  * (the server can't know the reader's clock), so the page never shows a wrong time first.
@@ -122,8 +165,8 @@ function Countdown({
         )}
         {...props}
       >
-        <span aria-hidden className={cn(!parts && "text-muted-foreground", classNames?.value)}>
-          {text}
+        <span aria-hidden className={cn("inline-flex", !parts && "text-muted-foreground", classNames?.value)}>
+          {parts ? <RollingText text={text} /> : text}
         </span>
       </span>
     )
@@ -148,17 +191,15 @@ function Countdown({
             classNames?.unit
           )}
         >
-          {/* Keyed by the number, so each new one slides in. */}
           <span
-            key={parts ? parts[unit] : "–"}
             className={cn(
               "font-semibold tabular-nums",
               size === "sm" ? "text-base" : size === "lg" ? "text-4xl tracking-tight" : "text-2xl tracking-tight",
-              parts ? "animate-in duration-(--duration-standard) ease-enter fade-in-0 slide-in-from-top-1 motion-reduce:animate-none" : "text-muted-foreground",
+              !parts && "text-muted-foreground",
               classNames?.value
             )}
           >
-            {parts ? number.format(parts[unit]) : "––"}
+            {parts ? <RollingText text={number.format(parts[unit])} /> : "––"}
           </span>
           <span className={cn("text-muted-foreground", size === "sm" ? "text-[10px]" : "text-xs", classNames?.label)}>
             {unitName(locale, unit, parts ? parts[unit] : 2, "long")}
