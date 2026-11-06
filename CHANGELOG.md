@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - `npx create-dashral` without a folder asks for the project's name (Enter takes `my-app`), as create-next-app does, instead of printing its help; a flag's value (`--template classic`) is never taken for the folder
 - `npx shadcn add @dashral/<name>` works with nothing to set up: Dashral is in shadcn's registry directory. The README, `@dashral/ui`'s README and a flat project's README now lead with the name, and the repository README keeps the full URL beside it
+- The README puts copying the source with the shadcn CLI first and installing from npm second
 
 ## [1.1.1] - 2026-11-06
 
