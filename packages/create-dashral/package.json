@@ -1,6 +1,6 @@
 {
   "name": "create-dashral",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Start a new Dashral admin dashboard (Next.js, React, Tailwind CSS) in one command.",
   "license": "MIT",
   "type": "module",

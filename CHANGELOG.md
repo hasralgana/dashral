@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- `npx create-dashral` without a folder asks for the project's name (Enter takes `my-app`), as create-next-app does, instead of printing its help; a flag's value (`--template classic`) is never taken for the folder
+
 ## [1.1.1] - 2026-11-06
 
 ### Changed

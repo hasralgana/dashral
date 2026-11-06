@@ -8,7 +8,7 @@ cd my-app
 pnpm dev
 ```
 
-It asks which template to keep (Classic, Inset or both), demo pages or a blank page, the languages, your app's name
+Leave out the folder and it asks for the project's name first (Enter takes `my-app`). Then it asks which template to keep (Classic, Inset or both), demo pages or a blank page, the languages, your app's name
 and its look, then makes a Next.js project laid out like a new Next.js app, with its own Git history:
 
 ```

@@ -14,16 +14,17 @@
 import { spawnSync } from "node:child_process"
 import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs"
 import { join, resolve } from "node:path"
-import { argv, exit, platform, versions } from "node:process"
+import { argv, exit, platform, stdin, stdout, versions } from "node:process"
+import { createInterface } from "node:readline/promises"
 
 const repos = {
   free: "https://github.com/hasralgana/dashral.git",
   pro: "https://github.com/hasralgana/dashral-pro.git",
 }
 
-const help = `Usage: npx create-dashral <folder> [options]
+const help = `Usage: npx create-dashral [folder] [options]
 
-  Starts a new Next.js dashboard in <folder> from Dashral's newest release, as a project of its own (the components
+  Starts a new Next.js dashboard in [folder] (asked for when left out) from Dashral's newest release, as a project of its own (the components
   come from npm as @dashral/ui), and runs \`pnpm dashral init\`, which asks a few questions (or reads the flags below).
 
 Options of create-dashral:
@@ -44,8 +45,12 @@ Docs: https://dashral.com/docs/installation`
 
 // ── Arguments ────────────────────────────────────────────────────────────────────────────────────────────────────
 
+/** Flags that take no value: a word after one of these can be the folder; after any other flag, it's that flag's value. */
+const switches = new Set(["help", "pro", "monorepo", "no-install", "yes", "force"])
+
 /** This script's own flags, and the rest passed to `dashral init` as they were typed. */
 function parseArgs(args) {
+  const takesValue = (previous) => Boolean(previous?.startsWith("--") && !previous.includes("=") && !switches.has(previous.slice(2)))
   const own = { pro: false, monorepo: false, install: true, release: null, from: null, help: false }
   const rest = []
   let folder = null
@@ -61,7 +66,7 @@ function parseArgs(args) {
       own[key] = value()
       if (!own[key] || own[key].startsWith("--")) fail(`--${key} needs a value.`)
     } else if (key === "layout") fail("Use --monorepo for the repository's layout; the project is flat without it.")
-    else if (key === null && folder === null) folder = arg
+    else if (key === null && folder === null && !takesValue(args[i - 1])) folder = arg
     else rest.push(arg)
   }
   return { folder, own, rest }
@@ -97,10 +102,31 @@ const newer = (a, b) => {
 
 // ── Main ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-const { folder, own, rest } = parseArgs(argv.slice(2))
-if (own.help || !folder) {
+const parsed = parseArgs(argv.slice(2))
+const { own, rest } = parsed
+let folder = parsed.folder
+if (own.help) {
   console.log(help)
-  exit(own.help ? 0 : 1)
+  exit(0)
+}
+// No folder given: ask for one in a terminal, as create-next-app does (Enter takes my-app); elsewhere, say how.
+if (!folder) {
+  if (!stdin.isTTY) {
+    console.log(help)
+    exit(1)
+  }
+  const rl = createInterface({ input: stdin, output: stdout })
+  for (;;) {
+    const answer = (await rl.question("What is your project named? (my-app) ")).trim() || "my-app"
+    const path = resolve(answer)
+    if (existsSync(path) && readdirSync(path).length) {
+      console.log(`  ${answer} isn't empty. Pick a new name.`)
+      continue
+    }
+    folder = answer
+    break
+  }
+  rl.close()
 }
 
 if (Number(versions.node.split(".")[0]) < 20) fail(`Dashral needs Node.js 20 or newer (this is ${versions.node}).`)
