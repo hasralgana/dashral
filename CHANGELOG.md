@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Sortable: items you put in order by dragging, in one tag with the same parts as List: rows with a grip (or the whole row), numbered priorities, or a grid of tiles such as a product's photos. Mouse, touch (press and hold) and keyboard (Space, the arrow keys, Space), each step announced; `onReorder` gets the new order
+
 ### Changed
 
 - `npx create-dashral --pro` (0.2.3) never stops at Git's username and password prompt: without access it says at once what to do (accept the GitHub invitation, then `gh auth login`, or `--from` with SSH), and a lost connection is told apart from a missing invitation. With `--no-install` it clones Pro and prints the install and `pnpm dashral init` to run, instead of stopping at the setup, which needs the dependencies. Pro stays the monorepo so `pnpm dashral update` can bring in new apps and their migrations

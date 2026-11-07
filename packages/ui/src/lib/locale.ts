@@ -126,6 +126,16 @@ export const defaultMessages = {
   areaChart: "Area chart",
   lineChart: "Line chart",
   barChart: "Bar chart",
+  // Sortable
+  /** What a draggable item is, said after its name. */
+  sortableItem: "sortable item",
+  /** A sortable item's grip. */
+  sortableReorder: "Reorder {name}",
+  sortableInstructions: "To reorder, press Space or Enter to pick up. Use the arrow keys to move it, Space or Enter to drop it, Escape to cancel.",
+  sortablePicked: "Picked up {name}, position {position} of {count}.",
+  sortableOver: "{name} moved to position {position} of {count}.",
+  sortableDropped: "{name} dropped at position {position} of {count}.",
+  sortableCancelled: "Reordering cancelled. {name} is back at position {position}.",
   candle: "{date}: open {open}, high {high}, low {low}, close {close}",
   candleOpen: "O",
   candleHigh: "H",
