@@ -1129,7 +1129,7 @@ async function init(flags) {
   if (!replay && existsSync(record)) fail("This project was already set up (.dashral.json). Start again from a fresh clone to set it up differently.")
   const layout = flags.layout ?? "monorepo"
   if (!["monorepo", "flat"].includes(layout)) fail("--layout must be one of: monorepo, flat")
-  if (layout === "flat" && pro) fail("Dashral Pro keeps the monorepo layout for now: leave out --layout flat.")
+  if (layout === "flat" && pro) fail("Dashral Pro keeps the monorepo layout, so `pnpm dashral update` can bring in new apps and their migrations: leave out --layout flat.")
   if (!flags.force && existsSync(join(root, ".git"))) {
     const status = execSync("git status --porcelain", { cwd: root }).toString().trim()
     if (status) fail("There are uncommitted changes. Commit them first (or pass --force), so you can see and undo what this changes.")

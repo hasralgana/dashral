@@ -35,7 +35,7 @@ The theme customizer's **Copy setup command** in the [live demo](https://demo.da
 | Option | |
 | --- | --- |
 | `--monorepo` | Keep Dashral's whole repository (`apps/`, `packages/`) and history instead, so `pnpm dashral update` can bring in later releases, pages too ([Getting updates](https://github.com/hasralgana/dashral#getting-updates)) |
-| `--pro` | Start from Dashral Pro (your GitHub account needs access to it; monorepo for now) |
+| `--pro` | Start from Dashral Pro, as the monorepo, so `pnpm dashral update` brings in new apps and their database migrations. It's a private repository: accept the invitation GitHub emailed you, then let Git sign in to GitHub once with `gh auth login` (or use `--from` with SSH) |
 | `--release v1.2.0` | An earlier release instead of the newest |
 | `--from <url>` | Clone another repository, e.g. a fork, or Pro over SSH |
 | `--no-install` | Skip `pnpm install` |

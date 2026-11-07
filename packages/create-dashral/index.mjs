@@ -30,7 +30,8 @@ const help = `Usage: npx create-dashral [folder] [options]
 Options of create-dashral:
   --monorepo           Keep the whole repository (apps/, packages/) and its history, to bring in later releases
                        with \`pnpm dashral update\`
-  --pro                Start from Dashral Pro (your GitHub account needs access to the repository; monorepo for now)
+  --pro                Start from Dashral Pro: its private repository, as the monorepo, so \`pnpm dashral update\` brings
+                       in new apps and their database migrations (Git needs to sign in to GitHub: see below)
   --release v1.2.0     An earlier release instead of the newest
   --from <url>         Clone another repository (a fork, or Pro over SSH: git@github.com:dashral-ui/dashral-pro.git)
   --no-install         Set up only; run \`pnpm install\` yourself
@@ -39,6 +40,9 @@ Every other option goes to \`pnpm dashral init\`:
   --template classic|inset|both  --pages demo|blank  --languages all|en  --customizer keep|remove
   --name "Your App"  --primary  --light  --dark  --card  --radius  --font  --yes
   Pro: --apps all|crm,kanban,…  --samples keep|remove
+
+Dashral Pro: accept the repository invitation GitHub emailed you, then let Git sign in to GitHub once, with the
+GitHub CLI (\`gh auth login\`) or over SSH (\`--from git@github.com:dashral-ui/dashral-pro.git\`).
 
 The theme customizer's "Copy setup command" at https://demo.dashral.com writes these flags for you.
 Docs: https://dashral.com/docs/installation`
@@ -79,19 +83,27 @@ function fail(message) {
   exit(1)
 }
 
+// Git never stops to ask for a username and password in the terminal (GitHub doesn't take passwords anyway): a
+// credential helper that's set up (the GitHub CLI, Git Credential Manager, the macOS keychain) still signs in, and
+// without one Git fails at once, so we can say what to do.
+const gitEnv = { GIT_TERMINAL_PROMPT: "0" }
+
 /** Runs a command in the terminal (its output and questions shown as they come); its exit code, or null. */
 function run(command, args, cwd, quiet = false) {
   // Windows runs pnpm through a .cmd shim, which needs a shell. DASHRAL_CREATE: init leaves the next steps to us.
-  const env = { ...process.env, DASHRAL_CREATE: "1" }
+  const env = { ...process.env, ...gitEnv, DASHRAL_CREATE: "1" }
   const result = spawnSync(command, args, { cwd, env, stdio: quiet ? "ignore" : "inherit", shell: platform === "win32" })
   return result.error ? null : result.status
 }
 
-/** A command's output, or null when it can't run. */
-function output(command, args) {
-  const result = spawnSync(command, args, { encoding: "utf8", shell: platform === "win32" })
-  return result.status === 0 ? result.stdout.trim() : null
+/** A command's output (null when it fails) and what it printed as errors. */
+function capture(command, args) {
+  const result = spawnSync(command, args, { encoding: "utf8", env: { ...process.env, ...gitEnv }, shell: platform === "win32" })
+  return { out: result.status === 0 ? result.stdout.trim() : null, err: `${result.stderr ?? ""}${result.error?.message ?? ""}` }
 }
+
+/** A command's output, or null when it can't run. */
+const output = (command, args) => capture(command, args).out
 
 const versionOf = (tag) => tag.slice(1).split(".").map(Number)
 const newer = (a, b) => {
@@ -139,12 +151,35 @@ const target = resolve(folder)
 if (existsSync(target) && readdirSync(target).length) fail(`${folder} isn't empty. Pick a new folder.`)
 
 const url = own.from ?? (own.pro ? repos.pro : repos.free)
+const ssh = /^(git@|ssh:\/\/)/.test(url)
+const proRepo = repos.pro.replace(/\.git$/, "")
 const access = own.pro ? " Check that your GitHub account has access to Dashral Pro (accept the invitation GitHub emailed you)." : ""
 
+/** Why Git couldn't reach the repository, and what to do, from what it printed. */
+function unreachable(err) {
+  if (/could not resolve host|unable to access.*(timed out|resolve)|network is unreachable/i.test(err)) {
+    return `Couldn't reach GitHub. Check your internet connection and run this again.`
+  }
+  if (!own.pro) return `Couldn't reach ${url}.${err.trim() ? `\n  Git said: ${err.trim().split("\n").at(-1)}` : ""}`
+  if (ssh) {
+    return `Git couldn't open Dashral Pro over SSH. Check that:
+  1. You accepted the invitation: ${proRepo}/invitations
+  2. Your SSH key is on that GitHub account (\`ssh -T git@github.com\` greets you by name).`
+  }
+  return `Git couldn't open Dashral Pro: it's a private repository, so Git has to sign in to GitHub as the account that has access.
+  1. Accept the invitation (sent to the GitHub account you connected on Polar): ${proRepo}/invitations
+  2. Let Git sign in to GitHub once. The simplest way is the GitHub CLI (https://cli.github.com):
+       gh auth login        (choose HTTPS, and yes to authenticate Git)
+     Or use SSH if your key is on GitHub:
+       npx create-dashral ${folder} --pro --from git@github.com:dashral-ui/dashral-pro.git
+  3. Run this again. Stuck? Write to hello@dashral.com.`
+}
+
 // The release: the newest version tag, or the one --release names.
+if (own.pro) console.log(`Dashral Pro is a private repository: Git signs in to GitHub as the account you connected on Polar.`)
 console.log(`Looking for the releases of ${url}…`)
-const listed = output("git", ["ls-remote", "--tags", "--refs", url, "v*"])
-if (listed === null) fail(`Couldn't reach ${url}.${access}`)
+const { out: listed, err: listError } = capture("git", ["ls-remote", "--tags", "--refs", url, "v*"])
+if (listed === null) fail(unreachable(listError))
 const tags = listed
   .split("\n")
   .map((line) => line.split("refs/tags/")[1])
@@ -159,7 +194,9 @@ if (!release) fail(`${url} has no releases yet.`)
 
 let flat = !own.monorepo
 if (flat && own.pro) {
-  console.log("  Dashral Pro starts as the monorepo for now (a project of its own is coming).")
+  // Pro's updates are mostly its apps (new dashboards, fixes, database migrations): only the repository's history
+  // lets `pnpm dashral update` merge them into a project. Pro blocks for an app you already have: the shadcn CLI.
+  console.log("  Dashral Pro is set up as the monorepo, so `pnpm dashral update` can bring in new apps and their migrations.")
   flat = false
 }
 
@@ -196,6 +233,17 @@ Your dashboard is in ${folder}:
 } else {
   // A tag checks out without a branch: start yours, so your commits have one.
   if (run("git", ["switch", "--quiet", "-c", "main"], target) !== 0) fail("Couldn't start the main branch.")
+  if (own.pro && !own.install) {
+    // Pro's setup rebuilds the database migrations for the apps you keep, with drizzle-kit: it needs the install first.
+    const quote = (arg) => (/^[\w@%+=:,./-]+$/.test(arg) ? arg : `"${arg.replace(/(["\\$`])/g, "\\$1")}"`)
+    console.log(`
+Dashral Pro is in ${folder}. Its setup needs the dependencies, so finish with:
+  cd ${folder}
+  pnpm install
+  pnpm dashral init${rest.length ? ` ${rest.map(quote).join(" ")}` : ""}
+  pnpm dev`)
+    exit(0)
+  }
   if (own.install) {
     console.log("\nInstalling the dependencies…")
     if (run("pnpm", ["install"], target) !== 0) fail(`pnpm install stopped. Fix what it says, then in ${folder}: pnpm install && pnpm dashral init`)
