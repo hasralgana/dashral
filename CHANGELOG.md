@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Combo Chart: a negative value on the right axis (a negative margin against revenue) now reads against the same zero as the bars: both axes put their zero on one grid line, with `alignZero={false}` to let each axis fit its own values; the solid grid line sits at zero, where bars stand, when a chart goes below it
+
 ## [1.3.0] - 2026-11-10
 
 ### Added

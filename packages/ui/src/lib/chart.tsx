@@ -62,6 +62,12 @@ export type CartesianChartProps = {
 export type RightAxisProps = {
   /** How the right axis' values are written (series with `axis: "right"`), e.g. `{ style: "percent" }`. */
   rightFormatOptions?: Intl.NumberFormatOptions
+  /**
+   * Puts both axes' zero on the same grid line when the chart starts at zero, so a negative value on one axis (a
+   * negative margin against revenue) never floats above the other's baseline. On by default; false lets each axis fit
+   * its own values.
+   */
+  alignZero?: boolean
 }
 
 export const seriesColor = (series: ChartSeries, i: number) => series.color ?? `var(--chart-${(i % 5) + 1})`
@@ -99,6 +105,38 @@ export function alignedTicks(lo: number, hi: number, count: number) {
     start = Math.floor(lo / step) * step
   }
   return Array.from({ length: count }, (_, i) => Number((start + step * i).toFixed(10)))
+}
+
+/**
+ * Ticks for two axes whose zeros share a grid line: each axis keeps its own round step, and both get the same number of
+ * steps below zero and above it (the most either needs). The right axis takes the round step that needs few lines
+ * while its values still fill most of it: revenue from 0 to $62K beside a margin from −10% to 35% reads −$20K … $80K
+ * on the left and −10% … 40% on the right, 0 on one line.
+ */
+export function zeroAlignedTicks(leftLo: number, leftHi: number, rightLo: number, rightHi: number) {
+  const left = niceTicks(Math.min(0, leftLo), Math.max(0, leftHi))
+  const leftStep = left.length > 1 ? left[1]! - left[0]! : 1
+  const leftBelow = Math.round(-left[0]! / leftStep)
+  const leftAbove = Math.round(left.at(-1)! / leftStep)
+  const lo = Math.min(0, rightLo)
+  const hi = Math.max(0, rightHi)
+  const magnitude = 10 ** Math.floor(Math.log10((hi - lo || Math.abs(rightHi) || 1) / Math.max(1, leftBelow + leftAbove)))
+  let best = { step: 0, below: 0, above: 0, score: Infinity }
+  for (const scale of [0.1, 1, 10])
+    for (const unit of [1, 2, 5]) {
+      const step = unit * scale * magnitude
+      const below = Math.max(leftBelow, Math.ceil(-lo / step - 1e-9))
+      const above = Math.max(leftAbove, Math.ceil(hi / step - 1e-9), below === 0 ? 1 : 0)
+      // Fewer lines is calmer, but an axis its values barely use squashes the line: each empty share costs.
+      const filled = (hi - lo) / (step * (below + above))
+      const score = below + above + 4 * (1 - filled)
+      if (score < best.score) best = { step, below, above, score }
+    }
+  const steps = Array.from({ length: best.below + best.above + 1 }, (_, i) => i - best.below)
+  return {
+    left: steps.map((i) => Number((i * leftStep).toFixed(10))),
+    right: steps.map((i) => Number((i * best.step).toFixed(10))),
+  }
 }
 
 /**
@@ -262,13 +300,19 @@ export function useCartesianChart(
   const lows = leftCells.map((cell) => (stacked ? cell.base : cell.value))
   const hi = tops.length ? Math.max(...tops) : 1
   const lo = tops.length ? Math.min(...lows) : 0
-  const ticks = niceTicks(zero ? Math.min(0, lo) : lo - (hi - lo) * 0.1, hi)
-  const min = ticks[0]!
-  const max = ticks.at(-1)!
   const rightCells = columns.flatMap((c) => c.filter((_, k) => right(k)).map((cell) => cell.value))
   const rightLo = rightCells.length ? Math.min(...rightCells) : 0
   const rightHi = rightCells.length ? Math.max(...rightCells) : 1
-  const rightTicks = hasRight ? alignedTicks(zero ? Math.min(0, rightLo) : rightLo - (rightHi - rightLo) * 0.1, rightHi, ticks.length) : []
+  // Two axes starting at zero share their zero line; otherwise the right axis' ticks just land on the left's lines.
+  const paired = hasRight && zero && (props.alignZero ?? true) ? zeroAlignedTicks(lo, hi, rightLo, rightHi) : null
+  const ticks = paired ? paired.left : niceTicks(zero ? Math.min(0, lo) : lo - (hi - lo) * 0.1, hi)
+  const min = ticks[0]!
+  const max = ticks.at(-1)!
+  const rightTicks = paired
+    ? paired.right
+    : hasRight
+      ? alignedTicks(zero ? Math.min(0, rightLo) : rightLo - (rightHi - rightLo) * 0.1, rightHi, ticks.length)
+      : []
   const rightMin = rightTicks[0] ?? 0
   const rightMax = rightTicks.at(-1) ?? 1
 
@@ -402,7 +446,7 @@ export function ChartLegend({ series, className }: { series: ChartSeries[]; clas
   )
 }
 
-/** The grid, the values along the left and the labels along the bottom. */
+/** The grid (solid at zero, where bars stand, or at the bottom), the values along the sides and the labels along the bottom. */
 export function ChartAxes({ chart: h, band }: { chart: Chart; band: boolean }) {
   const last = h.labels.length - 1
   return (
@@ -410,7 +454,7 @@ export function ChartAxes({ chart: h, band }: { chart: Chart; band: boolean }) {
       {h.ticks.map((v, i) => (
         <g key={v}>
           {h.showGrid && (
-            <line x1={h.plotLeft} x2={h.plotLeft + h.plotW} y1={Math.round(h.y(v)) + 0.5} y2={Math.round(h.y(v)) + 0.5} stroke="var(--chart-grid)" strokeDasharray={i === 0 ? undefined : "2 4"} />
+            <line x1={h.plotLeft} x2={h.plotLeft + h.plotW} y1={Math.round(h.y(v)) + 0.5} y2={Math.round(h.y(v)) + 0.5} stroke="var(--chart-grid)" strokeDasharray={v === (h.ticks.includes(0) ? 0 : h.ticks[0]) ? undefined : "2 4"} />
           )}
           {h.showYAxis && h.hasRight && (
             // The right axis' value on the same grid line (its ticks are aligned to the left axis').
