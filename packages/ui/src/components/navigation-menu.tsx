@@ -164,7 +164,7 @@ function NavigationMenu({ items, linkAs: Link = "a", align = "start", className,
           className={cn(
             "relative mt-2 h-(--radix-navigation-menu-viewport-height) w-[calc(100vw-2rem)] origin-[top_center] overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-lg md:w-(--radix-navigation-menu-viewport-width)",
             "transition-[width,height] duration-(--duration-standard) ease-standard motion-reduce:transition-none",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-spring",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-standard",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-(--duration-fast) data-[state=closed]:ease-exit",
             classNames?.viewport
           )}
