@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Month Picker: a month (or, with `view="year"`, a year) picked in a field, in one tag (`<MonthPicker label="Report month" />`); for monthly and yearly reports, billing periods and card expiry, where a day picker asks for too much. Arrow keys move through the months, the year opens a grid of years, and `min`/`max` limit what can be picked
+
 ### Fixed
 
 - Avatar Group with showNames: avatars with initials and the +N count sat 3px lower than the ones with a picture; they line up now
