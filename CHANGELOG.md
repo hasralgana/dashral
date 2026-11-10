@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- ActionBar has a Motion edition: it rises in on the appear spring and drops away quicker, and its width glides when the label or the actions change
+- Action Bar has a Motion edition: it rises in on the appear spring and drops away quicker, and its width glides when the label or the actions change
 - Swap: content that changes in place, in one tag (`<Swap value={copied}>{copied ? <Check /> : <Copy />}</Swap>`): the old content fades out while the new one arrives (fade, rise or pop), or after it (`wait`); for an icon turning into a check, a label after an action, a form giving way to a thank-you. With a Motion edition, in which what's around glides to the new size
 - Glide: an element that glides to its new place and size when the layout changes (a row as a list is sorted, a card as the view turns to a grid), or to another place by a shared `layoutId` (a highlight moving between cards). Its Motion edition does the gliding; without motion it's simply the element
 - RevealList, and `as` on Reveal: a list whose rows grow in when added, fold away when removed and glide to their new places in the Motion edition
