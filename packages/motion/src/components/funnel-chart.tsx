@@ -75,8 +75,7 @@ export function FunnelChart({
           const lostTop = previous === undefined ? barTop : top(i - 1)
           const left = ((1 - BAR) / 2) * 100
           const right = 100 - left
-          const nextTop = i < data.length - 1 ? top(i + 1) + corner(i + 1) : null
-          const flowTop = barTop + corner(i)
+          const nextTop = i < data.length - 1 ? top(i + 1) : null
           const end = 100 + left
           const middle = (right + end) / 2
           const hasLost = showLost && previous !== undefined && lost > 0
@@ -113,7 +112,7 @@ export function FunnelChart({
                   {nextTop !== null && (
                     <motion.path
                       initial={false}
-                      animate={{ d: `M${right},${flowTop}C${middle},${flowTop} ${middle},${nextTop} ${end},${nextTop}L${end},${height}L${right},${height}Z` }}
+                      animate={{ d: `M50,${barTop}L${right},${barTop}C${middle},${barTop} ${middle},${nextTop} ${end},${nextTop}L150,${nextTop}L150,${height}L50,${height}Z` }}
                       transition={glide}
                       fill={color}
                       fillOpacity={0.12}

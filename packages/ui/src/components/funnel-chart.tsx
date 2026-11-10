@@ -104,11 +104,11 @@ function FunnelChart({
           const lostTop = previous === undefined ? barTop : top(i - 1)
           const left = ((1 - BAR) / 2) * 100
           const right = 100 - left
-          // A bar's top is rounded unless a "lost" space sits on it; the flow leaves and joins a bar under its rounding.
+          // A bar's top is rounded unless a "lost" space sits on it. The flow starts and ends at the bars' tops, tucked behind them
+          // from their middles, so a rounded corner sits in it like a square one does.
           const squared = (k: number) => showLost && k > 0 && values[k - 1]! > values[k]!
           const corner = (k: number) => (squared(k) ? 0 : Math.min(RADIUS, height - top(k)))
-          const nextTop = i < data.length - 1 ? top(i + 1) + corner(i + 1) : null
-          const flowTop = barTop + corner(i)
+          const nextTop = i < data.length - 1 ? top(i + 1) : null
           const end = 100 + left
           const middle = (right + end) / 2
           return (
@@ -134,7 +134,7 @@ function FunnelChart({
                   {nextTop !== null && (
                     <path
                       // An S-curve, level where it leaves one bar and where it meets the next.
-                      d={`M${right},${flowTop}C${middle},${flowTop} ${middle},${nextTop} ${end},${nextTop}L${end},${height}L${right},${height}Z`}
+                      d={`M50,${barTop}L${right},${barTop}C${middle},${barTop} ${middle},${nextTop} ${end},${nextTop}L150,${nextTop}L150,${height}L50,${height}Z`}
                       fill={color}
                       fillOpacity={0.12}
                       className="transition-[d] duration-(--duration-considered) ease-standard motion-reduce:transition-none"
