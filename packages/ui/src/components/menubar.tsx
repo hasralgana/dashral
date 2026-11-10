@@ -31,12 +31,24 @@ const contentClass =
  * The row of menus along the top of an app, in one tag: `<Menubar menus={[{ label: "File", items: […] }]} />`. Once
  * one is open, hovering or the arrow keys move to the next, as in a desktop app. Items work as in DropdownMenu.
  */
-function Menubar({ menus, linkAs, className, ...props }: MenubarProps) {
+function Menubar({ menus, linkAs, className, value: valueProp, defaultValue, onValueChange, ...props }: MenubarProps) {
   const portalContainer = usePortalContainer()
+  const [ownValue, setOwnValue] = React.useState(defaultValue ?? "")
+  const value = valueProp ?? ownValue
+  // Moving from one open menu to the next swaps the panels at once, as in a desktop app: two panels growing and
+  // shrinking side by side read as a sideways jolt. Only opening the bar and closing it animate.
+  const [switching, setSwitching] = React.useState(false)
+  const change = (next: string) => {
+    setSwitching(value !== "" && next !== "")
+    setOwnValue(next)
+    onValueChange?.(next)
+  }
   return (
     <MenubarPrimitive.Root
       data-slot="menubar"
       className={cn("flex h-10 w-fit items-center gap-0.5 rounded-lg border bg-card p-1 shadow-xs", className)}
+      value={value}
+      onValueChange={change}
       {...props}
     >
       {menus.map((menu, i) => (
@@ -48,7 +60,7 @@ function Menubar({ menus, linkAs, className, ...props }: MenubarProps) {
             {menu.label}
           </MenubarPrimitive.Trigger>
           <MenubarPrimitive.Portal container={portalContainer}>
-            <MenubarPrimitive.Content align="start" sideOffset={6} alignOffset={-4} className={cn(contentClass, menu.className)}>
+            <MenubarPrimitive.Content align="start" sideOffset={6} alignOffset={-4} className={cn(contentClass, switching && "animate-none!", menu.className)}>
               <MenuItems items={menu.items} primitives={MenubarPrimitive} linkAs={linkAs} panelClass={contentClass} />
             </MenubarPrimitive.Content>
           </MenubarPrimitive.Portal>
