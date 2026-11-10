@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-11-10
+
 ### Fixed
 
 - Combo Chart: a negative value on the right axis (a negative margin against revenue) now reads against the same zero as the bars: both axes put their zero on one grid line, with `alignZero={false}` to let each axis fit its own values; the solid grid line sits at zero, where bars stand, when a chart goes below it
@@ -119,7 +121,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/hasralgana/dashral/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/hasralgana/dashral/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hasralgana/dashral/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/hasralgana/dashral/compare/v1.1.0...v1.1.1
