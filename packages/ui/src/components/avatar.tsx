@@ -123,7 +123,9 @@ function AvatarGroup({ items, max, size = "md", showNames = false, className, ..
       {shown.map(({ id, ...item }, i) =>
         showNames && item.name ? (
           <Tooltip key={id ?? i} content={item.name}>
-            <span tabIndex={0} className={lift}>
+            {/* flex, not inline: an inline wrapper sits on a line of text, so an avatar with a picture and one with
+                initials (or the +N) would settle at different heights. */}
+            <span tabIndex={0} className={cn("flex", lift)}>
               <Avatar {...item} size={size} className="ring-2 ring-card" />
             </span>
           </Tooltip>

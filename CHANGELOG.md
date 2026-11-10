@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Avatar Group with showNames: avatars with initials and the +N count sat 3px lower than the ones with a picture; they line up now
+
 ## [1.2.0] - 2026-11-10
 
 ### Added
