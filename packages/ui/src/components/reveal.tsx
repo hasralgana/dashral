@@ -16,25 +16,46 @@ type RevealProps = {
   className?: string
 }
 
-/** The gap a Reveal adds to its parent's layout while it's there, and on which side of it: below when it comes first. */
-type RevealGap = { side: "marginTop" | "marginBottom"; size: number }
-
 /**
- * The parent's gap (grid, or a flex column) that this element brings with it. A Reveal grows that gap in with its
- * height, through a margin going from minus the gap to 0, so nothing below jumps when it's added or taken away.
+ * The gap a Reveal brings to its parent's grid or flex column, and the neighbor whose margin takes it back while the
+ * Reveal grows: the one before it (its bottom margin), or after it when it comes first (its top margin). A grid keeps
+ * the gap around any item, even 0px tall, and won't let that item's own negative margin shrink its row, so the
+ * neighbor's margin does it.
  */
-function revealGap(element: HTMLElement): RevealGap {
+type RevealGap = { neighbor: HTMLElement; side: "marginBottom" | "marginTop"; size: number }
+
+function revealGap(element: HTMLElement): RevealGap | null {
   let parent = element.parentElement
   while (parent && getComputedStyle(parent).display === "contents") parent = parent.parentElement
-  if (!parent) return { side: "marginTop", size: 0 }
+  if (!parent) return null
   const style = getComputedStyle(parent)
   const column = style.display.includes("grid") || (style.display.includes("flex") && style.flexDirection.startsWith("column"))
   const size = column ? parseFloat(style.rowGap) || 0 : 0
-  // Laid out in a contents wrapper, the element's own previous sibling may be missing: look at what comes before it
-  // in the parent's eyes.
+  if (!size) return null
+  // What the parent lays out: the element itself, or the contents wrapper it sits in.
   let node: HTMLElement = element
   while (node.parentElement && node.parentElement !== parent) node = node.parentElement
-  return { side: node.previousElementSibling ? "marginTop" : "marginBottom", size }
+  const before = node.previousElementSibling
+  if (before instanceof HTMLElement) return { neighbor: before, side: "marginBottom", size }
+  const after = node.nextElementSibling
+  return after instanceof HTMLElement ? { neighbor: after, side: "marginTop", size } : null
+}
+
+/**
+ * Glides the neighbor's margin with the Reveal's height: from minus the gap to its own as it opens; from its own to
+ * minus the gap as it closes, held there until the Reveal is gone (cancel it then, and the gap goes with it).
+ */
+function glideRevealGap(gap: RevealGap | null, opening: boolean, timing: { duration: number; easing: string }) {
+  if (!gap) return undefined
+  const own = parseFloat(getComputedStyle(gap.neighbor)[gap.side]) || 0
+  const shut = { [gap.side]: `${own - gap.size}px` }
+  const full = { [gap.side]: `${own}px` }
+  return gap.neighbor.animate(opening ? [shut, full] : [full, shut], { ...timing, fill: opening ? "none" : "forwards" })
+}
+
+/** The reader asked for less motion: the system setting, or the app's own (data-motion="reduce" on <html>). */
+function reducedMotion() {
+  return document.documentElement.dataset.motion === "reduce" || window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
 /**
@@ -44,38 +65,41 @@ function revealGap(element: HTMLElement): RevealGap {
  * themselves, with a title to click, use Collapsible.
  */
 function Reveal({ open, children, id, className }: RevealProps) {
-  const content = React.useRef<HTMLDivElement>(null)
-  const [gap, setGap] = React.useState<RevealGap>({ side: "marginTop", size: 0 })
-  // Opening, it starts with the gap taken back, then lets it go on the next frame so the margin transitions to 0.
-  const [settled, setSettled] = React.useState(false)
+  // The content element, followed through a state ref: Radix sets it up a step after open first turns true.
+  const [content, setContent] = React.useState<HTMLDivElement | null>(null)
+  const gap = React.useRef<RevealGap | null>(null)
 
+  // The gap glides with the height, on the same tokens as the height's animation.
   React.useLayoutEffect(() => {
-    if (!open || !content.current) return
-    setGap(revealGap(content.current))
-    setSettled(false)
-    const frame = requestAnimationFrame(() => setSettled(true))
-    return () => cancelAnimationFrame(frame)
-  }, [open])
+    if (!content) return
+    if (open) gap.current = revealGap(content)
+    if (reducedMotion()) return
+    const token = (name: string) => getComputedStyle(content).getPropertyValue(name).trim()
+    const ms = (value: string) => (value.endsWith("ms") ? parseFloat(value) : parseFloat(value) * 1000)
+    const glide = glideRevealGap(gap.current, open, {
+      duration: ms(token(open ? "--duration-considered" : "--duration-standard")),
+      easing: token(open ? "--ease-standard" : "--ease-exit"),
+    })
+    if (open || !glide) return () => glide?.cancel()
+    // Closed, Radix hides the content (its gap goes with it) rather than removing it: the neighbor's margin is let go
+    // in the same moment, before the next paint, so nothing jumps.
+    const hidden = new MutationObserver(() => {
+      if (content.hidden) glide.cancel()
+    })
+    hidden.observe(content, { attributes: true, attributeFilter: ["hidden"] })
+    return () => {
+      hidden.disconnect()
+      glide.cancel()
+    }
+  }, [open, content])
 
-  const margin = open && settled ? 0 : -gap.size
   return (
     <CollapsiblePrimitive.Root open={open} className="contents">
-      <CollapsiblePrimitive.Content
-        ref={content}
-        data-slot="reveal"
-        id={id}
-        className={collapsibleContentClass}
-        style={{
-          [gap.side]: margin,
-          transition: open
-            ? "margin var(--duration-considered) var(--ease-standard)"
-            : "margin var(--duration-standard) var(--ease-exit)",
-        }}
-      >
+      <CollapsiblePrimitive.Content ref={setContent} data-slot="reveal" id={id} className={collapsibleContentClass}>
         <div className={className}>{children}</div>
       </CollapsiblePrimitive.Content>
     </CollapsiblePrimitive.Root>
   )
 }
 
-export { Reveal, revealGap, type RevealProps, type RevealGap }
+export { Reveal, revealGap, glideRevealGap, type RevealProps, type RevealGap }

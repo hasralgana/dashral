@@ -1,13 +1,15 @@
 "use client"
 
 import * as React from "react"
-import { AnimatePresence, animate, motion, useMotionValue } from "motion/react"
-import { revealGap, type RevealGap, type RevealProps } from "@dashral/ui/components/reveal"
+import { AnimatePresence, motion, useIsPresent } from "motion/react"
+import { glideRevealGap, revealGap, type RevealGap, type RevealProps } from "@dashral/ui/components/reveal"
 
 import { useReducedMotion } from "../lib/reduced"
 import { duration, ease, spring } from "../lib/tokens"
 
 export type { RevealProps } from "@dashral/ui/components/reveal"
+
+const bezier = (points: readonly number[]) => `cubic-bezier(${points.join(", ")})`
 
 /**
  * The kit's Reveal with motion: the same props. Its height glides open with no overshoot while what's inside rises a
@@ -29,23 +31,27 @@ export function Reveal({ open, children, id, className }: RevealProps) {
   )
 }
 
+/** How the height folds away; the gap follows it on the same timing. */
+const closing = { duration: duration.standard, ease: ease.exit, delay: duration.fast / 2 }
+
 function RevealPanel({ id, className, reduced, children }: Omit<RevealProps, "open"> & { reduced: boolean }) {
   const panel = React.useRef<HTMLDivElement>(null)
-  // The parent's gap this brings, taken back at first and glided to 0 with the height, so nothing below jumps.
-  const margin = useMotionValue(0)
-  const [gap, setGap] = React.useState<RevealGap>({ side: "marginTop", size: 0 })
+  const gap = React.useRef<RevealGap | null>(null)
+  const present = useIsPresent()
 
+  // The parent's gap glides in with the height as it arrives, and out as it leaves (held until it's gone).
   React.useLayoutEffect(() => {
-    if (!panel.current) return
-    const measured = revealGap(panel.current)
-    setGap(measured)
-    if (reduced || !measured.size) return
-    margin.jump(-measured.size)
-    const glide = animate(margin, 0, spring.glide)
-    return () => glide.stop()
-    // Measured once, as it arrives.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (!panel.current || reduced) return
+    if (present) gap.current = revealGap(panel.current)
+    const glide = glideRevealGap(
+      gap.current,
+      present,
+      present
+        ? { duration: duration.considered * 1000, easing: bezier(ease.standard) }
+        : { duration: (closing.duration + closing.delay) * 1000, easing: bezier(ease.exit) }
+    )
+    return () => glide?.cancel()
+  }, [present, reduced])
 
   return (
     <motion.div
@@ -53,18 +59,9 @@ function RevealPanel({ id, className, reduced, children }: Omit<RevealProps, "op
       data-slot="reveal"
       id={id}
       className="overflow-hidden"
-      style={gap.side === "marginTop" ? { marginTop: margin } : { marginBottom: margin }}
       initial={reduced ? { opacity: 0 } : { height: 0 }}
       animate={reduced ? { opacity: 1 } : { height: "auto" }}
-      exit={
-        reduced
-          ? { opacity: 0, transition: { duration: duration.fast } }
-          : {
-              height: 0,
-              ...(gap.side === "marginTop" ? { marginTop: -gap.size } : { marginBottom: -gap.size }),
-              transition: { duration: duration.standard, ease: ease.exit, delay: duration.fast / 2 },
-            }
-      }
+      exit={reduced ? { opacity: 0, transition: { duration: duration.fast } } : { height: 0, transition: closing }}
       transition={reduced ? { duration: duration.fast } : spring.glide}
     >
       <motion.div
