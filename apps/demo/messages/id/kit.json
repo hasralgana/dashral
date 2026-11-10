@@ -123,6 +123,7 @@
   "areaChart": "Grafik area",
   "lineChart": "Grafik garis",
   "barChart": "Grafik batang",
+  "comboChart": "Grafik kombinasi",
   "funnelChart": "Grafik corong",
   "funnelFrom": "{rate} dari {from} berlanjut; {lost} berhenti",
   "sortableItem": "item yang bisa diurutkan",

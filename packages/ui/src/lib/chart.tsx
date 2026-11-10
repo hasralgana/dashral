@@ -19,6 +19,13 @@ export type ChartSeries = {
   color?: string
   /** Drawn dashed and quieter: a comparison, like the same period last year. Lines and areas only. */
   dashed?: boolean
+  /** ComboChart: drawn as bars (the default) or as a line. */
+  type?: "bar" | "line"
+  /**
+   * ComboChart and LineChart: read against an axis of its own on the right (on the left in right-to-left), for values
+   * of another kind, such as a margin in percent beside revenue. Its ticks fall on the left axis' grid lines.
+   */
+  axis?: "left" | "right"
 }
 
 /** One row of data: the index (a label, a timestamp or an ISO date) and a number for each series. */
@@ -51,6 +58,12 @@ export type CartesianChartProps = {
   "aria-label"?: string
 }
 
+/** For the charts with a second axis (ComboChart, LineChart): how its values are written. */
+export type RightAxisProps = {
+  /** How the right axis' values are written (series with `axis: "right"`), e.g. `{ style: "percent" }`. */
+  rightFormatOptions?: Intl.NumberFormatOptions
+}
+
 export const seriesColor = (series: ChartSeries, i: number) => series.color ?? `var(--chart-${(i % 5) + 1})`
 
 /** Round values for about `count` lines between min and max: steps of 1, 2 or 5 times a power of ten. */
@@ -64,6 +77,49 @@ export function niceTicks(min: number, max: number, count = 4) {
   for (let v = Math.floor(min / step) * step; v <= max + step * 1e-9; v += step) ticks.push(Number(v.toFixed(10)))
   if (ticks.at(-1)! < max) ticks.push(Number((ticks.at(-1)! + step).toFixed(10)))
   return ticks
+}
+
+/**
+ * `count` round values from at least `lo` to at least `hi`, evenly stepped: a second axis whose ticks fall on the first
+ * axis' grid lines (same count, same places), each still a round number.
+ */
+export function alignedTicks(lo: number, hi: number, count: number) {
+  if (count < 2) return niceTicks(lo, hi)
+  const steps = count - 1
+  const round = (raw: number) => {
+    const magnitude = 10 ** Math.floor(Math.log10(raw))
+    const n = raw / magnitude
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * magnitude
+  }
+  let step = round((hi - lo) / steps || Math.abs(hi) || 1)
+  let start = Math.floor(lo / step) * step
+  // Starting below lo can leave the top short of hi: take the next round step until it fits.
+  while (start + step * steps < hi - step * 1e-9) {
+    step = round(step * 1.01)
+    start = Math.floor(lo / step) * step
+  }
+  return Array.from({ length: count }, (_, i) => Number((start + step * i).toFixed(10)))
+}
+
+/**
+ * A bar with its end rounded, from the zero line `base` to `end` (above it, or below for a negative value). Its far
+ * end is rounded; the end on the zero line stays square.
+ */
+export function barPath(x: number, w: number, base: number, end: number, radius: number) {
+  const up = end <= base
+  const h = Math.abs(base - end)
+  const r = Math.max(0, Math.min(radius, h, w / 2))
+  const far = end
+  const sign = up ? 1 : -1
+  return [
+    `M${x},${base}`,
+    `V${far + sign * r}`,
+    `Q${x},${far} ${x + r},${far}`,
+    `H${x + w - r}`,
+    `Q${x + w},${far} ${x + w},${far + sign * r}`,
+    `V${base}`,
+    "Z",
+  ].join("")
 }
 
 export type Point = { x: number; y: number }
@@ -129,9 +185,17 @@ const Y_GAP = 10
  * screen readers). `band` lays the rows out as slots (bars); otherwise as points from edge to edge (lines, areas).
  */
 export function useCartesianChart(
-  props: CartesianChartProps & { band?: boolean; stacked?: boolean; zero?: boolean; roledescription: string }
+  props: CartesianChartProps &
+    RightAxisProps & {
+      band?: boolean
+      stacked?: boolean
+      zero?: boolean
+      /** Honors series' `axis: "right"` with a second axis; charts that draw on one scale leave it off. */
+      axes?: boolean
+      roledescription: string
+    }
 ) {
-  const { data, index, labelKey, series, height = 260, locale: localeProp, formatOptions, timeFormat, showYAxis = true, band = false, stacked = false, zero = true } = props
+  const { data, index, labelKey, series, height = 260, locale: localeProp, formatOptions, rightFormatOptions, timeFormat, showYAxis = true, band = false, stacked = false, zero = true, axes = false } = props
   const { t, locale: contextLocale, dir } = useLocale()
   // Right to left (Arabic), the chart reads that way too: the first point on the right, the values on the right.
   const rtl = dir === "rtl"
@@ -164,6 +228,16 @@ export function useCartesianChart(
     () => new Intl.NumberFormat(locale, { ...formatOptions, notation: "compact", maximumFractionDigits: 1, minimumFractionDigits: 0 }),
     [locale, formatOptions]
   )
+  // The right axis, for series that ask for it (and only when some series stay on the left).
+  const onRight = series.map((s) => axes && s.axis === "right")
+  const hasRight = onRight.some(Boolean) && !onRight.every(Boolean)
+  const right = (k: number) => hasRight && onRight[k]!
+  const rightValue = React.useMemo(() => new Intl.NumberFormat(locale, rightFormatOptions), [locale, rightFormatOptions])
+  const rightAxisValue = React.useMemo(
+    () => new Intl.NumberFormat(locale, { ...rightFormatOptions, notation: "compact", maximumFractionDigits: 1, minimumFractionDigits: 0 }),
+    [locale, rightFormatOptions]
+  )
+  const formatFor = (k: number) => (right(k) ? rightValue : value)
   const date = React.useMemo(() => (timeFormat ? new Intl.DateTimeFormat(locale, timeFormat) : null), [locale, timeFormat])
   const indexLabel = (row: ChartDatum | undefined) => {
     const raw = row?.[index]
@@ -172,34 +246,47 @@ export function useCartesianChart(
     return date.format(new Date(typeof raw === "number" ? raw : Date.parse(raw)))
   }
 
-  // Each series' values, and where each sits when stacked (its base and its top).
+  // Each series' values, and where each sits when stacked (its base and its top). Right-axis series never stack.
   const columns = data.map((row) => {
     let base = 0
-    return series.map((s) => {
+    return series.map((s, k) => {
       const v = toNumber(row[s.key])
-      const cell = stacked ? { value: v, base, top: base + v } : { value: v, base: 0, top: v }
-      if (stacked) base += v
+      const stacks = stacked && !right(k)
+      const cell = stacks ? { value: v, base, top: base + v } : { value: v, base: 0, top: v }
+      if (stacks) base += v
       return cell
     })
   })
-  const tops = columns.flatMap((c) => c.map((cell) => cell.top))
-  const lows = columns.flatMap((c) => c.map((cell) => (stacked ? cell.base : cell.value)))
+  const leftCells = columns.flatMap((c) => c.filter((_, k) => !right(k)))
+  const tops = leftCells.map((cell) => cell.top)
+  const lows = leftCells.map((cell) => (stacked ? cell.base : cell.value))
   const hi = tops.length ? Math.max(...tops) : 1
   const lo = tops.length ? Math.min(...lows) : 0
   const ticks = niceTicks(zero ? Math.min(0, lo) : lo - (hi - lo) * 0.1, hi)
   const min = ticks[0]!
   const max = ticks.at(-1)!
+  const rightCells = columns.flatMap((c) => c.filter((_, k) => right(k)).map((cell) => cell.value))
+  const rightLo = rightCells.length ? Math.min(...rightCells) : 0
+  const rightHi = rightCells.length ? Math.max(...rightCells) : 1
+  const rightTicks = hasRight ? alignedTicks(zero ? Math.min(0, rightLo) : rightLo - (rightHi - rightLo) * 0.1, rightHi, ticks.length) : []
+  const rightMin = rightTicks[0] ?? 0
+  const rightMax = rightTicks.at(-1) ?? 1
 
   // The axis is as wide as its longest label; the plot takes the rest.
   const tickLabels = ticks.map((v) => axisValue.format(v))
   const axisW = showYAxis ? Math.ceil(Math.max(...tickLabels.map((l) => l.length)) * 6.6) + Y_GAP : 0
-  const plotW = Math.max(0, (width ?? 0) - axisW)
+  const rightTickLabels = rightTicks.map((v) => rightAxisValue.format(v))
+  const rightW = showYAxis && hasRight ? Math.ceil(Math.max(...rightTickLabels.map((l) => l.length)) * 6.6) + Y_GAP : 0
+  const plotW = Math.max(0, (width ?? 0) - axisW - rightW)
   const plotH = Math.max(0, height - TOP - X_AXIS)
   const y = (v: number) => TOP + ((max - v) / (max - min || 1)) * plotH
+  const yRight = (v: number) => TOP + ((rightMax - v) / (rightMax - rightMin || 1)) * plotH
+  /** Where series k's value v sits: on its own axis. */
+  const yFor = (k: number, v: number) => (right(k) ? yRight(v) : y(v))
   const n = data.length
   const slot = n ? plotW / n : 0
   // Where the plot starts: after the axis, or at the left edge with the axis on the right.
-  const plotLeft = rtl ? 0 : axisW
+  const plotLeft = rtl ? rightW : axisW
   const along = (i: number) => (band ? slot * (i + 0.5) : n > 1 ? (i / (n - 1)) * plotW : plotW / 2)
   const x = (i: number) => plotLeft + (rtl ? plotW - along(i) : along(i))
 
@@ -212,7 +299,7 @@ export function useCartesianChart(
   // The tooltip's title: the row's own when it has one, else its label on the axis.
   const titles = data.map((row, i) => (labelKey && row[labelKey] != null ? String(row[labelKey]) : labels[i]!))
   const describe = (i: number) =>
-    `${titles[i]}: ${series.map((s, k) => `${s.label} ${value.format(columns[i]![k]!.value)}`).join(", ")}`
+    `${titles[i]}: ${series.map((s, k) => `${s.label} ${formatFor(k).format(columns[i]![k]!.value)}`).join(", ")}`
   const pick = (i: number | null, fromKeyboard = false) => {
     setActive(i)
     if (fromKeyboard && i !== null) setAnnounce(describe(i))
@@ -243,6 +330,12 @@ export function useCartesianChart(
     bottom: height - X_AXIS,
     x,
     y,
+    yFor,
+    formatFor,
+    hasRight,
+    rightTicks,
+    rightTickLabels,
+    rightW,
     slot,
     labels,
     titles,
@@ -298,7 +391,8 @@ export function ChartLegend({ series, className }: { series: ChartSeries[]; clas
         <li key={s.key} className="flex items-center gap-1.5">
           <span
             aria-hidden
-            className="h-0.5 w-3 rounded-full"
+            // A bar of a combo chart gets a block; lines (and every other chart's series) a stroke.
+            className={s.type === "bar" ? "size-2.5 rounded-sm" : "h-0.5 w-3 rounded-full"}
             style={s.dashed ? { backgroundImage: `linear-gradient(90deg, ${seriesColor(s, k)} 50%, transparent 50%)`, backgroundSize: "4px 2px" } : { background: seriesColor(s, k) }}
           />
           {s.label}
@@ -318,9 +412,23 @@ export function ChartAxes({ chart: h, band }: { chart: Chart; band: boolean }) {
           {h.showGrid && (
             <line x1={h.plotLeft} x2={h.plotLeft + h.plotW} y1={Math.round(h.y(v)) + 0.5} y2={Math.round(h.y(v)) + 0.5} stroke="var(--chart-grid)" strokeDasharray={i === 0 ? undefined : "2 4"} />
           )}
+          {h.showYAxis && h.hasRight && (
+            // The right axis' value on the same grid line (its ticks are aligned to the left axis').
+            <text
+              x={h.rtl ? h.rightW - 10 : h.plotLeft + h.plotW + 10}
+              y={h.y(v)}
+              dy="0.32em"
+              fontSize={11}
+              textAnchor={h.rtl ? "end" : "start"}
+              fill="var(--chart-axis)"
+              className="tabular-nums"
+            >
+              {h.rightTickLabels[i]}
+            </text>
+          )}
           {h.showYAxis && (
             <text
-              x={h.rtl ? h.plotW + 10 : h.axisW - 10}
+              x={h.rtl ? h.plotLeft + h.plotW + 10 : h.axisW - 10}
               y={h.y(v)}
               dy="0.32em"
               fontSize={11}
@@ -372,7 +480,7 @@ export function ChartReading({ chart: h, series, band, className }: { chart: Cha
   const i = h.active
   const x = h.x(i)
   // The highest value at this point: the tallest bar, or the topmost line.
-  const peak = Math.min(...series.map((_, k) => h.y(h.columns[i]![k]!.top)))
+  const peak = Math.min(...series.map((_, k) => h.yFor(k, h.columns[i]![k]!.top)))
   const gap = 10
   const minLeft = h.plotLeft
   const maxLeft = h.plotLeft + h.plotW - size.w
@@ -396,7 +504,7 @@ export function ChartReading({ chart: h, series, band, className }: { chart: Cha
         <svg aria-hidden width={h.width!} height={h.height} className="pointer-events-none absolute inset-0 overflow-visible">
           <line x1={Math.round(x) + 0.5} x2={Math.round(x) + 0.5} y1={h.top} y2={h.bottom} stroke="var(--chart-axis)" strokeDasharray="3 3" opacity={0.6} />
           {series.map((s, k) => (
-            <circle key={s.key} cx={x} cy={h.y(h.columns[i]![k]!.top)} r={4} fill="var(--background)" stroke={seriesColor(s, k)} strokeWidth={2} />
+            <circle key={s.key} cx={x} cy={h.yFor(k, h.columns[i]![k]!.top)} r={4} fill="var(--background)" stroke={seriesColor(s, k)} strokeWidth={2} />
           ))}
         </svg>
       )}
@@ -414,7 +522,7 @@ export function ChartReading({ chart: h, series, band, className }: { chart: Cha
             <li key={s.key} className="flex items-center gap-2">
               <span aria-hidden className="size-2 shrink-0 rounded-sm" style={{ background: seriesColor(s, k) }} />
               <span className="flex-1 text-muted-foreground">{s.label}</span>
-              <span className="font-medium tabular-nums">{h.value.format(h.columns[i]![k]!.value)}</span>
+              <span className="font-medium tabular-nums">{h.formatFor(k).format(h.columns[i]![k]!.value)}</span>
             </li>
           ))}
         </ul>

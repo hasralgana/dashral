@@ -133,6 +133,7 @@ export const defaultMessages = {
   areaChart: "Area chart",
   lineChart: "Line chart",
   barChart: "Bar chart",
+  comboChart: "Combo chart",
   funnelChart: "Funnel chart",
   /** Read out at a funnel step after the first. */
   funnelFrom: "{rate} of {from} carried on; {lost} dropped",

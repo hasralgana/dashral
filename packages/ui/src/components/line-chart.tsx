@@ -2,12 +2,13 @@
 
 import * as React from "react"
 
-import { type CartesianChartProps, ChartAxes, ChartLegend, ChartReading, type Curve, linePath, seriesColor, useCartesianChart } from "../lib/chart"
+import { type CartesianChartProps, type RightAxisProps, ChartAxes, ChartLegend, ChartReading, type Curve, linePath, seriesColor, useCartesianChart } from "../lib/chart"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 
 type LineChartProps = Omit<React.ComponentProps<"div">, "children"> &
-  CartesianChartProps & {
+  CartesianChartProps &
+  RightAxisProps & {
     /** How the line bends between points: smoothly (never past a value it didn't have), straight, or in steps. */
     curve?: Curve
     /** A dot on every point, not only the one being read. */
@@ -31,6 +32,7 @@ function LineChart({
   height,
   locale,
   formatOptions,
+  rightFormatOptions,
   timeFormat,
   showLegend,
   showGrid,
@@ -52,11 +54,13 @@ function LineChart({
     height,
     locale,
     formatOptions,
+    rightFormatOptions,
     timeFormat,
     showLegend,
     showGrid,
     showYAxis,
     zero: startAtZero,
+    axes: true,
     "aria-label": ariaLabel,
     roledescription: t("lineChart"),
   })
@@ -80,7 +84,7 @@ function LineChart({
               style={{ clipPath: h.drawn ? "inset(-8px -8px -8px -8px)" : `inset(0 ${h.width}px 0 0)` }}
             >
               {series.map((s, k) => {
-                const points = h.columns.map((cell, i) => ({ x: h.x(i), y: h.y(cell[k]!.value) }))
+                const points = h.columns.map((cell, i) => ({ x: h.x(i), y: h.yFor(k, cell[k]!.value) }))
                 return (
                   <g key={s.key}>
                     <path

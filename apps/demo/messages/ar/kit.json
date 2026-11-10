@@ -139,6 +139,7 @@
   "areaChart": "مخطط مساحي",
   "lineChart": "مخطط خطي",
   "barChart": "مخطط شريطي",
+  "comboChart": "مخطط مركّب",
   "funnelChart": "مخطط قمعي",
   "funnelFrom": "واصل {rate} من {from}؛ وتوقف {lost}",
   "sortableItem": "عنصر قابل للترتيب",

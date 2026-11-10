@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { type CartesianChartProps, ChartAxes, ChartLegend, ChartReading, seriesColor, useCartesianChart } from "../lib/chart"
+import { barPath, type CartesianChartProps, ChartAxes, ChartLegend, ChartReading, seriesColor, useCartesianChart } from "../lib/chart"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 
@@ -14,27 +14,6 @@ type BarChartProps = Omit<React.ComponentProps<"div">, "children"> &
     radius?: number
     classNames?: { legend?: string; tooltip?: string }
   }
-
-/**
- * A bar with its end rounded, from the zero line `base` to `end` (above it, or below for a negative value). Its far
- * end is rounded; the end on the zero line stays square.
- */
-function barPath(x: number, w: number, base: number, end: number, radius: number) {
-  const up = end <= base
-  const h = Math.abs(base - end)
-  const r = Math.max(0, Math.min(radius, h, w / 2))
-  const far = end
-  const sign = up ? 1 : -1
-  return [
-    `M${x},${base}`,
-    `V${far + sign * r}`,
-    `Q${x},${far} ${x + r},${far}`,
-    `H${x + w - r}`,
-    `Q${x + w},${far} ${x + w},${far + sign * r}`,
-    `V${base}`,
-    "Z",
-  ].join("")
-}
 
 /**
  * Values compared across categories or periods as bars: one series, several side by side, or stacked into a total.

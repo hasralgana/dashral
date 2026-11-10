@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Combo Chart: bars and lines on one chart, in one tag; each series is `type: "bar"` (the default) or `"line"`, and a line of another kind of value takes an axis of its own on the right (`axis: "right"`, written with `rightFormatOptions`), its ticks on the same grid lines. Line Chart takes `axis: "right"` and `rightFormatOptions` too
 - Numbers count to their new values when the data changes, as MetricCard's do: Donut Chart's legend, Bar List's values and shares, Treemap's total and tile values, Gauge's value and Progress Circle's percentage (with `CountTo` in `lib/count-to`, for your own numbers too). The Pricing Tiers block's prices count when the billing changes (they used to fade in again), and the Revenue Chart block's total when the period does
 - Funnel Chart has a Motion edition: when the data changes, every value, share and drop turns on odometer wheels while the bars and the flow glide to their new heights
 - Funnel Chart: conversion step by step, in one tag (`<FunnelChart data={steps} />`): each step's value and its share of the first step (or, with `percent="previous"`, of the step before) written out, the flow narrowing between the bars and how many dropped written above each one; the bars and their values rise in; when the data changes the bars and the flow ease to their new heights and the numbers count to theirs

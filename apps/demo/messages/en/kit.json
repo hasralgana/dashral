@@ -123,6 +123,7 @@
   "areaChart": "Area chart",
   "lineChart": "Line chart",
   "barChart": "Bar chart",
+  "comboChart": "Combo chart",
   "funnelChart": "Funnel chart",
   "funnelFrom": "{rate} of {from} carried on; {lost} dropped",
   "sortableItem": "sortable item",
