@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { useLocale } from "../lib/locale"
-import { enterMotion, riseMotion, stagger } from "../lib/motion"
+import { enterMotion, riseMotion, stagger, useCountTo } from "../lib/motion"
 import { cn } from "../lib/utils"
 import { TextReveal } from "./text-reveal"
 
@@ -39,10 +39,26 @@ const BAR = 0.56
 /** The rounding of a bar's top (or of the "lost" space above it), in pixels. */
 const RADIUS = 6
 
+/** A number that counts to its new value when the data changes (as MetricCard's does), written with `format`. */
+function Count({ value, format }: { value: number; format: Intl.NumberFormat }) {
+  return format.format(useCountTo(value))
+}
+
+/** The step's value: it rises into its line with its bar on arrival, then counts to each new value. */
+function RevealedCount({ value, format, delay }: { value: number; format: Intl.NumberFormat; delay: number }) {
+  const shown = useCountTo(value)
+  return (
+    <TextReveal as="span" variant="rise" trigger="mount" delay={delay} className="block truncate text-base font-semibold tabular-nums">
+      {format.format(shown)}
+    </TextReveal>
+  )
+}
+
 /**
  * Conversion step by step, in one tag: `<FunnelChart data={steps} />`. Each step is a column with its value and its
  * share written out; between the bars the flow narrows to the next step, and the space above a bar says how many
- * dropped there. Plain HTML and SVG, fills its container's width; the bars rise in one after another.
+ * dropped there. Plain HTML and SVG, fills its container's width; the bars rise in one after another, and new data
+ * eases them to their heights while the numbers count to theirs.
  */
 function FunnelChart({
   data,
@@ -101,12 +117,9 @@ function FunnelChart({
                 <span className={cn(enterMotion, "truncate text-xs text-muted-foreground")} style={stagger(i, 60)}>
                   {d.label}
                 </span>
-                {/* The value rises into its line with its bar; new data then simply changes it. */}
-                <TextReveal as="span" variant="rise" trigger="mount" delay={i * 60} className="block truncate text-base font-semibold tabular-nums">
-                  {format.format(d.value)}
-                </TextReveal>
+                <RevealedCount value={d.value} format={format} delay={i * 60} />
                 <span className={cn(enterMotion, "truncate text-xs text-muted-foreground tabular-nums")} style={stagger(i + 1, 60)}>
-                  {share(value, base)}
+                  <Count value={base ? value / base : 0} format={percent} />
                 </span>
                 {/* Read out: what's lost here, and how many of the step before carried on. */}
                 {previous !== undefined && (
@@ -135,7 +148,9 @@ function FunnelChart({
                     className="@container absolute grid place-items-center overflow-hidden border border-b-0 border-dashed border-muted-foreground/35 text-[11px] text-muted-foreground tabular-nums transition-[top,height] duration-(--duration-considered) ease-standard motion-reduce:transition-none"
                     style={{ left: `${left}%`, right: `${left}%`, top: lostTop, height: barTop - lostTop, borderTopLeftRadius: RADIUS, borderTopRightRadius: RADIUS }}
                   >
-                    {barTop - lostTop >= 18 && <span className="truncate px-0.5 @max-[3.75rem]:px-0 @max-[3.75rem]:text-[10px]">−{format.format(lost)}</span>}
+                    {barTop - lostTop >= 18 && <span className="truncate px-0.5 @max-[3.75rem]:px-0 @max-[3.75rem]:text-[10px]">
+                        −<Count value={lost} format={format} />
+                      </span>}
                   </div>
                 )}
 
