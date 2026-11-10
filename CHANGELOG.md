@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Scroll Shadow takes `fade="end"`: only the end fades while there's more, for a list whose headings stick to its top (the docs sidebar)
 - `npx create-dashral --pro` (0.2.3) never stops at Git's username and password prompt: without access it says at once what to do (accept the GitHub invitation, then `gh auth login`, or `--from` with SSH), and a lost connection is told apart from a missing invitation. With `--no-install` it clones Pro and prints the install and `pnpm dashral init` to run, instead of stopping at the setup, which needs the dependencies. Pro stays the monorepo so `pnpm dashral update` can bring in new apps and their migrations
 - `npx create-dashral` without a folder asks for the project's name (Enter takes `my-app`), as create-next-app does, instead of printing its help; a flag's value (`--template classic`) is never taken for the folder
 - `npx shadcn add @dashral/<name>` works with nothing to set up: Dashral is in shadcn's registry directory. The README, `@dashral/ui`'s README and a flat project's README now lead with the name, and the repository README keeps the full URL beside it

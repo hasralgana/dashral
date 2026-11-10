@@ -13,6 +13,11 @@ type ScrollShadowProps<T extends React.ElementType> = {
   orientation?: "vertical" | "horizontal"
   /** Length of the fade at each edge, in px. */
   size?: number
+  /**
+   * Which edges fade while there's more that way: both (default), or only the end, for a list whose headings stick to
+   * its top (a faded start would fade them too).
+   */
+  fade?: "both" | "end"
   /** Show the scrollbar as well as the fade. */
   scrollbar?: boolean
   /**
@@ -34,6 +39,7 @@ function ScrollShadow<T extends React.ElementType = "div">({
   as,
   orientation = "vertical",
   size = 40,
+  fade: fadeEdges = "both",
   scrollbar = false,
   arrows = false,
   step,
@@ -77,7 +83,7 @@ function ScrollShadow<T extends React.ElementType = "div">({
   }, [horizontal])
 
   const fade = `${size}px`
-  const mask = `linear-gradient(${horizontal ? (rtl ? "to left" : "to right") : "to bottom"}, ${edges.start ? "transparent" : "#000"}, #000 ${fade}, #000 calc(100% - ${fade}), ${edges.end ? "transparent" : "#000"})`
+  const mask = `linear-gradient(${horizontal ? (rtl ? "to left" : "to right") : "to bottom"}, ${edges.start && fadeEdges === "both" ? "transparent" : "#000"}, #000 ${fade}, #000 calc(100% - ${fade}), ${edges.end ? "transparent" : "#000"})`
 
   const area = (
     <Component
