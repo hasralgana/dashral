@@ -27,9 +27,9 @@ const collapsibleContentClass = cn(
   "overflow-hidden motion-reduce:animate-none",
   "data-[state=open]:animate-collapsible-down data-[state=open]:duration-(--duration-considered) data-[state=open]:ease-standard",
   "data-[state=closed]:animate-collapsible-up data-[state=closed]:duration-(--duration-standard) data-[state=closed]:ease-exit",
-  "[&[data-state=open]>div]:animate-in [&[data-state=open]>div]:fade-in-0 [&[data-state=open]>div]:slide-in-from-top-1 [&[data-state=open]>div]:duration-(--duration-considered) [&[data-state=open]>div]:ease-standard",
-  "[&[data-state=closed]>div]:animate-out [&[data-state=closed]>div]:fade-out-0 [&[data-state=closed]>div]:duration-(--duration-fast) [&[data-state=closed]>div]:ease-standard [&[data-state=closed]>div]:fill-mode-forwards",
-  "motion-reduce:[&>div]:animate-none"
+  "[&[data-state=open]>*]:animate-in [&[data-state=open]>*]:fade-in-0 [&[data-state=open]>*]:slide-in-from-top-1 [&[data-state=open]>*]:duration-(--duration-considered) [&[data-state=open]>*]:ease-standard",
+  "[&[data-state=closed]>*]:animate-out [&[data-state=closed]>*]:fade-out-0 [&[data-state=closed]>*]:duration-(--duration-fast) [&[data-state=closed]>*]:ease-standard [&[data-state=closed]>*]:fill-mode-forwards",
+  "motion-reduce:[&>*]:animate-none"
 )
 
 /**

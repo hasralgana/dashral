@@ -6,14 +6,40 @@ import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 import { collapsibleContentClass } from "./collapsible"
 
 type RevealProps = {
-  /** Shown while true. It grows in when it turns true and folds away when it turns false. */
-  open: boolean
-  /** What appears: a message, a field, a hint. */
+  /** Shown while true: it grows in when it turns true and folds away when it turns false. Inside a RevealList, a row is shown while it's in the list. */
+  open?: boolean
+  /** The element it is: "li" for a row of a RevealList, "span" inside a line of text. */
+  as?: "div" | "li" | "span"
+  /** What appears: a message, a field, a hint, a row. */
   children?: React.ReactNode
   /** Its own id, e.g. for aria-describedby on the field it explains. */
   id?: string
   /** The classes of what's inside (the part that fades), e.g. its text color. */
   className?: string
+}
+
+type RevealListProps = Omit<React.HTMLAttributes<HTMLElement>, "children"> & {
+  /** The list's element. */
+  as?: "ul" | "ol" | "div"
+  /** Its rows: a Reveal each, as="li", with a key. */
+  children?: React.ReactNode
+}
+
+/** Inside a RevealList: its rows are shown while they're in it, and arrive and leave on their own. */
+const RevealListContext = React.createContext(false)
+
+/**
+ * A list whose rows are Reveals: `<RevealList>{items.map((item) => <Reveal key={item.id} as="li">…</Reveal>)}</RevealList>`.
+ * Added rows grow in and removed ones fold away in the Motion edition; here they appear and go at once.
+ */
+function RevealList({ as: Tag = "ul", children, ...props }: RevealListProps) {
+  return (
+    <RevealListContext.Provider value={true}>
+      <Tag data-slot="reveal-list" {...props}>
+        {children}
+      </Tag>
+    </RevealListContext.Provider>
+  )
 }
 
 /**
@@ -64,16 +90,26 @@ function reducedMotion() {
  * flex column, the gap it brings grows in with it. Closed, it's out of the page and of reach. For a section people open
  * themselves, with a title to click, use Collapsible.
  */
-function Reveal({ open, children, id, className }: RevealProps) {
+function Reveal({ open: openProp, as: Tag = "div", children, id, className }: RevealProps) {
+  const inList = React.useContext(RevealListContext)
+  const open = openProp ?? true
+  const Inner = Tag === "span" ? "span" : "div"
   // The content element, followed through a state ref: Radix sets it up a step after open first turns true.
-  const [content, setContent] = React.useState<HTMLDivElement | null>(null)
+  const [content, setContent] = React.useState<HTMLElement | null>(null)
   const gap = React.useRef<RevealGap | null>(null)
+  // Open from the start (or a row already in its list), it's simply there: no gap to glide in.
+  const shownAtStart = React.useRef(open)
 
   // The gap glides with the height, on the same tokens as the height's animation.
   React.useLayoutEffect(() => {
     if (!content) return
     if (open) gap.current = revealGap(content)
-    if (reducedMotion()) return
+    if (open && shownAtStart.current) {
+      shownAtStart.current = false
+      return
+    }
+    shownAtStart.current = false
+    if (reducedMotion() || inList) return
     const token = (name: string) => getComputedStyle(content).getPropertyValue(name).trim()
     const ms = (value: string) => (value.endsWith("ms") ? parseFloat(value) : parseFloat(value) * 1000)
     const glide = glideRevealGap(gap.current, open, {
@@ -91,15 +127,18 @@ function Reveal({ open, children, id, className }: RevealProps) {
       hidden.disconnect()
       glide.cancel()
     }
-  }, [open, content])
+  }, [open, content, inList])
 
+  // Root and Content are one element (asChild), so a row stays a direct child of its list.
   return (
-    <CollapsiblePrimitive.Root open={open} className="contents">
-      <CollapsiblePrimitive.Content ref={setContent} data-slot="reveal" id={id} className={collapsibleContentClass}>
-        <div className={className}>{children}</div>
+    <CollapsiblePrimitive.Root open={open} asChild>
+      <CollapsiblePrimitive.Content ref={setContent} data-slot="reveal" id={id} className={collapsibleContentClass} asChild>
+        <Tag>
+          <Inner className={className}>{children}</Inner>
+        </Tag>
       </CollapsiblePrimitive.Content>
     </CollapsiblePrimitive.Root>
   )
 }
 
-export { Reveal, revealGap, glideRevealGap, type RevealProps, type RevealGap }
+export { Reveal, RevealList, RevealListContext, revealGap, glideRevealGap, type RevealProps, type RevealListProps, type RevealGap }

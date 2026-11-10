@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Swap: content that changes in place, in one tag (`<Swap value={copied}>{copied ? <Check /> : <Copy />}</Swap>`): the old content fades out while the new one arrives (fade, rise or pop), or after it (`wait`); for an icon turning into a check, a label after an action, a form giving way to a thank-you. With a Motion edition, in which what's around glides to the new size
+- Glide: an element that glides to its new place and size when the layout changes (a row as a list is sorted, a card as the view turns to a grid), or to another place by a shared `layoutId` (a highlight moving between cards). Its Motion edition does the gliding; without motion it's simply the element
+- RevealList, and `as` on Reveal: a list whose rows grow in when added, fold away when removed and glide to their new places in the Motion edition
 - Reveal: content that appears and disappears in place, in one tag (`<Reveal open={failed}>…</Reveal>`), its height growing so what's below moves down smoothly instead of jumping; for an error under a field or in a dialog, a hint, a field that depends on another. With a Motion edition: the height glides, what's inside rises as it fades in, and closing never cuts a line
 - Sortable: items you put in order by dragging, in one tag with the same parts as List: rows with a grip (or the whole row), numbered priorities, or a grid of tiles such as a product's photos. Mouse, touch (press and hold) and keyboard (Space, the arrow keys, Space), each step announced; `onReorder` gets the new order
 

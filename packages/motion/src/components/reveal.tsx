@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { AnimatePresence, motion, useIsPresent } from "motion/react"
-import { glideRevealGap, revealGap, type RevealGap, type RevealProps } from "@dashral/ui/components/reveal"
+import { AnimatePresence, PresenceContext, motion, useIsPresent } from "motion/react"
+import { RevealListContext, glideRevealGap, revealGap, type RevealGap, type RevealListProps, type RevealProps } from "@dashral/ui/components/reveal"
 
 import { useReducedMotion } from "../lib/reduced"
 import { duration, ease, spring } from "../lib/tokens"
 
-export type { RevealProps } from "@dashral/ui/components/reveal"
+export type { RevealListProps, RevealProps } from "@dashral/ui/components/reveal"
 
 const bezier = (points: readonly number[]) => `cubic-bezier(${points.join(", ")})`
 
@@ -17,13 +17,20 @@ const bezier = (points: readonly number[]) => `cubic-bezier(${points.join(", ")}
  * it. Closing, the content fades out fast, then the height folds away gathering speed, so no line is cut through.
  * With reduced motion it only fades.
  */
-export function Reveal({ open, children, id, className }: RevealProps) {
+export function Reveal({ open = true, as = "div", children, id, className }: RevealProps) {
   const reduced = useReducedMotion()
-
+  // A row of a RevealList: the list's presence brings it in and takes it away.
+  if (React.useContext(RevealListContext)) {
+    return (
+      <RevealPanel as={as} id={id} className={className} reduced={reduced} row>
+        {children}
+      </RevealPanel>
+    )
+  }
   return (
     <AnimatePresence initial={false}>
       {open && (
-        <RevealPanel key="reveal" id={id} className={className} reduced={reduced}>
+        <RevealPanel key="reveal" as={as} id={id} className={className} reduced={reduced}>
           {children}
         </RevealPanel>
       )}
@@ -31,18 +38,47 @@ export function Reveal({ open, children, id, className }: RevealProps) {
   )
 }
 
+/**
+ * The kit's RevealList with motion: added rows grow in, removed ones fold away, and the others glide to their new
+ * places (a row moving up as one above it leaves, or the list put in a new order).
+ */
+export function RevealList({ as: Tag = "ul", children, ...props }: RevealListProps) {
+  return (
+    <RevealListContext.Provider value={true}>
+      <Tag data-slot="reveal-list" {...props}>
+        <AnimatePresence initial={false}>{children}</AnimatePresence>
+      </Tag>
+    </RevealListContext.Provider>
+  )
+}
+
 /** How the height folds away; the gap follows it on the same timing. */
 const closing = { duration: duration.standard, ease: ease.exit, delay: duration.fast / 2 }
 
-function RevealPanel({ id, className, reduced, children }: Omit<RevealProps, "open"> & { reduced: boolean }) {
-  const panel = React.useRef<HTMLDivElement>(null)
+const panels = { div: motion.div, li: motion.li, span: motion.span }
+
+function RevealPanel({
+  as = "div",
+  id,
+  className,
+  reduced,
+  row = false,
+  children,
+}: Omit<RevealProps, "open"> & { reduced: boolean; row?: boolean }) {
+  const Panel = panels[as]
+  const Inner = as === "span" ? motion.span : motion.div
+  const panel = React.useRef<HTMLElement>(null)
   const gap = React.useRef<RevealGap | null>(null)
   const present = useIsPresent()
+  // There from the first render (open from the start, or a row already in its list): no gap to glide in.
+  const atStart = React.useRef(React.useContext(PresenceContext)?.initial === false)
 
-  // The parent's gap glides in with the height as it arrives, and out as it leaves (held until it's gone).
+  // The parent's gap glides in with the height as it arrives, and out as it leaves (held until it's gone). A list's
+  // rows have none to glide: their gap comes and goes as the rows around them glide.
   React.useLayoutEffect(() => {
-    if (!panel.current || reduced) return
+    if (!panel.current || reduced || row) return
     if (present) gap.current = revealGap(panel.current)
+    if (present && atStart.current) return
     const glide = glideRevealGap(
       gap.current,
       present,
@@ -51,20 +87,21 @@ function RevealPanel({ id, className, reduced, children }: Omit<RevealProps, "op
         : { duration: (closing.duration + closing.delay) * 1000, easing: bezier(ease.exit) }
     )
     return () => glide?.cancel()
-  }, [present, reduced])
+  }, [present, reduced, row])
 
   return (
-    <motion.div
-      ref={panel}
+    <Panel
+      ref={panel as React.Ref<never>}
       data-slot="reveal"
       id={id}
       className="overflow-hidden"
+      layout={row ? "position" : undefined}
       initial={reduced ? { opacity: 0 } : { height: 0 }}
       animate={reduced ? { opacity: 1 } : { height: "auto" }}
       exit={reduced ? { opacity: 0, transition: { duration: duration.fast } } : { height: 0, transition: closing }}
-      transition={reduced ? { duration: duration.fast } : spring.glide}
+      transition={reduced ? { duration: duration.fast } : { ...spring.glide, layout: spring.glide }}
     >
-      <motion.div
+      <Inner
         className={className}
         initial={reduced ? false : { opacity: 0, y: -4 }}
         animate={{ opacity: 1, y: 0 }}
@@ -72,7 +109,7 @@ function RevealPanel({ id, className, reduced, children }: Omit<RevealProps, "op
         transition={{ duration: duration.standard, ease: ease.enter }}
       >
         {children}
-      </motion.div>
-    </motion.div>
+      </Inner>
+    </Panel>
   )
 }
