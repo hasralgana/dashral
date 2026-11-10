@@ -19,6 +19,20 @@ type CollapsibleProps = Omit<React.ComponentProps<typeof CollapsiblePrimitive.Ro
 }
 
 /**
+ * How the content opens and closes, shared with Reveal (its single child div is what fades). Opening, the height grows
+ * at a calm pace while the content fades in, dropping a little. Closing, the content fades out fast while the height
+ * waits, then gathers speed (ease-exit), so no line is cut through as the box shrinks.
+ */
+const collapsibleContentClass = cn(
+  "overflow-hidden motion-reduce:animate-none",
+  "data-[state=open]:animate-collapsible-down data-[state=open]:duration-(--duration-considered) data-[state=open]:ease-standard",
+  "data-[state=closed]:animate-collapsible-up data-[state=closed]:duration-(--duration-standard) data-[state=closed]:ease-exit",
+  "[&[data-state=open]>div]:animate-in [&[data-state=open]>div]:fade-in-0 [&[data-state=open]>div]:slide-in-from-top-1 [&[data-state=open]>div]:duration-(--duration-considered) [&[data-state=open]>div]:ease-standard",
+  "[&[data-state=closed]>div]:animate-out [&[data-state=closed]>div]:fade-out-0 [&[data-state=closed]>div]:duration-(--duration-fast) [&[data-state=closed]>div]:ease-standard [&[data-state=closed]>div]:fill-mode-forwards",
+  "motion-reduce:[&>div]:animate-none"
+)
+
+/**
  * One section that opens and closes, in one tag: `<Collapsible title="Advanced settings">…</Collapsible>`. For a list
  * of sections where opening one closes the others, use Accordion.
  */
@@ -48,24 +62,11 @@ function Collapsible({ title, trigger, meta, children, className, classNames, ..
           </CollapsiblePrimitive.Trigger>
         )
       )}
-      <CollapsiblePrimitive.Content
-        data-slot="collapsible-content"
-        className={cn(
-          // Opening, the height grows at a calm pace while the content fades in, dropping a little. Closing, the content
-          // fades out fast while the height waits, then gathers speed (ease-exit), so no line is cut through as the box
-          // shrinks.
-          "overflow-hidden motion-reduce:animate-none",
-          "data-[state=open]:animate-collapsible-down data-[state=open]:duration-(--duration-considered) data-[state=open]:ease-standard",
-          "data-[state=closed]:animate-collapsible-up data-[state=closed]:duration-(--duration-standard) data-[state=closed]:ease-exit",
-          "[&[data-state=open]>div]:animate-in [&[data-state=open]>div]:fade-in-0 [&[data-state=open]>div]:slide-in-from-top-1 [&[data-state=open]>div]:duration-(--duration-considered) [&[data-state=open]>div]:ease-standard",
-          "[&[data-state=closed]>div]:animate-out [&[data-state=closed]>div]:fade-out-0 [&[data-state=closed]>div]:duration-(--duration-fast) [&[data-state=closed]>div]:ease-standard [&[data-state=closed]>div]:fill-mode-forwards",
-          "motion-reduce:[&>div]:animate-none"
-        )}
-      >
+      <CollapsiblePrimitive.Content data-slot="collapsible-content" className={collapsibleContentClass}>
         <div className={cn("pt-1 pb-2 text-sm", classNames?.content)}>{children}</div>
       </CollapsiblePrimitive.Content>
     </CollapsiblePrimitive.Root>
   )
 }
 
-export { Collapsible, type CollapsibleProps }
+export { Collapsible, collapsibleContentClass, type CollapsibleProps }

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Reveal: content that appears and disappears in place, in one tag (`<Reveal open={failed}>…</Reveal>`), its height growing so what's below moves down smoothly instead of jumping; for an error under a field or in a dialog, a hint, a field that depends on another. With a Motion edition: the height glides, what's inside rises as it fades in, and closing never cuts a line
 - Sortable: items you put in order by dragging, in one tag with the same parts as List: rows with a grip (or the whole row), numbered priorities, or a grid of tiles such as a product's photos. Mouse, touch (press and hold) and keyboard (Space, the arrow keys, Space), each step announced; `onReorder` gets the new order
 
 ### Changed
