@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Tracker: a row of status squares for uptime, job runs or habits, in one tag; each square's color says how it went, and hovering one (or the arrow keys) reads its label and note under the row while the others fade back. Where it's narrow, the oldest squares make room and the start label follows
 - Combo Chart: bars and lines on one chart, in one tag; each series is `type: "bar"` (the default) or `"line"`, and a line of another kind of value takes an axis of its own on the right (`axis: "right"`, written with `rightFormatOptions`), its ticks on the same grid lines. Line Chart takes `axis: "right"` and `rightFormatOptions` too
 - Numbers count to their new values when the data changes, as MetricCard's do: Donut Chart's legend, Bar List's values and shares, Treemap's total and tile values, Gauge's value and Progress Circle's percentage (with `CountTo` in `lib/count-to`, for your own numbers too). The Pricing Tiers block's prices count when the billing changes (they used to fade in again), and the Revenue Chart block's total when the period does
 - Funnel Chart has a Motion edition: when the data changes, every value, share and drop turns on odometer wheels while the bars and the flow glide to their new heights

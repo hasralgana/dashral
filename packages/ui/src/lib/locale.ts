@@ -134,6 +134,8 @@ export const defaultMessages = {
   lineChart: "Line chart",
   barChart: "Bar chart",
   comboChart: "Combo chart",
+  /** What a Tracker is, said after its name. */
+  tracker: "tracker",
   funnelChart: "Funnel chart",
   /** Read out at a funnel step after the first. */
   funnelFrom: "{rate} of {from} carried on; {lost} dropped",

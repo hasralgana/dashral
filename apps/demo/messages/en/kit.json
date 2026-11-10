@@ -124,6 +124,7 @@
   "lineChart": "Line chart",
   "barChart": "Bar chart",
   "comboChart": "Combo chart",
+  "tracker": "tracker",
   "funnelChart": "Funnel chart",
   "funnelFrom": "{rate} of {from} carried on; {lost} dropped",
   "sortableItem": "sortable item",
