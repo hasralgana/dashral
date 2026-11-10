@@ -12,7 +12,7 @@
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-155dfc?style=flat-square"></a>
   <a href="https://dashral.com/docs/installation"><img alt="shadcn registry: @dashral" src="https://img.shields.io/badge/shadcn%20registry-%40dashral-111111?style=flat-square"></a>
   <a href="https://www.npmjs.com/package/@dashral/ui"><img alt="npm: @dashral/ui" src="https://img.shields.io/npm/v/%40dashral%2Fui?style=flat-square&label=npm%20%40dashral%2Fui&color=111111"></a>
-  <img alt="112 components" src="https://img.shields.io/badge/components-112-155dfc?style=flat-square">
+  <img alt="114 components" src="https://img.shields.io/badge/components-114-155dfc?style=flat-square">
   <img alt="34 blocks" src="https://img.shields.io/badge/blocks-34-155dfc?style=flat-square">
   <img alt="31 motion editions" src="https://img.shields.io/badge/motion%20editions-31-155dfc?style=flat-square">
   <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-111111?style=flat-square">
@@ -136,7 +136,7 @@ One monorepo: the components, the blocks and a dashboard built from them. Their 
 
 | Part | What it is |
 | --- | --- |
-| **Components** · [`packages/ui`](packages/ui) | 112 accessible React components: inputs, selects, charts (area, line, bar and more), tables, overlays, a sidebar, seven for AI chat and more. The interactive ones are built on Radix UI. On npm as [`@dashral/ui`](https://www.npmjs.com/package/@dashral/ui). |
+| **Components** · [`packages/ui`](packages/ui) | 114 accessible React components: inputs, selects, charts (area, line, bar and more), tables, overlays, a sidebar, seven for AI chat and more. The interactive ones are built on Radix UI. On npm as [`@dashral/ui`](https://www.npmjs.com/package/@dashral/ui). |
 | **Motion** · [`packages/motion`](packages/motion) | 31 components with motion/react on top: the same props and look as the kit's, one import to swap, doing what CSS alone can't. Numbers turn on odometer wheels (NumberInput, Badge, Slider's bubble, FunnelChart as its bars glide). Controls answer your hands: drag a Switch's thumb, stretch a Slider past its ends like a rubber band, swipe a Dialog down to close or a Tab to the next, sweep down a list of Checkboxes, hold a Button to confirm (five ways to show the hold). Limits are felt (a strain, a shake, a "Max 50"), toasts fold into a stack that spreads on hover, phones buzz. Menus and Selects spring out of their trigger with one highlight gliding from item to item, Popovers glide to new heights, a Reveal grows in and folds away without cutting a line (a whole list of rows too), a Swap trades what it shows in place, a Glide follows the layout to its new place and size, an ActionBar rises on a spring, Progress glides to each value and shines when done. The Sidebar springs its width as it folds, its current page and hover gliding from row to row; AlertDialog shakes when you click past it; InputOTP pops each character in and ripples when the code is full. A Button with morph changes its text label letter by letter (Follow to Following); Kbd's keys press in as you hold the real ones; ToggleGroup springs one background between its toggles; TimePicker's list glides its highlight and draws its tick. And the rest: Tabs, Accordion, Tooltip, Input, Textarea, SegmentedControl and RadioGroup on springs, gliding to new sizes. On npm as [`@dashral/motion`](https://www.npmjs.com/package/@dashral/motion). |
 | **Blocks** · [`packages/blocks`](packages/blocks) | 34 free blocks, whole pieces of a page: an AI assistant, headers, sidebars, dashboard cards, heroes, features, pricing, testimonials, FAQ, calls to action, footers, sign-in and a 404 page. Each takes your own data and actions through its props, with sample content by default. See them live at [dashral.com/blocks](https://dashral.com/blocks). |
 | **Dashboard** · [`apps/demo`](apps/demo) | A Next.js admin template built from the components, in two layouts: Classic (overview, finance, projects, support, inventory and monitoring dashboards, files, an AI assistant, getting started, settings, pricing, sign-in with two-factor and error pages) and Inset (eleven pages, in black and white), with ⌘K search over everything. |
@@ -329,7 +329,7 @@ Dashral Pro builds on this repository with the dashboards and apps a product nee
 
 | | Free | Pro |
 | --- | :---: | :---: |
-| 112 accessible components (seven for AI chat), docs and the shadcn registry | ✓ | ✓ |
+| 114 accessible components (seven for AI chat), docs and the shadcn registry | ✓ | ✓ |
 | 34 blocks: an AI assistant, headers, sidebars, dashboard, heroes, features, pricing, testimonials, FAQ, calls to action, footers, sign-in, a 404 page | ✓ | ✓ |
 | Classic dashboard template: overview, finance, projects, support, inventory, monitoring, files, AI assistant, getting started, settings, pricing, sign-in and error pages | ✓ | ✓ |
 | Inset dashboard template: overview, customers, invoices, activity, reports, team, billing, API keys, integrations, settings and pricing, in black and white | ✓ | ✓ |
