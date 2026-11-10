@@ -76,6 +76,13 @@ function Autocomplete({
   const [open, setOpen] = React.useState(false)
   const [active, setActive] = React.useState(-1)
   const field = React.useRef<HTMLInputElement>(null)
+  // The field's box ([data-slot="input"]: the box around a prefix and the input, or the input itself without one).
+  const box = React.useRef({
+    getBoundingClientRect: () => {
+      const input = field.current
+      return (input?.closest<HTMLElement>('[data-slot="input"]') ?? input)?.getBoundingClientRect() ?? new DOMRect()
+    },
+  })
 
   const all = suggestions.map((s) => (typeof s === "string" ? { value: s } : s))
   const needle = fold(text.trim())
@@ -95,51 +102,52 @@ function Autocomplete({
 
   return (
     <PopoverRoot open={expanded} onOpenChange={setOpen}>
-      <PopoverAnchor asChild>
-        <Input
-          {...props}
-          ref={field}
-          value={text}
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded={expanded}
-          aria-controls={listId}
-          aria-activedescendant={expanded && active >= 0 ? `${listId}-${active}` : undefined}
-          autoComplete="off"
-          className={className}
-          classNames={classNames}
-          onFocus={(event) => {
+      {/* The list lines up with the field's box, not the bare input: with a prefix (a search icon) the input starts
+          after it, and the list would start there too, narrower than the field. */}
+      <PopoverAnchor virtualRef={box} />
+      <Input
+        {...props}
+        ref={field}
+        value={text}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={expanded}
+        aria-controls={listId}
+        aria-activedescendant={expanded && active >= 0 ? `${listId}-${active}` : undefined}
+        autoComplete="off"
+        className={className}
+        classNames={classNames}
+        onFocus={(event) => {
+          setOpen(true)
+          onFocus?.(event)
+        }}
+        onBlur={(event) => {
+          setOpen(false)
+          setActive(-1)
+          onBlur?.(event)
+        }}
+        onChange={(event) => {
+          change(event.target.value)
+          setOpen(true)
+          setActive(-1)
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault()
             setOpen(true)
-            onFocus?.(event)
-          }}
-          onBlur={(event) => {
+            const step = event.key === "ArrowDown" ? 1 : -1
+            setActive((i) => (shown.length ? (i + step + shown.length) % shown.length : -1))
+          } else if (event.key === "Enter" && expanded && active >= 0 && shown[active]) {
+            event.preventDefault()
+            choose(shown[active].value)
+          } else if (event.key === "Escape" && expanded) {
+            event.preventDefault()
+            event.stopPropagation()
             setOpen(false)
-            setActive(-1)
-            onBlur?.(event)
-          }}
-          onChange={(event) => {
-            change(event.target.value)
-            setOpen(true)
-            setActive(-1)
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-              event.preventDefault()
-              setOpen(true)
-              const step = event.key === "ArrowDown" ? 1 : -1
-              setActive((i) => (shown.length ? (i + step + shown.length) % shown.length : -1))
-            } else if (event.key === "Enter" && expanded && active >= 0 && shown[active]) {
-              event.preventDefault()
-              choose(shown[active].value)
-            } else if (event.key === "Escape" && expanded) {
-              event.preventDefault()
-              event.stopPropagation()
-              setOpen(false)
-            }
-            onKeyDown?.(event)
-          }}
-        />
-      </PopoverAnchor>
+          }
+          onKeyDown?.(event)
+        }}
+      />
       <PopoverContent
         align="start"
         sideOffset={6}
@@ -147,10 +155,11 @@ function Autocomplete({
         // The focus stays in the field: the list never takes it.
         onOpenAutoFocus={(event) => event.preventDefault()}
         onCloseAutoFocus={(event) => event.preventDefault()}
-        // The field anchors the list rather than triggering it, so Radix would count a press on it as outside and
-        // close the list as it opens. The field closes it itself, on blur.
+        // The field anchors the list rather than triggering it, so Radix would count a press on it (its prefix
+        // included) as outside and close the list as it opens. The field closes it itself, on blur.
         onInteractOutside={(event) => {
-          if (event.target instanceof Node && field.current?.contains(event.target)) event.preventDefault()
+          const fieldBox = field.current?.closest('[data-slot="input"]') ?? field.current
+          if (event.target instanceof Node && fieldBox?.contains(event.target)) event.preventDefault()
         }}
       >
         <ul id={listId} role="listbox" className="max-h-64 overflow-y-auto">
