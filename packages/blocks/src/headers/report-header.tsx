@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronDown, Download, FileSpreadsheet, FileText, GitCompareArrows, Plus, Share2, X } from "lucide-react"
 import { Badge } from "@dashral/ui/components/badge"
 import { Breadcrumb } from "@dashral/ui/components/breadcrumb"
@@ -69,7 +69,10 @@ export function ReportHeader({
   onAddFilter?: () => void
 }) {
   const [period, setPeriod] = useState<Period | "">(defaultPeriod)
-  const [range, setRange] = useState<DateRange | undefined>(() => lastDays(periods[defaultPeriod]))
+  // Today's dates are worked out in the browser, after the first render: a page rendered ahead of time (a static build,
+  // a cache) would otherwise show the day it was built and fail to hydrate.
+  const [range, setRange] = useState<DateRange | undefined>()
+  useEffect(() => setRange((current) => current ?? lastDays(periods[defaultPeriod])), [defaultPeriod])
   const [ownCompare, setOwnCompare] = useState(true)
   const compare = compareProp ?? ownCompare
   const setCompare = (next: boolean) => {

@@ -31,12 +31,15 @@ import {
 import {
   ArrowDown,
   ArrowUp,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
   ChevronsUpDown,
   Download,
+  FileSpreadsheet,
+  FileText,
   PlusCircle,
   Search,
   SearchX,
@@ -223,7 +226,10 @@ function humanize(id: string) {
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
-const formatLabels: Record<ExportFormat, string> = { csv: "CSV", xlsx: "Excel (.xlsx)" }
+const formatItems: Record<ExportFormat, { label: string; icon: React.ReactNode }> = {
+  csv: { label: "CSV", icon: <FileText /> },
+  xlsx: { label: "Excel", icon: <FileSpreadsheet /> },
+}
 
 function DataTableExportMenu<TData extends RowData>({ table, options }: { table: DataTableInstance<TData>; options: DataTableExport<TData> }) {
   const { t } = useLocale()
@@ -264,12 +270,13 @@ function DataTableExportMenu<TData extends RowData>({ table, options }: { table:
         // Icon only on phones; the label is still read out.
         <Button variant="outline" size="sm" className="h-8 max-sm:w-8 max-sm:px-0">
           <Download aria-hidden /> <span className="max-sm:sr-only">{t("export")}</span>
+          <ChevronDown className="text-muted-foreground max-sm:hidden" aria-hidden />
         </Button>
       }
       items={[
-        { type: "label", label: selected ? t("exportSelected", { count: selected }) : t("exportAll") },
-        { type: "separator" },
-        ...formats.map((format) => ({ label: formatLabels[format], onSelect: () => download(format) })),
+        // The formats, as in every export menu; with rows selected, a heading says only those go.
+        ...(selected ? [{ type: "label" as const, label: t("exportSelected", { count: selected }) }, { type: "separator" as const }] : []),
+        ...formats.map((format) => ({ ...formatItems[format], onSelect: () => download(format) })),
       ]}
     />
   )
