@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-10
+
 ### Added
 
 - Tracker: a row of status squares for uptime, job runs or habits, in one tag; each square's color says how it went, and hovering one (or the arrow keys) reads its label and note under the row while the others fade back. Where it's narrow, the oldest squares make room and the start label follows
@@ -113,7 +115,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/hasralgana/dashral/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hasralgana/dashral/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/hasralgana/dashral/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/hasralgana/dashral/compare/v1.0.0...v1.1.0
