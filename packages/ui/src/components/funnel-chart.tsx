@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { CountTo } from "../lib/count-to"
 import { useLocale } from "../lib/locale"
 import { enterMotion, riseMotion, stagger, useCountTo } from "../lib/motion"
 import { cn } from "../lib/utils"
@@ -34,15 +35,12 @@ type FunnelChartProps = Omit<React.ComponentProps<"div">, "children" | "color"> 
   classNames?: { step?: string; bar?: string }
 }
 
+const percentOptions: Intl.NumberFormatOptions = { style: "percent", maximumFractionDigits: 1 }
+
 /** A bar takes this share of its column; the rest is the flow to the next step. */
 const BAR = 0.56
 /** The rounding of a bar's top (or of the "lost" space above it), in pixels. */
 const RADIUS = 6
-
-/** A number that counts to its new value when the data changes (as MetricCard's does), written with `format`. */
-function Count({ value, format }: { value: number; format: Intl.NumberFormat }) {
-  return format.format(useCountTo(value))
-}
 
 /** The step's value: it rises into its line with its bar on arrival, then counts to each new value. */
 function RevealedCount({ value, format, delay }: { value: number; format: Intl.NumberFormat; delay: number }) {
@@ -119,7 +117,7 @@ function FunnelChart({
                 </span>
                 <RevealedCount value={d.value} format={format} delay={i * 60} />
                 <span className={cn(enterMotion, "truncate text-xs text-muted-foreground tabular-nums")} style={stagger(i + 1, 60)}>
-                  <Count value={base ? value / base : 0} format={percent} />
+                  <CountTo value={base ? value / base : 0} locale={locale} formatOptions={percentOptions} />
                 </span>
                 {/* Read out: what's lost here, and how many of the step before carried on. */}
                 {previous !== undefined && (
@@ -149,7 +147,7 @@ function FunnelChart({
                     style={{ left: `${left}%`, right: `${left}%`, top: lostTop, height: barTop - lostTop, borderTopLeftRadius: RADIUS, borderTopRightRadius: RADIUS }}
                   >
                     {barTop - lostTop >= 18 && <span className="truncate px-0.5 @max-[3.75rem]:px-0 @max-[3.75rem]:text-[10px]">
-                        −<Count value={lost} format={format} />
+                        −<CountTo value={lost} locale={locale} formatOptions={formatOptions} />
                       </span>}
                   </div>
                 )}

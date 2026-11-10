@@ -28,6 +28,7 @@
     "./globals.css": "./src/styles/globals.css",
     "./themes.css": "./src/styles/themes.css",
     "./lib/chart": "./src/lib/chart.tsx",
+    "./lib/count-to": "./src/lib/count-to.tsx",
     "./lib/portal": "./src/lib/portal.tsx",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx"

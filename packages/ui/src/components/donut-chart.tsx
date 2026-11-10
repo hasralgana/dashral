@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { CountTo } from "../lib/count-to"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 
@@ -30,6 +31,7 @@ type DonutChartProps = Omit<React.ComponentProps<"div">, "children"> & {
   "aria-label"?: string
 }
 
+const percentOptions: Intl.NumberFormatOptions = { style: "percent", maximumFractionDigits: 1 }
 const colorAt = (i: number) => `var(--chart-${(i % 5) + 1})`
 
 /**
@@ -76,7 +78,16 @@ function DonutChart({
     <div data-slot="donut-chart" className={cn("flex flex-wrap items-center gap-6", className)} {...props}>
       {/* Centered when the legend wraps under it; beside the legend, the legend takes the room. */}
       <div className="relative mx-auto shrink-0" style={{ width: size, height: size }}>
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" role="img" aria-label={ariaLabel}>
+        {/* Hover stays on while the pointer crosses the gaps between slices (and the hole); it ends when it leaves the ring. */}
+        <svg
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          className="-rotate-90"
+          role="img"
+          aria-label={ariaLabel}
+          onPointerLeave={() => setActive(null)}
+        >
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="var(--muted)" strokeWidth={thickness} />
           {slices.map((s) =>
             s.length > 0 ? (
@@ -94,7 +105,6 @@ function DonutChart({
                 className="transition-[stroke-dasharray,stroke-dashoffset,opacity] duration-(--duration-considered) ease-enter motion-reduce:transition-none"
                 style={{ opacity: active === null || active === s.i ? 1 : 0.35 }}
                 onPointerEnter={() => setActive(s.i)}
-                onPointerLeave={() => setActive(null)}
               >
                 <title>{`${s.label}: ${format.format(s.value)} (${percent.format(total ? s.value / total : 0)})`}</title>
               </circle>
@@ -102,9 +112,14 @@ function DonutChart({
           )}
         </svg>
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center" aria-live="polite">
+          {/* The hovered slice's value counts from the total (or the slice before) to its own; it stays mounted, counting
+              back to the total, so the next hover starts from there. Read out once, in full. */}
+          <span aria-hidden className={cn("text-lg font-semibold tabular-nums", !highlighted && "hidden")}>
+            <CountTo value={highlighted ? highlighted.value : total} locale={locale} formatOptions={formatOptions} />
+          </span>
           {highlighted ? (
             <>
-              <span className="text-lg font-semibold tabular-nums">{format.format(highlighted.value)}</span>
+              <span className="sr-only">{format.format(highlighted.value)}</span>
               <span className="max-w-[70%] truncate text-xs text-muted-foreground">{highlighted.label}</span>
             </>
           ) : (
@@ -113,18 +128,23 @@ function DonutChart({
         </div>
       </div>
       {/* Beside the ring when there's room for it, under it on a narrow screen. */}
-      <ul className={cn("grid min-w-0 grow basis-56 grid-cols-1 gap-2 text-sm", !showLegend && "sr-only")}>
+      {/* Rows touch (their padding is the spacing), so moving from one to the next never drops the hover in between. */}
+      <ul className={cn("grid min-w-0 grow basis-56 grid-cols-1 text-sm", !showLegend && "sr-only")} onPointerLeave={() => setActive(null)}>
         {slices.map((s) => (
           <li
             key={s.i}
-            className="flex items-center gap-2 rounded-md px-1 transition-colors hover:bg-accent/60"
+            className="flex items-center gap-2 rounded-md px-1 py-1 transition-colors hover:bg-accent/60"
             onPointerEnter={() => setActive(s.i)}
-            onPointerLeave={() => setActive(null)}
           >
             <span aria-hidden className="size-2.5 shrink-0 rounded-sm" style={{ background: s.color }} />
             <span className="min-w-0 flex-1 truncate">{s.label}</span>
-            <span className="font-medium tabular-nums">{format.format(s.value)}</span>
-            <span className="w-12 text-end text-xs text-muted-foreground tabular-nums">{percent.format(total ? s.value / total : 0)}</span>
+            {/* New data: values and shares count to theirs as the slices ease. */}
+            <span className="font-medium tabular-nums">
+              <CountTo value={s.value} locale={locale} formatOptions={formatOptions} />
+            </span>
+            <span className="w-12 text-end text-xs text-muted-foreground tabular-nums">
+              <CountTo value={total ? s.value / total : 0} locale={locale} formatOptions={percentOptions} />
+            </span>
           </li>
         ))}
       </ul>

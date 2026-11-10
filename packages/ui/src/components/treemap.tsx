@@ -3,8 +3,11 @@
 import * as React from "react"
 import { ChevronRightIcon } from "lucide-react"
 
+import { CountTo } from "../lib/count-to"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
+
+const percentOptions: Intl.NumberFormatOptions = { style: "percent", maximumFractionDigits: 1 }
 
 export type TreemapDatum = {
   label: string
@@ -239,7 +242,9 @@ function Treemap({
                   {current ? (
                     <span aria-current="page" className="truncate font-medium">
                       {label}
-                      <span className="ms-2 font-normal text-muted-foreground tabular-nums">{format.format(total)}</span>
+                      <span className="ms-2 font-normal text-muted-foreground tabular-nums">
+                        <CountTo value={total} locale={locale} formatOptions={formatOptions} />
+                      </span>
                     </span>
                   ) : (
                     <button
@@ -258,8 +263,15 @@ function Treemap({
           <p aria-live="polite" className="truncate text-muted-foreground tabular-nums">
             {hovered && (
               <>
-                <span className="text-foreground">{hovered.datum.label}</span> {format.format(hovered.value)} ·{" "}
-                {percent.format(total ? hovered.value / total : 0)}
+                <span className="text-foreground">{hovered.datum.label}</span>{" "}
+                {/* Moving from tile to tile counts the numbers to the new one's; read out once, in full. */}
+                <span aria-hidden>
+                  <CountTo value={hovered.value} locale={locale} formatOptions={formatOptions} /> ·{" "}
+                  <CountTo value={total ? hovered.value / total : 0} locale={locale} formatOptions={percentOptions} />
+                </span>
+                <span className="sr-only">
+                  {format.format(hovered.value)} · {percent.format(total ? hovered.value / total : 0)}
+                </span>
               </>
             )}
           </p>
@@ -280,7 +292,9 @@ function Treemap({
                   <span className="flex h-7 min-w-0 items-center gap-1.5 px-2 text-xs">
                     <span className={cn("truncate font-medium text-foreground", classNames?.label)}>{tile.datum.label}</span>
                     {px.w >= 120 && (
-                      <span className={cn("shrink-0 text-muted-foreground tabular-nums", classNames?.value)}>{format.format(tile.value)}</span>
+                      <span className={cn("shrink-0 text-muted-foreground tabular-nums", classNames?.value)}>
+                        <CountTo value={tile.value} locale={locale} formatOptions={formatOptions} />
+                      </span>
                     )}
                   </span>
                 )}
@@ -297,7 +311,11 @@ function Treemap({
             ) : (
               <span className="grid min-w-0 gap-0.5 p-2">
                 {showLabel && <span className={cn("truncate text-xs font-medium text-foreground", classNames?.label)}>{tile.datum.label}</span>}
-                {showValue && <span className={cn("truncate text-xs text-muted-foreground tabular-nums", classNames?.value)}>{format.format(tile.value)}</span>}
+                {showValue && (
+                  <span className={cn("truncate text-xs text-muted-foreground tabular-nums", classNames?.value)}>
+                    <CountTo value={tile.value} locale={locale} formatOptions={formatOptions} />
+                  </span>
+                )}
               </span>
             )
             const tileClass = cn(

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { CountTo } from "../lib/count-to"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 
@@ -85,7 +86,9 @@ function Gauge({
           />
         </svg>
         <div className="absolute inset-x-0 bottom-0 flex flex-col items-center leading-tight" aria-hidden>
-          <span className="text-2xl font-semibold tracking-tight text-foreground tabular-nums">{text}</span>
+          <span className="text-2xl font-semibold tracking-tight text-foreground tabular-nums">
+            <CountTo value={value} locale={locale} formatOptions={formatOptions} />
+          </span>
           {label && <span className="text-xs text-muted-foreground">{label}</span>}
         </div>
       </div>

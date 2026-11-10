@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { CountTo } from "../lib/count-to"
 import { enterMotion, growMotion, stagger } from "../lib/motion"
 import { cn } from "../lib/utils"
 
@@ -45,6 +46,8 @@ type BarListProps = Omit<React.HTMLAttributes<HTMLElement>, "children" | "color"
   classNames?: { item?: string; icon?: string; label?: string; value?: string; track?: string; bar?: string }
 }
 
+const shareOptions: Intl.NumberFormatOptions = { style: "percent", maximumFractionDigits: 0 }
+
 const barColors: Record<BarListColor, string> = {
   primary: "bg-primary",
   neutral: "bg-foreground/70",
@@ -57,7 +60,8 @@ const barColors: Record<BarListColor, string> = {
 
 /**
  * Values side by side as labelled bars, in one tag: top products, traffic sources, storage by type. Every value is
- * written out, so the bars only add a quick sense of size; they grow in one after another.
+ * written out, so the bars only add a quick sense of size; they grow in one after another, and new values count to
+ * theirs.
  */
 function BarList({
   items,
@@ -73,8 +77,6 @@ function BarList({
   classNames,
   ...props
 }: BarListProps) {
-  const format = new Intl.NumberFormat(locale, formatOptions)
-  const percent = new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 0 })
   const full = max ?? Math.max(0, ...items.map((item) => item.value))
   const sum = total ?? items.reduce((acc, item) => acc + Math.max(0, item.value), 0)
   const List = showRank ? "ol" : "ul"
@@ -102,10 +104,10 @@ function BarList({
                 {item.hint != null && <span className="min-w-0 truncate text-xs text-muted-foreground">{item.hint}</span>}
               </span>
               {item.meta != null && <span className="shrink-0 text-xs text-muted-foreground tabular-nums">{item.meta}</span>}
-              <span className={cn("shrink-0 text-end font-semibold tabular-nums", classNames?.value)}>{item.display ?? format.format(item.value)}</span>
+              <span className={cn("shrink-0 text-end font-semibold tabular-nums", classNames?.value)}>{item.display ?? <CountTo value={item.value} locale={locale} formatOptions={formatOptions} />}</span>
               {showShare && (
                 <span className="w-9 shrink-0 text-end text-xs text-muted-foreground tabular-nums">
-                  {percent.format(sum ? Math.max(0, item.value) / sum : 0)}
+                  <CountTo value={sum ? Math.max(0, item.value) / sum : 0} locale={locale} formatOptions={shareOptions} />
                 </span>
               )}
             </div>

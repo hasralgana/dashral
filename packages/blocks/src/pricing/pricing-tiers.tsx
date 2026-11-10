@@ -5,6 +5,7 @@ import { Check } from "lucide-react"
 import { Badge } from "@dashral/ui/components/badge"
 import { Button } from "@dashral/ui/components/button"
 import { SegmentedControl } from "@dashral/ui/components/segmented-control"
+import { useCountTo } from "@dashral/ui/lib/motion"
 import { cn } from "@dashral/ui/lib/utils"
 
 export type Billing = "monthly" | "yearly"
@@ -44,6 +45,11 @@ const samplePlans: TierPlan[] = [
     features: ["Everything in Team", "Unlimited data sources", "Unlimited history", "SSO and an audit log", "A named account manager"],
   },
 ]
+
+/** A plan's price, counting to the new amount when the billing changes. */
+function Price({ value, money }: { value: number; money: (n: number) => string }) {
+  return money(useCountTo(value))
+}
 
 /**
  * Plans side by side: a monthly/yearly switch that shows the saving, the popular plan raised and marked, what each
@@ -122,9 +128,9 @@ export function PricingTiers({
                   <p className="mt-1 text-sm text-muted-foreground">{plan.blurb}</p>
                 </div>
                 <p className="flex items-baseline gap-1.5">
-                  {/* Keyed by the price, so a new one fades in. */}
-                  <span key={price} className="text-4xl font-semibold tracking-tight tabular-nums animate-in fade-in-0 slide-in-from-bottom-1 duration-(--duration-standard) ease-enter">
-                    {money(price)}
+                  {/* A new price (monthly or yearly) counts to its amount. */}
+                  <span className="text-4xl font-semibold tracking-tight tabular-nums">
+                    <Price value={price} money={money} />
                   </span>
                   <span className="text-sm text-muted-foreground">{price ? (billing === "yearly" ? "a month, billed yearly" : "a month") : "forever"}</span>
                 </p>

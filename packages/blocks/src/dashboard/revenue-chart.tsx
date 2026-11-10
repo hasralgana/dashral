@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 import { SegmentedControl } from "@dashral/ui/components/segmented-control"
-import { riseMotion, stagger } from "@dashral/ui/lib/motion"
+import { riseMotion, stagger, useCountTo } from "@dashral/ui/lib/motion"
 import { cn } from "@dashral/ui/lib/utils"
 
 /** A bar: its label on the axis ("" for none), its full name when read, this period's value and the one before. */
@@ -87,6 +87,8 @@ export function RevenueChart({
   const axis = (value: number) => (value >= 1000 ? `${symbol}${+(value / 1000).toFixed(1)}k` : `${symbol}${value}`)
 
   const total = points.reduce((sum, p) => sum + p.value, 0)
+  // A new period counts the total to its sum.
+  const shownTotal = useCountTo(total)
   const previousTotal = points.reduce((sum, p) => sum + p.previous, 0)
   const { top, ticks } = niceScale(Math.max(1, ...points.flatMap((p) => [p.value, p.previous])))
   const shown = active === null ? null : points[active]!
@@ -114,7 +116,7 @@ export function RevenueChart({
               {title}
             </h2>
             <p className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="text-3xl font-semibold tracking-[-0.02em] tabular-nums">{money.format(total)}</span>
+              <span className="text-3xl font-semibold tracking-[-0.02em] tabular-nums">{money.format(shownTotal)}</span>
               <span className="text-sm text-muted-foreground">
                 <Change value={change(total, previousTotal)} /> vs {compare}
               </span>

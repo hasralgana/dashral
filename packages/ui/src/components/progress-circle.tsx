@@ -3,12 +3,15 @@
 import * as React from "react"
 import { Progress as ProgressPrimitive } from "radix-ui"
 
+import { CountTo } from "../lib/count-to"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 
 type ControlColor = "primary" | "neutral" | "info" | "success" | "warning" | "destructive" | "highlight"
 
 // The ring's color; the track behind it is a pale version. Every class is written out in full so Tailwind finds it.
+const percentOptions: Intl.NumberFormatOptions = { style: "percent" }
+
 const ringColors: Record<ControlColor, string> = {
   primary: "text-primary",
   neutral: "text-foreground",
@@ -61,7 +64,7 @@ function ProgressCircle({
   const clamped = indeterminate ? 0 : Math.min(100, Math.max(0, value))
   // Indeterminate: a quarter of the ring, spinning.
   const offset = indeterminate ? circumference * 0.75 : circumference * (1 - (drawn ? clamped : 0) / 100)
-  const center = children ?? (showValue && !indeterminate ? new Intl.NumberFormat(locale, { style: "percent" }).format(clamped / 100) : null)
+  const center = children ?? (showValue && !indeterminate ? <CountTo value={clamped / 100} locale={locale} formatOptions={percentOptions} /> : null)
 
   return (
     <ProgressPrimitive.Root

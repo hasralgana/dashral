@@ -7,12 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Numbers count to their new values when the data changes, as MetricCard's do: Donut Chart's legend, Bar List's values and shares, Treemap's total and tile values, Gauge's value and Progress Circle's percentage (with `CountTo` in `lib/count-to`, for your own numbers too). The Pricing Tiers block's prices count when the billing changes (they used to fade in again), and the Revenue Chart block's total when the period does
 - Funnel Chart has a Motion edition: when the data changes, every value, share and drop turns on odometer wheels while the bars and the flow glide to their new heights
 - Funnel Chart: conversion step by step, in one tag (`<FunnelChart data={steps} />`): each step's value and its share of the first step (or, with `percent="previous"`, of the step before) written out, the flow narrowing between the bars and how many dropped written above each one; the bars and their values rise in; when the data changes the bars and the flow ease to their new heights and the numbers count to theirs
 - Month Picker: a month (or, with `view="year"`, a year) picked in a field, in one tag (`<MonthPicker label="Report month" />`); for monthly and yearly reports, billing periods and card expiry, where a day picker asks for too much. Arrow keys move through the months, the year opens a grid of years, and `min`/`max` limit what can be picked
 
 ### Fixed
 
+- Donut Chart: hovering a slice or a legend row counts the middle to its value, and moving between rows (or across the gaps between slices) no longer drops the hover for a moment
 - Avatar Group with showNames: avatars with initials and the +N count sat 3px lower than the ones with a picture; they line up now
 
 ## [1.2.0] - 2026-11-10
