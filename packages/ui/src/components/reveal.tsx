@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 
+import { reducedMotion } from "../lib/motion"
 import { collapsibleContentClass } from "./collapsible"
 
 type RevealProps = {
@@ -77,11 +78,6 @@ function glideRevealGap(gap: RevealGap | null, opening: boolean, timing: { durat
   const shut = { [gap.side]: `${own - gap.size}px` }
   const full = { [gap.side]: `${own}px` }
   return gap.neighbor.animate(opening ? [shut, full] : [full, shut], { ...timing, fill: opening ? "none" : "forwards" })
-}
-
-/** The reader asked for less motion: the system setting, or the app's own (data-motion="reduce" on <html>). */
-function reducedMotion() {
-  return document.documentElement.dataset.motion === "reduce" || window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
 /**

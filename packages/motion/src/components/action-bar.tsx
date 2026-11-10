@@ -14,8 +14,7 @@ export type { ActionBarProps } from "@dashral/ui/components/action-bar"
 
 /**
  * The kit's ActionBar with motion: the same look and props. It rises in on the appear spring, settling with a hint of
- * overshoot, and drops away quicker; its width glides when the label or the actions change. With reduced motion it
- * only fades.
+ * overshoot, and drops away quicker. With reduced motion it only fades.
  */
 export function ActionBar({
   open,
@@ -56,15 +55,14 @@ export function ActionBar({
           onClear()
         }
       }}
-      layout={reduced ? false : "size"}
       initial={false}
       animate={open ? { y: 0, opacity: 1, visibility: "visible" } : { y: reduced ? 0 : 16, opacity: 0, transitionEnd: { visibility: "hidden" } }}
       transition={
         reduced
           ? { duration: duration.fast }
           : open
-            ? { ...spring.appear, opacity: { duration: duration.fast, ease: ease.enter }, layout: spring.glide }
-            : { duration: duration.standard, ease: ease.exit, layout: spring.glide }
+            ? { ...spring.appear, opacity: { duration: duration.fast, ease: ease.enter } }
+            : { duration: duration.standard, ease: ease.exit }
       }
       className={cn(
         "flex items-center gap-2 rounded-xl border bg-popover p-1.5 ps-3 text-sm text-popover-foreground shadow-lg",

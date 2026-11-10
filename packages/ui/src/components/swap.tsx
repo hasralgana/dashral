@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { reducedMotion } from "../lib/motion"
 import { cn } from "../lib/utils"
 
 type SwapEffect = "fade" | "rise" | "pop"
@@ -45,7 +46,8 @@ function Swap({ value, children, effect = "fade", wait = false, appear = false, 
   const [leaving, setLeaving] = React.useState<{ value: SwapProps["value"]; children: React.ReactNode } | null>(null)
   const onScreen = React.useRef(children)
   if (current.value !== value) {
-    setLeaving({ value: current.value, children: onScreen.current })
+    // With reduced motion nothing animates, so nothing would end the old content's leaving: it simply goes.
+    setLeaving(reducedMotion() ? null : { value: current.value, children: onScreen.current })
     setCurrent({ value, entered: true })
   }
   React.useLayoutEffect(() => {
@@ -61,7 +63,8 @@ function Swap({ value, children, effect = "fade", wait = false, appear = false, 
           key={`leaving-${String(leaving.value)}`}
           aria-hidden
           className={cn(item, leave, "pointer-events-none duration-(--duration-fast) ease-exit")}
-          onAnimationEnd={() => setLeaving(null)}
+          // Its own fade only: an animation inside it (an icon) bubbles up here too.
+          onAnimationEnd={(event) => event.target === event.currentTarget && setLeaving(null)}
         >
           {leaving.children}
         </Tag>
