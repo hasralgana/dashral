@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-10
+
 ### Added
 
 - Action Bar has a Motion edition: it rises in on the appear spring and drops away quicker
@@ -16,6 +18,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Menus, popovers and tooltips open as calmly as the Motion editions: Dropdown Menu, Context Menu, Menubar, Select, Popover, Hover Card, Tooltip and Navigation Menu's panel rise 6px on the standard curve, without the overshoot and the blur
+- Menubar: moving from one open menu to the next swaps the panels at once, as in a desktop app; only opening and closing the bar animate
+- Data Table's Export menu lists the formats with icons and a chevron on its button, like the other export menus; its heading shows only when rows are selected
 - Autocomplete's list lines up with the field's box: with a prefix (a search icon) it started after the icon, narrower than the field; a press on the prefix no longer closes it
 - Scroll Shadow takes `fade="end"`: only the end fades while there's more, for a list whose headings stick to its top (the docs sidebar)
 - `npx create-dashral --pro` (0.2.3) never stops at Git's username and password prompt: without access it says at once what to do (accept the GitHub invitation, then `gh auth login`, or `--from` with SSH), and a lost connection is told apart from a missing invitation. With `--no-install` it clones Pro and prints the install and `pnpm dashral init` to run, instead of stopping at the setup, which needs the dependencies. Pro stays the monorepo so `pnpm dashral update` can bring in new apps and their migrations
@@ -23,6 +28,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `npx shadcn add @dashral/<name>` works with nothing to set up: Dashral is in shadcn's registry directory. The README, `@dashral/ui`'s README and a flat project's README now lead with the name, and the repository README keeps the full URL beside it
 - The README puts copying the source with the shadcn CLI first and installing from npm second
 - Dashral Pro's repository moved to github.com/dashral-ui/dashral-pro (a GitHub organization, which Polar's repository benefit needs; GitHub forwards the old address); `npx create-dashral --pro` (0.2.2) clones it from there
+
+### Fixed
+
+- Editable Text no longer cuts its text 12px short
+- Report Header works out today's dates in the browser, so a page rendered ahead of time (a static build) no longer shows its build day and fails to hydrate
 
 ## [1.1.1] - 2026-11-06
 
@@ -89,7 +99,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/hasralgana/dashral/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/hasralgana/dashral/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/hasralgana/dashral/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/hasralgana/dashral/releases/tag/v1.0.0
