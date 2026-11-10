@@ -119,7 +119,9 @@ function EditableText({
   }
 
   // Text and field share one box: the same padding, border width and line height, so nothing shifts between them.
-  const box = "-mx-1.5 rounded-md border border-transparent px-1.5 py-0.5 leading-[inherit]"
+  // The box reaches 0.375rem past each side (-mx-1.5), so its widest is the wrapper's width plus those 0.75rem:
+  // max-w-full alone would cut the text short by exactly that much.
+  const box = "-mx-1.5 max-w-[calc(100%+0.75rem)] rounded-md border border-transparent px-1.5 py-0.5 leading-[inherit]"
 
   return (
     <span data-slot="editable-text" className="inline-flex max-w-full min-w-0 flex-col items-start gap-1 align-top">
@@ -152,7 +154,7 @@ function EditableText({
           }}
           className={cn(
             box,
-            "max-w-full min-w-0 border-ring bg-background font-[inherit] text-[length:inherit] tracking-[inherit] text-inherit shadow-xs ring-2 ring-ring/15 outline-none",
+            "min-w-0 border-ring bg-background font-[inherit] text-[length:inherit] tracking-[inherit] text-inherit shadow-xs ring-2 ring-ring/15 outline-none",
             "animate-in duration-(--duration-fast) ease-standard fade-in-0 motion-reduce:animate-none",
             error && "border-destructive ring-destructive/15",
             className
@@ -168,7 +170,7 @@ function EditableText({
           onClick={start}
           className={cn(
             box,
-            "group/editable inline-flex max-w-full min-w-0 items-center gap-2 text-start outline-none transition-colors duration-(--duration-fast)",
+            "group/editable inline-flex min-w-0 items-center gap-2 text-start outline-none transition-colors duration-(--duration-fast)",
             "hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none",
             className
           )}
