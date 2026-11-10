@@ -139,6 +139,8 @@
   "areaChart": "مخطط مساحي",
   "lineChart": "مخطط خطي",
   "barChart": "مخطط شريطي",
+  "funnelChart": "مخطط قمعي",
+  "funnelFrom": "واصل {rate} من {from}؛ وتوقف {lost}",
   "sortableItem": "عنصر قابل للترتيب",
   "sortableReorder": "إعادة ترتيب {name}",
   "sortableInstructions": "لإعادة الترتيب، اضغط مسافة أو Enter للالتقاط. استخدم مفاتيح الأسهم لتحريكه، ومسافة أو Enter لإفلاته، وEscape للإلغاء.",

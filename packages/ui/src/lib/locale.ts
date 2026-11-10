@@ -133,6 +133,9 @@ export const defaultMessages = {
   areaChart: "Area chart",
   lineChart: "Line chart",
   barChart: "Bar chart",
+  funnelChart: "Funnel chart",
+  /** Read out at a funnel step after the first. */
+  funnelFrom: "{rate} of {from} carried on; {lost} dropped",
   // Sortable
   /** What a draggable item is, said after its name. */
   sortableItem: "sortable item",

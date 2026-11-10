@@ -123,6 +123,8 @@
   "areaChart": "Area chart",
   "lineChart": "Line chart",
   "barChart": "Bar chart",
+  "funnelChart": "Funnel chart",
+  "funnelFrom": "{rate} of {from} carried on; {lost} dropped",
   "sortableItem": "sortable item",
   "sortableReorder": "Reorder {name}",
   "sortableInstructions": "To reorder, press Space or Enter to pick up. Use the arrow keys to move it, Space or Enter to drop it, Escape to cancel.",

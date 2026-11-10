@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Funnel Chart: conversion step by step, in one tag (`<FunnelChart data={steps} />`): each step's value and its share of the first step (or, with `percent="previous"`, of the step before) written out, the flow narrowing between the bars and how many dropped written above each one; the bars and their values rise in, and the bars and the flow ease to new heights when the data changes
 - Month Picker: a month (or, with `view="year"`, a year) picked in a field, in one tag (`<MonthPicker label="Report month" />`); for monthly and yearly reports, billing periods and card expiry, where a day picker asks for too much. Arrow keys move through the months, the year opens a grid of years, and `min`/`max` limit what can be picked
 
 ### Fixed

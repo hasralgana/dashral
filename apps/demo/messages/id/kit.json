@@ -123,6 +123,8 @@
   "areaChart": "Grafik area",
   "lineChart": "Grafik garis",
   "barChart": "Grafik batang",
+  "funnelChart": "Grafik corong",
+  "funnelFrom": "{rate} dari {from} berlanjut; {lost} berhenti",
   "sortableItem": "item yang bisa diurutkan",
   "sortableReorder": "Ubah urutan {name}",
   "sortableInstructions": "Untuk mengubah urutan, tekan Spasi atau Enter untuk mengangkat. Gunakan tombol panah untuk memindahkannya, Spasi atau Enter untuk meletakkannya, Escape untuk membatalkan.",
