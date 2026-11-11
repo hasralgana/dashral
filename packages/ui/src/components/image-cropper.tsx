@@ -7,6 +7,7 @@ import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 import { Button } from "./button"
 import { Slider } from "./slider"
+import { Spinner } from "./spinner"
 
 /** The part of the picture that's kept, in the picture's own pixels (before it's turned), and how far it's turned. */
 type CropArea = { x: number; y: number; width: number; height: number; rotation: number }
@@ -352,6 +353,16 @@ function ImageCropper({
             classNames?.image
           )}
         />
+        {/* While the picture is on its way the area breathes, and a spinner says so after a beat (a quick picture never
+            flashes it); both go as the picture fades in. */}
+        {!placed && !failed && (
+          <>
+            <span aria-hidden className="pointer-events-none absolute inset-0 bg-foreground/8 motion-safe:animate-pulse" />
+            <span className="pointer-events-none absolute inset-0 grid animate-in place-items-center delay-200 duration-(--duration-standard) fill-mode-both fade-in-0 motion-reduce:animate-none">
+              <Spinner size="sm" label={t("loading")} className="text-muted-foreground" />
+            </span>
+          </>
+        )}
         {failed && (
           <p role="alert" className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-muted-foreground">
             {t("imageFailed")}

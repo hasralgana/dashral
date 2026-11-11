@@ -5,9 +5,9 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 import { ChevronLeftIcon, ChevronRightIcon, ExpandIcon, XIcon } from "lucide-react"
 
 import { useLocale } from "../lib/locale"
-import { reducedMotion } from "../lib/motion"
 import { cn } from "../lib/utils"
 import { usePortalContainer } from "../lib/portal"
+import { Image as LoadingImage } from "./image"
 import { Spinner } from "./spinner"
 
 type LightboxImage = {
@@ -113,7 +113,8 @@ function Lightbox({
             )}
             style={{ aspectRatio: ratio }}
           >
-            <Cover images={images} index={index} Image={Image} />
+            {/* A thumbnail picked answers at once: a spinner over the picture showing until the new one fades in. */}
+            <LoadingImage imageAs={Image} fill src={image.src} alt="" width={image.width} height={image.height} className="size-full" />
             <span
               aria-hidden
               className="absolute end-2 bottom-2 grid size-8 place-items-center rounded-md bg-black/50 text-white opacity-0 transition-opacity duration-(--duration-fast) group-hover/cover:opacity-100 group-focus-visible/cover:opacity-100"
@@ -137,7 +138,17 @@ function Lightbox({
                   )}
                   style={{ aspectRatio: ratio }}
                 >
-                  <Thumbnail Image={Image} src={entry.thumbnail ?? entry.src} width={entry.width} height={entry.height} />
+                  <LoadingImage
+                    imageAs={Image}
+                    fill
+                    src={entry.thumbnail ?? entry.src}
+                    alt=""
+                    width={entry.width}
+                    height={entry.height}
+                    loading="lazy"
+                    className="size-full"
+                    classNames={{ image: "motion-safe:group-hover/thumb:scale-105" }}
+                  />
                 </button>
               ))}
             </div>
@@ -166,7 +177,17 @@ function Lightbox({
               )}
               style={{ aspectRatio: ratio }}
             >
-              <Thumbnail Image={Image} src={entry.thumbnail ?? entry.src} width={entry.width} height={entry.height} />
+              <LoadingImage
+                    imageAs={Image}
+                    fill
+                    src={entry.thumbnail ?? entry.src}
+                    alt=""
+                    width={entry.width}
+                    height={entry.height}
+                    loading="lazy"
+                    className="size-full"
+                    classNames={{ image: "motion-safe:group-hover/thumb:scale-105" }}
+                  />
             </button>
           ))}
         </div>
@@ -247,107 +268,6 @@ function Lightbox({
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
-    </>
-  )
-}
-
-/**
- * A thumbnail in its tile. While the picture is on its way the tile breathes softly, so it reads as loading rather
- * than empty; once it's there the picture fades in over it, never popping in.
- */
-function Thumbnail({ Image, src, width, height }: { Image: React.ElementType; src: string; width?: number; height?: number }) {
-  const [loaded, setLoaded] = React.useState(false)
-  return (
-    <>
-      {!loaded && <span aria-hidden className="absolute inset-0 bg-foreground/8 motion-safe:animate-pulse" />}
-      <Image
-        ref={(node: HTMLImageElement | null) => {
-          // Already in the cache: it may have loaded before React was listening.
-          if (node?.complete && node.naturalWidth > 0) setLoaded(true)
-        }}
-        src={src}
-        alt=""
-        width={width}
-        height={height}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        // A picture that won't load: the tile stops breathing, and stays a plain tile.
-        onError={() => setLoaded(true)}
-        className={cn(
-          "relative size-full object-cover transition-[opacity,transform] duration-(--duration-considered) ease-standard motion-safe:group-hover/thumb:scale-105 motion-reduce:transition-none",
-          !loaded && "opacity-0"
-        )}
-      />
-    </>
-  )
-}
-
-/**
- * A gallery's cover: the picture a thumbnail picked. Picking another answers at once: if its picture isn't there yet
- * a spinner comes over the one showing, and the new one fades in over it the moment it has loaded (one already
- * fetched fades in straight away). The first picture arrives the way a thumbnail does: the tile breathes, then it
- * fades in.
- */
-function Cover({ images, index, Image }: { images: LightboxImage[]; index: number; Image: React.ElementType }) {
-  const { t } = useLocale()
-  // The picture on show, which stays until the one picked has loaded and faded in over it.
-  const [shownState, setShown] = React.useState(index)
-  const shown = Math.min(shownState, images.length - 1)
-  const [loaded, setLoaded] = React.useState<Record<string, true>>({})
-  const coming = shown !== index
-  const waiting = coming && !loaded[images[index]!.src]
-
-  function arrived(i: number) {
-    setLoaded((all) => (all[images[i]!.src] ? all : { ...all, [images[i]!.src]: true }))
-    // No fade to wait for: the new picture is the one on show at once.
-    if (i !== shown && reducedMotion()) setShown(i)
-  }
-
-  return (
-    <>
-      {!coming && !loaded[images[shown]!.src] && <span aria-hidden className="absolute inset-0 bg-foreground/8 motion-safe:animate-pulse" />}
-      {(coming ? [shown, index] : [shown]).map((i) => {
-        const entry = images[i]!
-        const there = Boolean(loaded[entry.src])
-        return (
-          <Image
-            key={entry.src + i}
-            ref={(node: HTMLImageElement | null) => {
-              // Already in the cache: it may have loaded before React was listening.
-              if (node?.complete && node.naturalWidth > 0) arrived(i)
-            }}
-            src={entry.src}
-            alt=""
-            width={entry.width}
-            height={entry.height}
-            draggable={false}
-            onLoad={() => arrived(i)}
-            // A picture that won't load takes its turn all the same, so the cover never waits forever.
-            onError={() => {
-              arrived(i)
-              if (i !== shown) setShown(i)
-            }}
-            onAnimationEnd={() => {
-              if (i !== shown) setShown(i)
-            }}
-            className={cn(
-              "absolute inset-0 size-full object-cover",
-              i === shown
-                ? ["transition-opacity duration-(--duration-considered) ease-standard motion-reduce:transition-none", !there && "opacity-0"]
-                : there
-                  ? "animate-in duration-(--duration-standard) ease-enter fade-in-0"
-                  : "opacity-0"
-            )}
-          />
-        )
-      })}
-      {waiting && (
-        <span className="absolute inset-0 grid animate-in place-items-center bg-black/25 duration-(--duration-fast) fade-in-0 motion-reduce:animate-none">
-          <span className="grid size-10 place-items-center rounded-full bg-black/45 backdrop-blur-sm">
-            <Spinner size="sm" label={t("loading")} className="text-white/85" />
-          </span>
-        </span>
-      )}
     </>
   )
 }
