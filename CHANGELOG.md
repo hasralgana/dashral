@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-11-11
+
+### Changed
+
+- Nothing changes in the free kit: 1.4.1 keeps its version in step with Dashral Pro, whose dashboards get fixes in this release
+
 ## [1.4.0] - 2026-11-11
 
 ### Added
@@ -143,7 +149,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/hasralgana/dashral/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/hasralgana/dashral/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/hasralgana/dashral/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/hasralgana/dashral/compare/v1.2.0...v1.3.0
