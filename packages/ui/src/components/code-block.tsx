@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { tokenizeLines, type CodeTokenKind } from "../lib/code-tokens"
 import { cn } from "../lib/utils"
 import { CopyButton } from "./copy-button"
 
@@ -15,8 +16,13 @@ type CodeTab = {
 type CodeBlockProps = Omit<React.ComponentProps<"div">, "children"> & {
   /** The code, as plain text. */
   code?: string
-  /** Shown at the end of the header ("tsx", "bash"), and set as data-language for a highlighter. */
+  /**
+   * Shown at the end of the header ("tsx", "bash"), and what the code is colored as: ts, tsx, js, jsx, json, css,
+   * html and bash get colors; any other language shows plain.
+   */
   language?: string
+  /** Colors the code by its language. On by default; false shows it plain. */
+  highlight?: boolean
   /** A file name in the header: "app/page.tsx". */
   filename?: string
   /** Several snippets in one block, one at a time, e.g. a command for each package manager. In place of code. */
@@ -36,21 +42,35 @@ type CodeBlockProps = Omit<React.ComponentProps<"div">, "children"> & {
   /** The copy button in the corner. On by default. */
   copyable?: boolean
   /**
-   * Your own highlighted markup in place of the plain lines, e.g. from a highlighter run on the server. code is still
-   * what's copied. lineNumbers and highlightLines need the plain lines, so they're ignored with it.
+   * Your own highlighted markup in place of the lines, e.g. from a highlighter run on the server, for a language
+   * CodeBlock doesn't color or for exact grammar. code is still what's copied. lineNumbers and highlightLines need the
+   * component's own lines, so they're ignored with it.
    */
   children?: React.ReactNode
   classNames?: { header?: string; pre?: string; line?: string }
 }
 
+// The colors: only keywords, strings, tags, numbers and comments get one; names and punctuation stay in the text
+// color. Each reads a CSS variable, so a site can set its own (--code-keyword, --code-string, --code-tag,
+// --code-number, --code-comment); without them these are the defaults, for light and dark.
+const tokenColors: Record<CodeTokenKind, string> = {
+  keyword: "text-[color:var(--code-keyword,oklch(0.5_0.17_320))] dark:text-[color:var(--code-keyword,oklch(0.78_0.14_320))]",
+  string: "text-[color:var(--code-string,oklch(0.48_0.13_155))] dark:text-[color:var(--code-string,oklch(0.8_0.12_155))]",
+  tag: "text-[color:var(--code-tag,oklch(0.5_0.16_258))] dark:text-[color:var(--code-tag,oklch(0.78_0.12_255))]",
+  number: "text-[color:var(--code-number,oklch(0.55_0.15_55))] dark:text-[color:var(--code-number,oklch(0.82_0.12_70))]",
+  comment: "text-[color:var(--code-comment,var(--muted-foreground))] italic",
+}
+
 /**
- * Code to read and copy, in one tag: `<CodeBlock filename="app/page.tsx" code={source} lineNumbers />`. A header with
- * the file name or tabs, a copy button, line numbers and marked lines. Plain text, no colors: pass your highlighter's
- * output as children for those. Code always runs left to right, Arabic pages included.
+ * Code to read and copy, in one tag: `<CodeBlock filename="app/page.tsx" language="tsx" code={source} lineNumbers />`.
+ * A header with the file name or tabs, a copy button, line numbers and marked lines, and the code colored by its
+ * language (lib/code-tokens: TypeScript and JavaScript with JSX, JSON, CSS, HTML and shell). For another language,
+ * pass your highlighter's output as children. Code always runs left to right, Arabic pages included.
  */
 function CodeBlock({
   code: codeProp,
   language: languageProp,
+  highlight = true,
   filename,
   tabs,
   defaultTab,
@@ -72,6 +92,7 @@ function CodeBlock({
   const language = activeTab?.language ?? languageProp
   const marked = new Set(highlightLines)
   const lines = code.split("\n")
+  const colored = highlight && children === undefined ? tokenizeLines(code, language) : null
   const hasHeader = Boolean(filename || tabs?.length || language)
   const tabRefs = React.useRef<(HTMLButtonElement | null)[]>([])
 
@@ -183,7 +204,19 @@ function CodeBlock({
                   </span>
                 )}
                 {/* An empty line still takes its height. */}
-                <span className="min-w-0 flex-1">{line || " "}</span>
+                <span className="min-w-0 flex-1">
+                  {colored?.[i]?.length
+                    ? colored[i]!.map((token, index) =>
+                        token.kind ? (
+                          <span key={index} className={tokenColors[token.kind]}>
+                            {token.text}
+                          </span>
+                        ) : (
+                          token.text
+                        )
+                      )
+                    : line || " "}
+                </span>
               </span>
             ))}
           </code>

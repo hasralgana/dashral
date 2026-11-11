@@ -2,11 +2,13 @@
 
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "radix-ui"
-import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon, ExpandIcon, XIcon } from "lucide-react"
 
 import { useLocale } from "../lib/locale"
+import { reducedMotion } from "../lib/motion"
 import { cn } from "../lib/utils"
 import { usePortalContainer } from "../lib/portal"
+import { Spinner } from "./spinner"
 
 type LightboxImage = {
   src: string
@@ -22,9 +24,15 @@ type LightboxImage = {
 
 type LightboxProps = Omit<React.ComponentProps<"div">, "children"> & {
   images: LightboxImage[]
-  /** The thumbnails' columns from the sm breakpoint up (two on phones). */
+  /**
+   * "grid" (the default): a grid of thumbnails, each opening the viewer. "gallery": one large cover with a strip of
+   * thumbnails under it, as a product's photos are shown; a thumbnail shows its picture in the cover, and the cover
+   * opens the viewer.
+   */
+  layout?: "grid" | "gallery"
+  /** The thumbnails' columns: from the sm breakpoint up in a grid (two on phones; 3 by default), always in a gallery's strip (4 by default). */
   columns?: 2 | 3 | 4 | 5
-  /** The thumbnails' shape: width over height. */
+  /** The thumbnails' shape, and a gallery's cover: width over height. */
   ratio?: number
   /** false: no grid; open it yourself with open, onOpenChange and index (e.g. from a carousel or a single cover). */
   thumbnails?: boolean
@@ -36,7 +44,7 @@ type LightboxProps = Omit<React.ComponentProps<"div">, "children"> & {
   onIndexChange?: (index: number) => void
   /** Your image component (Next.js Image) for the thumbnails and the viewer; it gets src, alt, width, height, className. */
   imageAs?: React.ElementType
-  classNames?: { grid?: string; thumbnail?: string; viewer?: string; image?: string; caption?: string }
+  classNames?: { grid?: string; thumbnail?: string; cover?: string; viewer?: string; image?: string; caption?: string }
 }
 
 const columnClasses = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-3", 4: "sm:grid-cols-4", 5: "sm:grid-cols-5" }
@@ -47,11 +55,14 @@ const navButton =
 /**
  * A grid of pictures that opens each one large, in one tag: `<Lightbox images={photos} />`. In the viewer the arrow
  * keys and the buttons move between them (in reading order, so the other way in Arabic), a swipe does on a phone, and
- * Escape closes it, back to the thumbnail it came from.
+ * Escape closes it, back to the thumbnail it came from. `layout="gallery"` shows them as a product's photos: one
+ * large cover and a strip of thumbnails under it. A picture that's still on its way says so (a breathing tile, a
+ * small spinner) and fades in when it's there; nothing pops in.
  */
 function Lightbox({
   images,
-  columns = 3,
+  layout = "grid",
+  columns: columnsProp,
   ratio = 4 / 3,
   thumbnails = true,
   open: openProp,
@@ -85,10 +96,55 @@ function Lightbox({
   }
   // Physical arrows, mapped to reading order: → is "next" left to right, "previous" right to left.
   const forward = dir === "rtl" ? -1 : 1
+  const columns = columnsProp ?? (layout === "gallery" ? 4 : 3)
 
   return (
     <>
-      {thumbnails && (
+      {thumbnails && layout === "gallery" && image && (
+        <div data-slot="lightbox" className={cn("grid gap-2", className)} {...props}>
+          <button
+            type="button"
+            aria-label={t("viewImage", { name: image.alt })}
+            aria-haspopup="dialog"
+            onClick={() => setOpen(true)}
+            className={cn(
+              "group/cover relative overflow-hidden rounded-xl bg-muted outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              classNames?.cover
+            )}
+            style={{ aspectRatio: ratio }}
+          >
+            <Cover images={images} index={index} Image={Image} />
+            <span
+              aria-hidden
+              className="absolute end-2 bottom-2 grid size-8 place-items-center rounded-md bg-black/50 text-white opacity-0 transition-opacity duration-(--duration-fast) group-hover/cover:opacity-100 group-focus-visible/cover:opacity-100"
+            >
+              <ExpandIcon className="size-4" />
+            </span>
+          </button>
+          {count > 1 && (
+            <div className={cn("grid gap-2", classNames?.grid)} style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
+              {images.map((entry, i) => (
+                <button
+                  key={entry.src + i}
+                  type="button"
+                  aria-label={entry.alt}
+                  aria-current={i === index ? "true" : undefined}
+                  onClick={() => go(i)}
+                  className={cn(
+                    "group/thumb relative overflow-hidden rounded-md bg-muted outline-none transition-opacity duration-(--duration-fast) focus-visible:ring-2 focus-visible:ring-ring/50",
+                    i === index ? "ring-2 ring-primary" : "opacity-60 hover:opacity-100",
+                    classNames?.thumbnail
+                  )}
+                  style={{ aspectRatio: ratio }}
+                >
+                  <Thumbnail Image={Image} src={entry.thumbnail ?? entry.src} width={entry.width} height={entry.height} />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      {thumbnails && layout === "grid" && (
         <div
           data-slot="lightbox"
           className={cn("grid grid-cols-2 gap-2", columnClasses[columns], className, classNames?.grid)}
@@ -110,14 +166,7 @@ function Lightbox({
               )}
               style={{ aspectRatio: ratio }}
             >
-              <Image
-                src={entry.thumbnail ?? entry.src}
-                alt=""
-                width={entry.width}
-                height={entry.height}
-                loading="lazy"
-                className="size-full object-cover transition-transform duration-(--duration-considered) ease-standard motion-safe:group-hover/thumb:scale-105"
-              />
+              <Thumbnail Image={Image} src={entry.thumbnail ?? entry.src} width={entry.width} height={entry.height} />
             </button>
           ))}
         </div>
@@ -202,6 +251,107 @@ function Lightbox({
   )
 }
 
+/**
+ * A thumbnail in its tile. While the picture is on its way the tile breathes softly, so it reads as loading rather
+ * than empty; once it's there the picture fades in over it, never popping in.
+ */
+function Thumbnail({ Image, src, width, height }: { Image: React.ElementType; src: string; width?: number; height?: number }) {
+  const [loaded, setLoaded] = React.useState(false)
+  return (
+    <>
+      {!loaded && <span aria-hidden className="absolute inset-0 bg-foreground/8 motion-safe:animate-pulse" />}
+      <Image
+        ref={(node: HTMLImageElement | null) => {
+          // Already in the cache: it may have loaded before React was listening.
+          if (node?.complete && node.naturalWidth > 0) setLoaded(true)
+        }}
+        src={src}
+        alt=""
+        width={width}
+        height={height}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        // A picture that won't load: the tile stops breathing, and stays a plain tile.
+        onError={() => setLoaded(true)}
+        className={cn(
+          "relative size-full object-cover transition-[opacity,transform] duration-(--duration-considered) ease-standard motion-safe:group-hover/thumb:scale-105 motion-reduce:transition-none",
+          !loaded && "opacity-0"
+        )}
+      />
+    </>
+  )
+}
+
+/**
+ * A gallery's cover: the picture a thumbnail picked. Picking another answers at once: if its picture isn't there yet
+ * a spinner comes over the one showing, and the new one fades in over it the moment it has loaded (one already
+ * fetched fades in straight away). The first picture arrives the way a thumbnail does: the tile breathes, then it
+ * fades in.
+ */
+function Cover({ images, index, Image }: { images: LightboxImage[]; index: number; Image: React.ElementType }) {
+  const { t } = useLocale()
+  // The picture on show, which stays until the one picked has loaded and faded in over it.
+  const [shownState, setShown] = React.useState(index)
+  const shown = Math.min(shownState, images.length - 1)
+  const [loaded, setLoaded] = React.useState<Record<string, true>>({})
+  const coming = shown !== index
+  const waiting = coming && !loaded[images[index]!.src]
+
+  function arrived(i: number) {
+    setLoaded((all) => (all[images[i]!.src] ? all : { ...all, [images[i]!.src]: true }))
+    // No fade to wait for: the new picture is the one on show at once.
+    if (i !== shown && reducedMotion()) setShown(i)
+  }
+
+  return (
+    <>
+      {!coming && !loaded[images[shown]!.src] && <span aria-hidden className="absolute inset-0 bg-foreground/8 motion-safe:animate-pulse" />}
+      {(coming ? [shown, index] : [shown]).map((i) => {
+        const entry = images[i]!
+        const there = Boolean(loaded[entry.src])
+        return (
+          <Image
+            key={entry.src + i}
+            ref={(node: HTMLImageElement | null) => {
+              // Already in the cache: it may have loaded before React was listening.
+              if (node?.complete && node.naturalWidth > 0) arrived(i)
+            }}
+            src={entry.src}
+            alt=""
+            width={entry.width}
+            height={entry.height}
+            draggable={false}
+            onLoad={() => arrived(i)}
+            // A picture that won't load takes its turn all the same, so the cover never waits forever.
+            onError={() => {
+              arrived(i)
+              if (i !== shown) setShown(i)
+            }}
+            onAnimationEnd={() => {
+              if (i !== shown) setShown(i)
+            }}
+            className={cn(
+              "absolute inset-0 size-full object-cover",
+              i === shown
+                ? ["transition-opacity duration-(--duration-considered) ease-standard motion-reduce:transition-none", !there && "opacity-0"]
+                : there
+                  ? "animate-in duration-(--duration-standard) ease-enter fade-in-0"
+                  : "opacity-0"
+            )}
+          />
+        )
+      })}
+      {waiting && (
+        <span className="absolute inset-0 grid animate-in place-items-center bg-black/25 duration-(--duration-fast) fade-in-0 motion-reduce:animate-none">
+          <span className="grid size-10 place-items-center rounded-full bg-black/45 backdrop-blur-sm">
+            <Spinner size="sm" label={t("loading")} className="text-white/85" />
+          </span>
+        </span>
+      )}
+    </>
+  )
+}
+
 type StageState = {
   /** The picture to show, and the one it replaces (kept on screen until the new one has loaded). */
   index: number
@@ -220,7 +370,8 @@ const roll = "duration-(--duration-considered) ease-standard motion-reduce:anima
  * The viewer's picture. Moving to another, the one on screen stays until the new one has loaded, then the two cross:
  * the old one fades out toward the side it's left behind on, the new one fades in from the side it comes from (logical
  * sides, so it reverses in Arabic). Never a blank frame, and no picture popping in after its fade. The neighbours are
- * fetched ahead, so moving on is usually instant.
+ * fetched ahead, so moving on is usually instant; when one does take a moment, a small spinner says so (after a
+ * beat, so a quick picture never flashes it), over the picture still showing or on the dark when it's the first.
  */
 function Stage({
   images,
@@ -233,6 +384,7 @@ function Stage({
   Image: React.ElementType
   className?: string
 }) {
+  const { t } = useLocale()
   const count = images.length
   const [state, setState] = React.useState<StageState>({ index, previous: null, step: 1, turn: 0, loaded: false })
   if (state.index !== index) {
@@ -295,6 +447,14 @@ function Stage({
           className
         )}
       />
+      {!loaded && (
+        <span
+          key={`wait-${turn}`}
+          className="pointer-events-none z-10 col-start-1 row-start-1 grid size-10 animate-in place-items-center rounded-full bg-black/45 backdrop-blur-sm delay-200 duration-(--duration-standard) fill-mode-both fade-in-0 motion-reduce:animate-none"
+        >
+          <Spinner size="sm" label={t("loading")} className="text-white/85" />
+        </span>
+      )}
     </div>
   )
 }

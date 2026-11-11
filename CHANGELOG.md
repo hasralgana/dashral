@@ -8,9 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Dashboards: a progress line along the top of the window while the next page is on its way. It sets off the moment a link is clicked and fills once the page (or its loader) is there, so a click never sits with nothing happening; a page that comes at once doesn't show it. It wears the primary color, runs from the right in Arabic, and only fades with reduced motion (`components/navigation-progress.tsx`, started from `instrumentation-client.ts`)
+- Lightbox: `layout="gallery"` shows the pictures as a product's photos, one large cover with a strip of thumbnails under it (`<Lightbox layout="gallery" images={photos} />`). A thumbnail shows its picture in the cover, and the cover opens the viewer; `classNames.cover` styles it
 
 ### Changed
 
+- Code Block colors its code: with `language` set to ts, tsx, js, jsx, json, css, html or bash, keywords, strings, tags, numbers and comments get a color (any other language shows plain, as before), and line numbers and marked lines keep working with them. `highlight={false}` turns the colors off, and five CSS variables change them (`--code-keyword`, `--code-string`, `--code-tag`, `--code-number`, `--code-comment`). No new dependency; a highlighter's output as children still works
+- Lightbox says when a picture is on its way: a thumbnail's tile breathes until its picture fades in, and the viewer shows a small spinner over the picture still on screen (or on the dark, for the first) instead of sitting still and then switching
 - Turborepo's local cache cleans up after itself: entries older than 7 days go, and it stays under 2 GB (`cacheMaxAge` and `cacheMaxSize` in `turbo.json`), where it used to grow with every build
 
 ## [1.4.1] - 2026-11-11
