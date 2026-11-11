@@ -31,6 +31,7 @@ import { PricingComparison } from "./pricing/pricing-comparison"
 import { PricingTiers } from "./pricing/pricing-tiers"
 import { DashboardSidebar } from "./sidebars/dashboard-sidebar"
 import { SettingsSidebar } from "./sidebars/settings-sidebar"
+import { ProfileSettings } from "./settings/profile-settings"
 import { WorkspaceSidebar } from "./sidebars/workspace-sidebar"
 import { TestimonialFeatured } from "./testimonials/testimonial-featured"
 import { TestimonialsGrid } from "./testimonials/testimonials-grid"
@@ -72,4 +73,5 @@ export const freeBlockComponents: Record<string, ComponentType> = {
   "faq-grid": FaqGrid,
   "sign-in": SignIn,
   "sign-up-split": SignUpSplit,
+  "profile-settings": ProfileSettings,
 }
