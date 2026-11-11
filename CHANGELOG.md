@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Image Cropper: a picture to crop before it's saved, in one tag (`<ImageCropper src={url} aspect={1} shape="circle" />`): drag it or use the arrow keys to move it under the crop, zoom with the slider, the wheel, a pinch or + and −, and turn it 90° at a time; the crop never shows an empty corner. `onCropChange` gives the area in the picture's pixels, and `cropImage` draws it into a file at the width you ask for
 - Avatar Upload: a profile photo or logo with its upload, in one tag (`<AvatarUpload label="Profile photo" onValueChange={upload} />`): pick a picture or drop it on the preview, crop it in a dialog, and get a square file back (512 px JPEG by default, `outputType="image/png"` for a logo); a new picture fades in over the old one, and `name` sends the file with a plain form
+- Tree Select: a field that picks from nested options, in one tag (`<TreeSelect items={regions} selectable="leaf" />`): a province, city and district, or a product's category, shown as its whole path; the list opens as a tree with a search, and `multiple` ticks several, a whole ticked branch showing as one chip
 - Profile settings block: a profile form (photo cropped as it's picked, name, username, bio, website, place) beside a card that shows how the profile looks to others as you type; `onSave` gets the photo as a File when it's new, null when it was removed
 
 ### Changed
