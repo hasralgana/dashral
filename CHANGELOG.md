@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-11
+
 ### Added
 
 - Dashboards: a progress line along the top of the window while the next page is on its way. It sets off the moment a link is clicked and fills once the page (or its loader) is there, so a click never sits with nothing happening; a page that comes at once doesn't show it. It wears the primary color, runs from the right in Arabic, and only fades with reduced motion (`components/navigation-progress.tsx`, started from `instrumentation-client.ts`)
@@ -162,7 +164,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.4.1...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/hasralgana/dashral/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/hasralgana/dashral/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/hasralgana/dashral/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/hasralgana/dashral/compare/v1.3.0...v1.3.1
