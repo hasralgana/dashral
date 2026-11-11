@@ -123,6 +123,12 @@ export const defaultMessages = {
   tryAnother: "Try another search or clear the filters.",
   clearFilters: "Clear filters",
   clearFilter: "Clear filter",
+  filters: "Filters",
+  loadingMore: "Loading more…",
+  loadMoreFailed: "Couldn't load more.",
+  /** A virtual Data Table's footer: some of the rows (searched, filtered or still loading) out of all of them. */
+  showingRowsOf: { one: "Showing {shown} of {count} row", other: "Showing {shown} of {count} rows" } as Message,
+  rowsMore: { one: "{count} row · more as you scroll", other: "{count} rows · more as you scroll" } as Message,
   reset: "Reset",
   export: "Export",
   exportAll: "Export all matching rows",

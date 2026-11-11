@@ -10,11 +10,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Image Cropper: a picture to crop before it's saved, in one tag (`<ImageCropper src={url} aspect={1} shape="circle" />`): drag it or use the arrow keys to move it under the crop, zoom with the slider, the wheel, a pinch or + and −, and turn it 90° at a time; the crop never shows an empty corner. `onCropChange` gives the area in the picture's pixels, and `cropImage` draws it into a file at the width you ask for
 - Avatar Upload: a profile photo or logo with its upload, in one tag (`<AvatarUpload label="Profile photo" onValueChange={upload} />`): pick a picture or drop it on the preview, crop it in a dialog, and get a square file back (512 px JPEG by default, `outputType="image/png"` for a logo); a new picture fades in over the old one, and `name` sends the file with a plain form
 - Tree Select: a field that picks from nested options, in one tag (`<TreeSelect items={regions} selectable="leaf" />`): a province, city and district, or a product's category, shown as its whole path; the list opens as a tree with a search, and `multiple` ticks several, a whole ticked branch showing as one chip
+- Data Table: `virtual` scrolls through every row instead of paging, drawing only the rows in view, so tens of thousands (logs, an audit trail) stay smooth; the header stays put, columns keep their widths, and search, filters and sorting work over all of them. `onLoadMore` fetches the next rows as the end comes into view (`hasMore` stops it, a failed load shows Try again), and the footer says how many there are out of all of them ("Showing 360 of 400 rows", with `totalRows`)
+- Data Table: `footer` hides the line under the table (`false`) or draws your own from the counts it's given
+- List: `virtual` draws only the rows in view, in a box that scrolls, rows of any height included; with `onLoadMore` it loads more as the end comes near
 - Profile settings block: a profile form (photo cropped as it's picked, name, username, bio, website, place) beside a card that shows how the profile looks to others as you type; `onSave` gets the photo as a File when it's new, null when it was removed
 
 ### Changed
 
+- Data Table: the toolbar stays one row at any width, following the table's own width rather than the screen's; where it's narrow the filters become one Filters menu and the buttons icons. What the filters let through shows as chips under the toolbar, each with its own ×, and Reset at their end (in place of the Reset button). The footer is one row on a phone too, and a soft fade at the table's side shows when there are more columns to scroll to
 - Dashboard Settings: the profile photo is an Avatar Upload, so a photo can be picked or dropped, cropped to a square and removed; it goes with the form's other fields as `photo`
+
+### Fixed
+
+- Data Table: header labels line up with the cells under them (at the start, and at the end in columns aligned to the end), the select-all checkbox with the rows' ones, and sortable header labels are the same size as the others; a narrow table no longer pushes a header label onto the checkbox beside it
+- List: a long title in a row with `href` or `onClick` truncates instead of running under the details beside it
 
 ## [1.3.1] - 2026-11-10
 

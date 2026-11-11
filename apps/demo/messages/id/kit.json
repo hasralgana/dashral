@@ -111,6 +111,17 @@
   "tryAnother": "Coba kata kunci lain atau hapus filter.",
   "clearFilters": "Hapus filter",
   "clearFilter": "Hapus filter",
+  "filters": "Filter",
+  "loadingMore": "Memuat lagi…",
+  "loadMoreFailed": "Tidak bisa memuat lagi.",
+  "showingRowsOf": {
+    "one": "Menampilkan {shown} dari {count} baris",
+    "other": "Menampilkan {shown} dari {count} baris"
+  },
+  "rowsMore": {
+    "one": "{count} baris · gulir untuk memuat lagi",
+    "other": "{count} baris · gulir untuk memuat lagi"
+  },
   "reset": "Atur ulang",
   "export": "Ekspor",
   "exportAll": "Ekspor semua baris yang cocok",

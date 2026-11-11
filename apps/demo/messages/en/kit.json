@@ -111,6 +111,17 @@
   "tryAnother": "Try another search or clear the filters.",
   "clearFilters": "Clear filters",
   "clearFilter": "Clear filter",
+  "filters": "Filters",
+  "loadingMore": "Loading more…",
+  "loadMoreFailed": "Couldn't load more.",
+  "showingRowsOf": {
+    "one": "Showing {shown} of {count} row",
+    "other": "Showing {shown} of {count} rows"
+  },
+  "rowsMore": {
+    "one": "{count} row · more as you scroll",
+    "other": "{count} rows · more as you scroll"
+  },
   "reset": "Reset",
   "export": "Export",
   "exportAll": "Export all matching rows",
