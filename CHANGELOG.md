@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [1.5.0] - 2026-11-11
+## [1.5.0] - 2026-11-12
 
 ### Added
 
@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Menus and popovers open quicker and crisper: Dropdown Menu, Context Menu, Menubar, Select, Popover (and what's built on it: Combobox, Autocomplete, the date and color pickers, Tree Select), Hover Card and Tooltip fade in from 95% with an 8px rise in about 150ms, and close the same way, instead of the slower 240ms glide
 - Code Block colors its code: with `language` set to ts, tsx, js, jsx, json, css, html or bash, keywords, strings, tags, numbers and comments get a color (any other language shows plain, as before), and line numbers and marked lines keep working with them. `highlight={false}` turns the colors off, and five CSS variables change them (`--code-keyword`, `--code-string`, `--code-tag`, `--code-number`, `--code-comment`). No new dependency; a highlighter's output as children still works
 - Lightbox says when a picture is on its way: a thumbnail's tile breathes until its picture fades in, and the viewer shows a small spinner over the picture still on screen (or on the dark, for the first) instead of sitting still and then switching. Its thumbnails and gallery cover are built on Image
 - Image Cropper: while its picture loads, the area breathes and a spinner says so after a beat, instead of an empty grey box

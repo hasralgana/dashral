@@ -36,7 +36,7 @@
   /* Motion — one set of durations and curves for every component, so they all move alike. Transitions use
      --duration-fast and --ease-standard unless a component says otherwise. */
   --duration-fast: 160ms; /* hovers, presses, color changes */
-  --duration-standard: 240ms; /* menus, popovers, toggles */
+  --duration-standard: 240ms; /* toggles, dialogs, things arriving (menus, popovers and tooltips open in a quick 150ms of their own) */
   --duration-considered: 480ms; /* sliding highlights (with --ease-standard), charts drawing in, panels, counting numbers */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1); /* things already on screen moving or changing */
   --ease-enter: cubic-bezier(0, 0, 0, 1); /* arriving: fast, then settling */
