@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Dashboards: a progress line along the top of the window while the next page is on its way. It sets off the moment a link is clicked and fills once the page (or its loader) is there, so a click never sits with nothing happening; a page that comes at once doesn't show it. It wears the primary color, runs from the right in Arabic, and only fades with reduced motion (`components/navigation-progress.tsx`, started from `instrumentation-client.ts`)
+
 ### Changed
 
 - Turborepo's local cache cleans up after itself: entries older than 7 days go, and it stays under 2 GB (`cacheMaxAge` and `cacheMaxSize` in `turbo.json`), where it used to grow with every build

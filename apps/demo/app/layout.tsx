@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import type { Metadata, Viewport } from "next"
 import { Geist, IBM_Plex_Sans_Arabic, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
@@ -5,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { getLocale, getMessages } from "next-intl/server"
 
 import { AppToaster } from "@/components/app-toaster"
+import { NavigationProgress } from "@/components/navigation-progress"
 import { KitLocaleProvider } from "@/components/locale-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { localeInfo, type Locale } from "@/lib/i18n"
@@ -75,6 +77,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider>
           <KitLocaleProvider locale={locale} messages={messages.kit}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              {/* Reads the address, query included, so it waits in a Suspense of its own. */}
+              <Suspense fallback={null}>
+                <NavigationProgress />
+              </Suspense>
               {children}
               <AppToaster />
             </ThemeProvider>

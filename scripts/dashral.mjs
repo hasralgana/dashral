@@ -938,7 +938,7 @@ function pruneUnreachable() {
   }
   const roots = [
     ...codeFiles("app", "i18n", "scripts"),
-    ...["global.d.ts", "next.config.ts", "proxy.ts", "middleware.ts", "instrumentation.ts", "drizzle.config.ts"].map((file) => join(app, file)).filter(existsSync),
+    ...["global.d.ts", "next.config.ts", "proxy.ts", "middleware.ts", "instrumentation.ts", "instrumentation-client.ts", "drizzle.config.ts"].map((file) => join(app, file)).filter(existsSync),
   ]
   const seen = new Set()
   const queue = [...roots]
