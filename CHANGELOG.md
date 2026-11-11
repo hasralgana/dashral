@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Turborepo's local cache cleans up after itself: entries older than 7 days go, and it stays under 2 GB (`cacheMaxAge` and `cacheMaxSize` in `turbo.json`), where it used to grow with every build
+
 ## [1.4.1] - 2026-11-11
 
 ### Changed
