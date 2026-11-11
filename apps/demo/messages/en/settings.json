@@ -14,7 +14,7 @@
     "saved": "Profile saved",
     "changePhoto": "Change photo",
     "removePhoto": "Remove",
-    "photoHint": "JPG, PNG or WebP, up to 2 MB.",
+    "photoHint": "JPG, PNG or WebP, up to 10 MB. You crop it to a square before it's saved.",
     "name": "Name",
     "email": "Email",
     "bio": "Bio",

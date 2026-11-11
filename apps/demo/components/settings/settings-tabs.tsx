@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import { Monitor, Moon, Sun } from "lucide-react"
-import { Avatar } from "@dashral/ui/components/avatar"
+import { AvatarUpload } from "@dashral/ui/components/avatar-upload"
 import { Button } from "@dashral/ui/components/button"
 import { Card } from "@dashral/ui/components/card"
 import { Dialog, DialogClose } from "@dashral/ui/components/dialog"
@@ -60,20 +60,15 @@ function ProfileTab() {
         footerDivider
         classNames={{ body: "grid gap-5", footer: "justify-end" }}
       >
-        <div className="flex items-center gap-4">
-          <Avatar src="https://randomuser.me/api/portraits/women/68.jpg" name="Jane Doe" alt="" size="xl" />
-          <div className="grid gap-1.5">
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" size="sm">
-                {t("changePhoto")}
-              </Button>
-              <Button type="button" variant="ghost" size="sm" className="text-muted-foreground">
-                {t("removePhoto")}
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">{t("photoHint")}</p>
-          </div>
-        </div>
+        {/* The cropped photo goes with the form as "photo", beside the other fields. */}
+        <AvatarUpload
+          name="photo"
+          defaultValue="https://randomuser.me/api/portraits/women/68.jpg"
+          fallback="JD"
+          accept="image/png,image/jpeg,image/webp"
+          maxSize={10 * 1024 * 1024}
+          description={t("photoHint")}
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           <Input label={t("name")} name="name" defaultValue="Jane Doe" autoComplete="name" required />
           <Input label={t("email")} name="email" type="email" defaultValue="jane@example.com" autoComplete="email" required />

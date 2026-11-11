@@ -14,7 +14,7 @@
     "saved": "Profil disimpan",
     "changePhoto": "Ganti foto",
     "removePhoto": "Hapus",
-    "photoHint": "JPG, PNG atau WebP, maks. 2 MB.",
+    "photoHint": "JPG, PNG atau WebP, maks. 10 MB. Anda memotongnya menjadi persegi sebelum disimpan.",
     "name": "Nama",
     "email": "Email",
     "bio": "Bio",
