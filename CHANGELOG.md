@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-11
+
 ### Added
 
 - Image Cropper: a picture to crop before it's saved, in one tag (`<ImageCropper src={url} aspect={1} shape="circle" />`): drag it or use the arrow keys to move it under the crop, zoom with the slider, the wheel, a pinch or + and −, and turn it 90° at a time; the crop never shows an empty corner. `onCropChange` gives the area in the picture's pixels, and `cropImage` draws it into a file at the width you ask for
@@ -141,7 +143,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/hasralgana/dashral/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/hasralgana/dashral/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/hasralgana/dashral/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hasralgana/dashral/compare/v1.1.1...v1.2.0
