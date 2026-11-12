@@ -242,6 +242,9 @@ importers:
 
   packages/blocks:
     dependencies:
+      '@dashral/motion':
+        specifier: workspace:*
+        version: link:../motion
       '@dashral/ui':
         specifier: workspace:*
         version: link:../ui
