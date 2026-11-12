@@ -48,8 +48,9 @@ export function CtaBanner({
           {description && <p className="mt-2 text-pretty text-muted-foreground">{description}</p>}
         </div>
 
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-          <Action action={primary} className="group">
+        {/* Side by side, on a phone too; the second wraps under only when the two can't fit one line. */}
+        <div className="flex shrink-0 flex-wrap gap-3">
+          <Action action={primary} className="group flex-auto sm:flex-none">
             {primary.label}
             <ArrowRight
               aria-hidden
@@ -57,7 +58,7 @@ export function CtaBanner({
             />
           </Action>
           {secondary && (
-            <Action action={secondary} variant="outline">
+            <Action action={secondary} variant="outline" className="flex-auto sm:flex-none">
               {secondary.label}
             </Action>
           )}

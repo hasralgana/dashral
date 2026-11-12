@@ -139,12 +139,12 @@ export function NotFound({
           )}
         </form>
 
-        {/* On phones the main action comes first. */}
-        <div className="mt-6 flex flex-col-reverse justify-center gap-3 sm:flex-row">
-          <Button variant="outline" onClick={() => history.back()}>
+        {/* Side by side, on a phone too: the way back, then the main action; each takes its share of the row. */}
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Button variant="outline" className="flex-auto sm:flex-none" onClick={() => history.back()}>
             <ArrowLeft aria-hidden className="rtl:-scale-x-100" /> Go back
           </Button>
-          <Button asChild>
+          <Button className="flex-auto sm:flex-none" asChild>
             <a href={homeHref}>
               <House aria-hidden /> Take me home
             </a>

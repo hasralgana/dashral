@@ -61,8 +61,10 @@ export function CtaCentered({
         <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-5xl sm:leading-[1.08]">{title}</h2>
         {description && <p className="mx-auto mt-5 max-w-lg text-pretty text-muted-foreground sm:text-lg">{description}</p>}
 
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Action action={primary} className="group">
+        {/* Side by side, on a phone too: each takes its share of the row, and the second wraps under only when the
+            two labels can't fit one line. */}
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Action action={primary} className="group flex-auto sm:flex-none">
             {primary.label}
             <ArrowRight
               aria-hidden
@@ -70,7 +72,7 @@ export function CtaCentered({
             />
           </Action>
           {secondary && (
-            <Action action={secondary} variant="outline">
+            <Action action={secondary} variant="outline" className="flex-auto sm:flex-none">
               {secondary.label}
             </Action>
           )}
