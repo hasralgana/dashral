@@ -128,14 +128,22 @@ function InputOTPControl({
                     data-active={current || undefined}
                     data-filled={char ? "" : undefined}
                     className={cn(
-                      "relative grid place-items-center rounded-md border border-input bg-transparent font-medium shadow-xs transition-[color,box-shadow,border-color] tabular-nums",
+                      "relative grid place-items-center rounded-md border border-input bg-transparent font-medium shadow-xs tabular-nums",
+                      // The ring glides to the box that's next instead of jumping.
+                      "transition-[color,box-shadow,border-color] duration-(--duration-fast) ease-standard motion-reduce:transition-none",
                       size === "lg" ? "size-12 text-xl" : "size-10 text-lg",
                       "data-active:border-ring data-active:ring-2 data-active:ring-ring/15",
                       "group-has-[[aria-invalid=true]]/otp:border-destructive group-has-[[aria-invalid=true]]/otp:data-active:ring-destructive/15",
                       classNames?.slot
                     )}
                   >
-                    {char && (mask ? <span className="size-2 rounded-full bg-current" /> : char)}
+                    {/* Each character settles into its box, and again when it changes (keyed by it): a quick fade and a
+                        small zoom. With reduced motion it's simply there. */}
+                    {char && (
+                      <span key={char} className="grid place-items-center animate-in duration-(--duration-fast) ease-enter fade-in-0 zoom-in-75 motion-reduce:animate-none">
+                        {mask ? <span className="size-2 rounded-full bg-current" /> : char}
+                      </span>
+                    )}
                     {/* The caret, blinking in the box that's next, while it's empty. */}
                     {current && !char && <span className="h-5 w-px animate-pulse bg-foreground [animation-duration:1s] motion-reduce:animate-none" />}
                   </div>

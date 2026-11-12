@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Field (every control's label, hint and error): an error that's fixed fades out as its line closes, so what's under the field slides up instead of jumping, and a hint that comes back fades in; where the error and the hint take each other's place they cross in that one line and the field keeps its height. Nothing moves on the first render or with reduced motion
+- Input OTP moves on its own, without the Motion edition: each character settles into its box with a quick fade and a small zoom (again when it changes), and the focus ring glides to the next box on the motion tokens; with reduced motion nothing moves
+
 ## [1.5.0] - 2026-11-12
 
 ### Added

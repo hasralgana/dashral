@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Label as LabelPrimitive } from "radix-ui"
 
+import { cssDuration, reducedMotion } from "../lib/motion"
 import { cn } from "../lib/utils"
 
 type FieldContextValue = {
@@ -131,18 +132,7 @@ function Field({ id, label, description, error, labelAction, required, withAster
         {renderMessages ? (
           renderMessages({ description, descriptionId, error: message, errorId, layout: "field", classNames })
         ) : (
-          <>
-            {description && (
-              <p id={descriptionId} data-slot="field-description" className={cn("text-xs text-muted-foreground", classNames?.description)}>
-                {description}
-              </p>
-            )}
-            {message && (
-              <FieldError id={errorId} className={classNames?.error}>
-                {message}
-              </FieldError>
-            )}
-          </>
+          <Messages description={description} descriptionId={descriptionId} message={message} errorId={errorId} classNames={classNames} />
         )}
       </div>
     </FieldContext>
@@ -172,6 +162,159 @@ function useFieldControl<P extends FieldControlProps>(props: P): P {
     "aria-labelledby": props["aria-labelledby"] ?? field.labelId,
     "aria-invalid": props["aria-invalid"] ?? (field.invalid || undefined),
   }
+}
+
+const errorClasses = "text-xs text-destructive-text"
+const descriptionClasses = "text-xs text-muted-foreground"
+
+type Kind = "description" | "error"
+/** A message on its way out. `swap`: the other one arrives in its place, so it fades out right there, over it. */
+type Leaving = { key: number; kind: Kind; content: React.ReactNode; height: number; swap: boolean }
+
+/**
+ * A field's hint and error, as they come and go. An error fades in as it appears; a hint that comes back fades in too.
+ * One that goes stays a moment: where the other takes its place (a hint the error replaces, the hint back once the
+ * error is fixed) the two cross in that one line, so the field keeps its height; where nothing does, it fades out as
+ * its line closes, gap above it included, so what's under the field slides up instead of jumping. Only appearing and leaving move: a
+ * hint whose words change (a count, say) changes in place. Nothing moves on the first render, nor with reduced motion.
+ */
+function Messages({
+  description,
+  descriptionId,
+  message,
+  errorId,
+  classNames,
+}: {
+  description?: React.ReactNode
+  descriptionId?: string
+  message: React.ReactNode | null
+  errorId?: string
+  classNames?: { description?: string; error?: string }
+}) {
+  const [leaving, setLeaving] = React.useState<Leaving[]>([])
+  // Which of the two appeared after the first render, and fade in: one that was there from the start never moves.
+  const [fresh, setFresh] = React.useState<Record<Kind, boolean>>({ description: false, error: false })
+  const descriptionRef = React.useRef<HTMLParagraphElement>(null)
+  const errorRef = React.useRef<HTMLParagraphElement>(null)
+  // What was shown, and how tall, at the last render: what a message that goes leaves behind.
+  const last = React.useRef<{ description?: React.ReactNode; message: React.ReactNode | null; heights: Record<Kind, number> }>({ description, message, heights: { description: 0, error: 0 } })
+  const nextKey = React.useRef(0)
+
+  React.useLayoutEffect(() => {
+    const before = last.current
+    const shown: Record<Kind, boolean> = { description: Boolean(description), error: Boolean(message) }
+    const was: Record<Kind, boolean> = { description: Boolean(before.description), error: Boolean(before.message) }
+    last.current = {
+      description,
+      message,
+      heights: {
+        description: descriptionRef.current?.offsetHeight ?? before.heights.description,
+        error: errorRef.current?.offsetHeight ?? before.heights.error,
+      },
+    }
+    if (shown.description !== was.description || shown.error !== was.error) {
+      setFresh((now) => ({ description: shown.description && (now.description || !was.description), error: shown.error && (now.error || !was.error) }))
+    }
+    const gone: Leaving[] = []
+    const arrived = (kind: Kind) => shown[kind] && !was[kind]
+    if (was.description && !shown.description) gone.push({ key: nextKey.current++, kind: "description", content: before.description, height: before.heights.description, swap: arrived("error") })
+    if (was.error && !shown.error) gone.push({ key: nextKey.current++, kind: "error", content: before.message, height: before.heights.error, swap: arrived("description") })
+    if (!gone.length || reducedMotion()) return
+    setLeaving((all) => [...all, ...gone])
+    const keys = new Set(gone.map((item) => item.key))
+    window.setTimeout(() => setLeaving((all) => all.filter((item) => !keys.has(item.key))), cssDuration("--duration-fast", 160) + 60)
+  }, [description, message])
+
+  // A message that goes: its words fade out while its line closes to nothing. The grid's gap above it can't shrink
+  // (a grid track never goes below zero, so a negative margin on the line does nothing), so the part above it (the hint,
+  // or the control) gives up that gap instead, its bottom margin easing to minus the gap meanwhile: at the end the
+  // field is exactly as tall as without the line, and nothing jumps when it's gone.
+  const closeGap = (line: HTMLDivElement | null) => {
+    const above = line?.previousElementSibling as HTMLElement | null
+    if (!line || !above) return
+    const gap = parseFloat(getComputedStyle(line.parentElement!).rowGap) || 0
+    const easing = getComputedStyle(line).getPropertyValue("--ease-exit").trim() || "ease-in"
+    const lift = above.animate([{ marginBottom: "0px" }, { marginBottom: `${-gap}px` }], { duration: cssDuration("--duration-fast", 160), easing, fill: "forwards" })
+    return () => lift.cancel()
+  }
+  const gone = (kind: Kind) =>
+    leaving
+      .filter((item) => item.kind === kind && !item.swap)
+      .map((item) => (
+        <div
+          key={item.key}
+          ref={closeGap}
+          aria-hidden
+          style={{ "--radix-collapsible-content-height": `${item.height}px` } as React.CSSProperties}
+          className="pointer-events-none animate-collapsible-up overflow-hidden duration-(--duration-fast) ease-exit fill-mode-forwards"
+        >
+          <p
+            className={cn(
+              kind === "error" ? errorClasses : descriptionClasses,
+              "animate-out duration-(--duration-fast) ease-exit fade-out-0 fill-mode-forwards",
+              kind === "error" ? classNames?.error : classNames?.description
+            )}
+          >
+            {item.content}
+          </p>
+        </div>
+      ))
+
+  // A shown message sits in a grid of one cell, where the one it replaces fades out over it while it arrives (the
+  // cell is the taller of the two meanwhile). The cell is always there, so letting the other go never redraws it.
+  const crossing = (kind: Kind, el: React.ReactElement) => {
+    const replaced = leaving.filter((item) => item.swap && item.kind !== kind)
+    return (
+      <div data-slot={`field-${kind}-cell`} className="grid *:col-start-1 *:row-start-1">
+        {el}
+        {replaced.map((item) => (
+          <p
+            key={item.key}
+            aria-hidden
+            className={cn(
+              item.kind === "error" ? errorClasses : descriptionClasses,
+              "pointer-events-none animate-out duration-(--duration-fast) ease-exit fade-out-0 fill-mode-forwards",
+              item.kind === "error" ? classNames?.error : classNames?.description
+            )}
+          >
+            {item.content}
+          </p>
+        ))}
+      </div>
+    )
+  }
+
+  const descriptionEl = description && (
+    <p
+      ref={descriptionRef}
+      id={descriptionId}
+      data-slot="field-description"
+      className={cn(descriptionClasses, fresh.description && "animate-in duration-(--duration-standard) ease-enter fade-in-0", classNames?.description)}
+    >
+      {description}
+    </p>
+  )
+  const errorEl = message && (
+    <p
+      ref={errorRef}
+      id={errorId}
+      data-slot="field-error"
+      className={cn(
+        errorClasses,
+        fresh.error && "animate-in duration-(--duration-standard) ease-enter fade-in-0 slide-in-from-top-1 motion-reduce:slide-in-from-top-0",
+        classNames?.error
+      )}
+    >
+      {message}
+    </p>
+  )
+
+  return (
+    <>
+      {descriptionEl ? crossing("description", descriptionEl) : gone("description")}
+      {errorEl ? crossing("error", errorEl) : gone("error")}
+    </>
+  )
 }
 
 /** An error message under a control; it fades in as it appears. */
@@ -296,18 +439,7 @@ function ChoiceField({ id, label, description, error, disabled, leading, labelPo
         {renderMessages ? (
           renderMessages({ description, descriptionId, error: message, errorId, layout: "choice", classNames })
         ) : (
-          <>
-            {description && (
-              <p id={descriptionId} data-slot="field-description" className={cn("text-xs text-muted-foreground", classNames?.description)}>
-                {description}
-              </p>
-            )}
-            {message && (
-              <FieldError id={errorId} className={classNames?.error}>
-                {message}
-              </FieldError>
-            )}
-          </>
+          <Messages description={description} descriptionId={descriptionId} message={message} errorId={errorId} classNames={classNames} />
         )}
       </div>
     </div>
