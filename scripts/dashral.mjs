@@ -11,6 +11,9 @@
 //
 // `pnpm dashral update` brings a later release into a project set up this way (see Updates below).
 //
+// Dashral Pro's SaaS landing template (apps/saas) sets up on its own instead, as a Next.js project of its own:
+//   pnpm dashral init --template saas --name "Acme"      (npx create-dashral my-site --pro --template saas)
+//
 // How it edits the code: blocks between `@dashral-if <feature>` and `@dashral-end` comments are kept or dropped
 // (features: classic, inset, switcher, i18n, customizer, demo, and app-<name> in Pro; blocks may nest); files and
 // folders are moved or deleted; imports left unused are removed; and components/ or lib/ files nothing imports any
@@ -76,6 +79,11 @@ In Dashral Pro, instead of --template and --pages:
   --apps        all | crm,kanban,…         The apps to keep: ${Object.keys(proApps).join(", ")}
   --samples     keep | remove              The pages of sample data: Overview, the Inset template, Files,
                                            Pricing and the error pages
+
+The SaaS landing template (Dashral Pro), on its own:
+  --template    saas                       The website in apps/saas becomes the project, like a new Next.js app:
+                                           the blocks it uses copied into components/blocks, @dashral/ui from npm.
+                                           Takes --name (its brand's name) and nothing else.
 
 Run it once, in a fresh clone, before changing the code.
 
@@ -994,15 +1002,15 @@ const repositoryOnly = [
 const appLeftBehind = ["node_modules", ".next", ".turbo", "tsconfig.tsbuildinfo", "package.json", "tsconfig.json", ".gitignore"]
 
 /**
- * `--layout flat`: apps/demo becomes the project, like a new Next.js app. Its files move to the root, the kit's
+ * `--layout flat`: apps/demo (or `source`: apps/saas for `--template saas`) becomes the project, like a new Next.js app. Its files move to the root, the kit's
  * workspace packages become npm dependencies at this release's versions (@dashral/ui stays imported as it was), the
  * shared TypeScript settings are written into tsconfig.json, and the monorepo's files go: packages, turbo, the
  * workspace list, this script and the repository's docs.
  */
-function flatten() {
+function flatten(source = app, readme = flatReadme) {
   const json = (path) => JSON.parse(read(path))
   const rootPkg = json(join(root, "package.json"))
-  const appPkg = json(join(app, "package.json"))
+  const appPkg = json(join(source, "package.json"))
 
   // package.json: the app's, named after the folder, with the kit from npm.
   const kitVersion = (dep) => json(join(root, "packages", dep.slice("@dashral/".length), "package.json")).version
@@ -1018,9 +1026,11 @@ function flatten() {
   const { name: _name, version: _version, license: _license, private: _private, ...rest } = appPkg
   const pkg = { name: slug, version: "0.1.0", private: true, ...rest, packageManager: rootPkg.packageManager, engines: rootPkg.engines }
   for (const key of ["clean"]) delete pkg.scripts?.[key]
+  // Its own port in the monorepo (apps/saas runs beside the dashboard on 3003); a project of its own takes Next's 3000.
+  for (const [key, script] of Object.entries(pkg.scripts ?? {})) pkg.scripts[key] = script.replace(/ --port \d+/, "")
 
   // tsconfig.json: the shared settings (packages/typescript-config) written in, then the app's own.
-  const appTsconfig = json(join(app, "tsconfig.json"))
+  const appTsconfig = json(join(source, "tsconfig.json"))
   const shared = (file) => json(join(root, "packages/typescript-config", file))
   const nextjs = shared(appTsconfig.extends.split("/").at(-1))
   const base = nextjs.extends ? shared(nextjs.extends.replace("./", "")) : { compilerOptions: {} }
@@ -1031,7 +1041,7 @@ function flatten() {
   }
 
   // .gitignore: the repository's, without what only the monorepo had, and the app's own lines.
-  const appIgnore = existsSync(join(app, ".gitignore")) ? read(join(app, ".gitignore")) : ""
+  const appIgnore = existsSync(join(source, ".gitignore")) ? read(join(source, ".gitignore")) : ""
   const gitignore = `${read(join(root, ".gitignore"))
     .replace(/\n# turbo\n\.turbo\n/, "\n")
     .replace(/\n# internal planning docs[^\n]*\n[^\n]*\n?/, "\n")
@@ -1039,11 +1049,11 @@ function flatten() {
 
   // Dashral Pro's SaaS landing template is an app of its own: a flat project has room for one app, so it goes with
   // apps/. Said out loud, so it isn't a surprise: a fresh clone still has it.
-  if (existsSync(join(root, "apps/saas"))) console.log("  apps/saas (the SaaS landing template) is left out: a flat project holds one app. A fresh clone still has it.")
+  if (source === app && existsSync(join(root, "apps/saas"))) console.log("  apps/saas (the SaaS landing template) is left out: a flat project holds one app. A fresh clone still has it.")
   for (const entry of repositoryOnly) remove(join(root, entry))
-  for (const entry of readdirSync(app)) {
+  for (const entry of readdirSync(source)) {
     if (appLeftBehind.includes(entry)) continue
-    renameSync(join(app, entry), join(root, entry))
+    renameSync(join(source, entry), join(root, entry))
   }
   remove(join(root, "apps"))
 
@@ -1063,7 +1073,7 @@ function flatten() {
   const nextConfig = join(root, "next.config.ts")
   if (existsSync(nextConfig)) writeFileSync(nextConfig, read(nextConfig).replace(/\n  transpilePackages: \[[^\]]*\],/, ""))
 
-  writeFileSync(join(root, "README.md"), flatReadme(pkg))
+  writeFileSync(join(root, "README.md"), readme(pkg))
 }
 
 /** The flat project's README: how to run it, where things are, how to update. */
@@ -1124,9 +1134,147 @@ Built on Dashral, MIT licensed (see \`LICENSE\`).
 `
 }
 
+// ── The SaaS landing template on its own (Dashral Pro) ───────────────────────────────────────────────────────────
+
+const landing = join(root, "apps/saas")
+
+/** Every .ts and .tsx file under a folder, node_modules and .next left out. */
+function sourceFiles(dir) {
+  return readdirSync(dir).flatMap((name) => {
+    if (name === "node_modules" || name === ".next") return []
+    const path = join(dir, name)
+    if (statSync(path).isDirectory()) return sourceFiles(path)
+    return /\.tsx?$/.test(name) ? [path] : []
+  })
+}
+
+/**
+ * The blocks the website imports from @dashral/blocks (a workspace package, not on npm) become files of its own in
+ * components/blocks: each block is one file that imports only packages, so it moves as it is. The imports point there,
+ * and what the blocks need from npm joins its dependencies.
+ */
+function copyLandingBlocks() {
+  const pkgPath = join(landing, "package.json")
+  const pkg = JSON.parse(read(pkgPath))
+  const blocksPkg = JSON.parse(read(join(root, "packages/blocks/package.json")))
+  const importPattern = /from "@dashral\/blocks\/([\w-]+)\/([\w-]+)"/g
+  const files = sourceFiles(landing)
+  const used = new Map()
+  for (const path of files) for (const [, category, name] of read(path).matchAll(importPattern)) used.set(`${category}/${name}`, name)
+  if (new Set(used.values()).size !== used.size) fail("Two blocks the website uses share a file name: this is a bug, tell us at hello@dashral.com.")
+
+  const needs = new Set()
+  for (const [path, name] of used) {
+    const block = read(join(root, "packages/blocks/src", `${path}.tsx`))
+    if (/from "\.{1,2}\//.test(block)) fail(`The ${name} block imports a file next to it, so it can't move on its own: this is a bug, tell us at hello@dashral.com.`)
+    for (const [, spec] of block.matchAll(/from "([^"]+)"/g)) needs.add(spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0])
+    write(join(landing, "components/blocks", `${name}.tsx`), block)
+  }
+  for (const path of files) {
+    const text = read(path)
+    const next = text.replace(importPattern, (_, _category, name) => `from "@/components/blocks/${name}"`)
+    if (next !== text) write(path, next)
+  }
+
+  // The packages the blocks import: the website already has most; the rest come at the blocks' own versions.
+  const has = (dep) => Boolean(pkg.dependencies?.[dep] ?? pkg.devDependencies?.[dep])
+  for (const dep of needs) {
+    if (dep === "react" || has(dep)) continue
+    const version = blocksPkg.dependencies?.[dep] ?? blocksPkg.devDependencies?.[dep]
+    if (!version) fail(`A block needs ${dep}, which packages/blocks doesn't list: this is a bug, tell us at hello@dashral.com.`)
+    pkg.dependencies[dep] = version
+  }
+  delete pkg.dependencies["@dashral/blocks"]
+  pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort(([a], [b]) => a.localeCompare(b)))
+  writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
+
+  // Tailwind finds classes in the project's own files: the line that pointed it at packages/blocks goes.
+  const css = join(landing, "app/globals.css")
+  // (with the comment above it, and the blank line after).
+  if (existsSync(css)) write(css, read(css).replace(/(?:\/\*[^\n]*\*\/\n)?@source "[^"]*packages\/blocks[^"]*";\n\n?/, ""))
+  return used.size
+}
+
+/** What only Dashral's live demo of the website has (the "Made with Dashral" badge): never in a project of your own. */
+function removeLandingHosted() {
+  remove(join(landing, "hosted"))
+  for (const path of sourceFiles(landing)) {
+    const text = read(path)
+    if (text.includes("@dashral-hosted")) write(path, text.split("\n").filter((line) => !line.includes("@dashral-hosted")).join("\n"))
+  }
+}
+
+/** `--template saas`: the website in apps/saas, on its own, as a Next.js project like create-next-app. */
+function initLanding(flags) {
+  if (!existsSync(landing)) {
+    fail("The SaaS landing template comes with Dashral Pro: start from its repository with `npx create-dashral my-site --pro --template saas`.")
+  }
+  if ((flags.layout ?? "flat") !== "flat") fail("--template saas makes the website a project of its own. To keep it beside the dashboard, leave out --template: apps/saas is already there.")
+  const others = ["pages", "samples", "apps", "languages", "customizer", ...themeKeys].filter((key) => flags[key] !== undefined)
+  if (others.length) fail(`--template saas takes --name and nothing else: leave out ${others.map((key) => `--${key}`).join(", ")}.`)
+  if (!flags.force && existsSync(join(root, ".git"))) {
+    const status = execSync("git status --porcelain", { cwd: root }).toString().trim()
+    if (status) fail("There are uncommitted changes. Commit them first (or pass --force), so you can see and undo what this changes.")
+  }
+
+  console.log("\nSetting up your website…")
+  removeLandingHosted()
+  const blocks = copyLandingBlocks()
+  const name = typeof flags.name === "string" ? flags.name.trim() : ""
+  if (name) {
+    const site = join(landing, "lib/site.ts")
+    write(site, read(site).replace(/(\bname: )"[^"]*"/, `$1${JSON.stringify(name)}`))
+  }
+  remove(join(landing, ".next"))
+  flatten(landing, landingReadme)
+  // The repository's guides are about the dashboard and the monorepo; the website's README says what it needs.
+  for (const path of ["docs", "PRO.md"]) remove(join(root, path))
+  console.log(`
+✔ Done: the SaaS landing website${name ? `, named ${JSON.stringify(name)}` : ""}, as a Next.js project of its own, with the ${blocks} blocks it uses in components/blocks.
+
+${process.env.DASHRAL_CREATE ? "" : "Next:\n  pnpm install      @dashral/ui and the rest, from npm\n  pnpm dev          your website at http://localhost:3000\n\n"}Your name, menus and plans are in lib/site.ts and lib/plans.ts; README.md has the rest.`)
+}
+
+/** The website's README: how to run it, where its words and pictures are, how to put it online. */
+function landingReadme(pkg) {
+  return `# ${pkg.name}
+
+A website for a SaaS product, started from [Dashral Pro](https://dashral.com/templates/saas-landing)'s SaaS landing
+template with \`npx create-dashral --pro --template saas\`.
+
+\`\`\`bash
+pnpm install
+pnpm dev
+\`\`\`
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Make it yours
+
+| What | Where |
+| --- | --- |
+| Name, tagline, menus, footer links, email | \`lib/site.ts\` |
+| Plans and their prices | \`lib/plans.ts\` |
+| Releases on the changelog | \`lib/changelog.ts\` |
+| The logo (and so the favicon, home-screen icon and social cards) | \`lib/logo-mark.tsx\` |
+| The pages, each a list of sections | \`app/\` |
+| The blocks those sections are made of, yours to change | \`components/blocks/\` |
+| Where the contact form's message goes | \`app/contact/actions.ts\` |
+
+The UI components come from [\`@dashral/ui\`](https://www.npmjs.com/package/@dashral/ui): \`pnpm up @dashral/ui\` brings
+in fixes. The blocks are your own files now; newer versions are on [dashral.com/blocks](https://dashral.com/blocks).
+
+## Put it online
+
+Deploy to Vercel or any Node host, and set \`NEXT_PUBLIC_SITE_URL\` to its address: the sitemap and the social cards use
+it. There's no database or key to set up.
+`
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 async function init(flags) {
+  if (flags.template === "saas") return initLanding(flags)
   if (!existsSync(join(app, "lib/templates.ts"))) fail("Run this from a Dashral repository: apps/demo wasn't found.")
   const replay = Boolean(flags.replay)
   if (!replay && existsSync(record)) fail("This project was already set up (.dashral.json). Start again from a fresh clone to set it up differently.")

@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Container: the width of a page's content in one tag (`<Container size="md">`): centred, the content no wider than its size (sm 42rem to xl 80rem, or full), with room at the sides outside that width so it lines up with the blocks; `asChild` puts it on your own element
 - Section: one part of a landing page in one tag (`<Section eyebrow="Pricing" title="Simple plans" description="…">`): the room above and below, a heading centred or at the start with its buttons, and the content under it in a Container. The section is named by its title, and the heading rises into place the first time it scrolls into view
 - App Shell: a dashboard's frame in one tag (`<AppShell sidebar={{ items }} header={…} page={{ title: "Orders" }}>`): the Sidebar, a bar along the top that sticks, the PageHeader and the page. On a phone the sidebar opens in a sheet from the bar's menu button and closes when a link is followed; `contained` fits it to a box
+- `npx create-dashral` (0.3.0): `--pro --template saas` sets up Dashral Pro's SaaS landing template on its own, as a Next.js project without the dashboard: the blocks it uses copied into `components/blocks`, `@dashral/ui` from npm, port 3000. `pnpm dashral init --template saas` does the same in a fresh clone
 
 ### Changed
 

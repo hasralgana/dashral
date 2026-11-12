@@ -36,6 +36,7 @@ The theme customizer's **Copy setup command** in the [live demo](https://demo.da
 | --- | --- |
 | `--monorepo` | Keep Dashral's whole repository (`apps/`, `packages/`) and history instead, so `pnpm dashral update` can bring in later releases, pages too ([Getting updates](https://github.com/hasralgana/dashral#getting-updates)) |
 | `--pro` | Start from Dashral Pro, as the monorepo, so `pnpm dashral update` brings in new apps and their database migrations. It's a private repository: accept the invitation GitHub emailed you, then let Git sign in to GitHub once with `gh auth login` (or use `--from` with SSH) |
+| `--pro --template saas` | Dashral Pro's SaaS landing template on its own: the website (home, pricing, changelog, about, contact) as a Next.js project, without the dashboard. Pro 1.6.0 or newer |
 | `--release v1.2.0` | An earlier release instead of the newest |
 | `--from <url>` | Clone another repository, e.g. a fork, or Pro over SSH |
 | `--no-install` | Skip `pnpm install` |

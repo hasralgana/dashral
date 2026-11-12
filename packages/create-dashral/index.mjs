@@ -10,6 +10,7 @@
 //   npx create-dashral my-app --template inset --pages blank --languages en --name "Acme" --primary indigo
 //   npx create-dashral my-app --monorepo                                   (the whole repository, for pnpm dashral update)
 //   npx create-dashral my-app --pro --apps crm,kanban --name "Acme"        (Dashral Pro: needs your GitHub access)
+//   npx create-dashral my-site --pro --template saas --name "Acme"        (Pro's SaaS landing website, on its own)
 
 import { spawnSync } from "node:child_process"
 import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs"
@@ -32,6 +33,9 @@ Options of create-dashral:
                        with \`pnpm dashral update\`
   --pro                Start from Dashral Pro: its private repository, as the monorepo, so \`pnpm dashral update\` brings
                        in new apps and their database migrations (Git needs to sign in to GitHub: see below)
+  --pro --template saas
+                       Dashral Pro's SaaS landing template on its own: the website as a Next.js project, like
+                       create-next-app, without the dashboard (Dashral Pro 1.6.0 or newer)
   --release v1.2.0     An earlier release instead of the newest
   --from <url>         Clone another repository (a fork, or Pro over SSH: git@github.com:dashral-ui/dashral-pro.git)
   --no-install         Set up only; run \`pnpm install\` yourself
@@ -192,8 +196,13 @@ if (own.release) {
 }
 if (!release) fail(`${url} has no releases yet.`)
 
+// --template saas: Pro's SaaS landing website on its own. It's a project of its own, so it's always flat.
+const landing = rest.some((arg, i) => arg === "--template=saas" || (arg === "--template" && rest[i + 1] === "saas"))
+if (landing && !own.pro) fail("The SaaS landing template comes with Dashral Pro: add --pro.")
+if (landing && own.monorepo) fail("--template saas makes the website a project of its own. For it beside the dashboard, use --pro --monorepo without --template.")
+
 let flat = !own.monorepo
-if (flat && own.pro) {
+if (flat && own.pro && !landing) {
   // Pro's updates are mostly its apps (new dashboards, fixes, database migrations): only the repository's history
   // lets `pnpm dashral update` merge them into a project. Pro blocks for an app you already have: the shadcn CLI.
   console.log("  Dashral Pro is set up as the monorepo, so `pnpm dashral update` can bring in new apps and their migrations.")
@@ -212,6 +221,10 @@ if (flat && !readFileSync(join(target, "scripts/dashral.mjs"), "utf8").includes(
   if (run("git", ["-c", "advice.detachedHead=false", "clone", "--quiet", "--branch", release, url, target]) !== 0) fail(`Couldn't clone ${url}.${access}`)
 }
 const restart = `It's a fresh copy, so you can delete ${folder} and start again.`
+if (landing && !readFileSync(join(target, "scripts/dashral.mjs"), "utf8").includes("--template saas")) {
+  rmSync(target, { recursive: true, force: true })
+  fail(`${release} doesn't have the SaaS landing template yet: it came in Dashral Pro 1.6.0.`)
+}
 
 if (flat) {
   // Setting up needs no dependencies: install once, in the project as it ends up.
@@ -227,7 +240,7 @@ if (flat) {
   run("git", ["add", "-A"], target, true)
   const committed = run("git", ["commit", "--quiet", "-m", "Initial commit from create-dashral"], target, true) === 0
   console.log(`
-Your dashboard is in ${folder}:
+Your ${landing ? "website" : "dashboard"} is in ${folder}:
   cd ${folder}${own.install ? "" : "\n  pnpm install"}
   pnpm dev${committed ? "" : "\n\n(Git has no name and email here yet, so nothing was committed: commit when you're ready.)"}`)
 } else {
