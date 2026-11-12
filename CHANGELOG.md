@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-12
+
 ### Added
 
 - Container: the width of a page's content in one tag (`<Container size="md">`): centred, the content no wider than its size (sm 42rem to xl 80rem, or full), with room at the sides outside that width so it lines up with the blocks; `asChild` puts it on your own element
@@ -186,7 +188,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/hasralgana/dashral/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/hasralgana/dashral/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/hasralgana/dashral/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/hasralgana/dashral/compare/v1.3.1...v1.4.0
