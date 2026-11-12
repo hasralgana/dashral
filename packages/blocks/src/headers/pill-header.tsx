@@ -182,7 +182,7 @@ export function PillHeader({
               </Button>
             }
             footer={
-              <div className="grid w-full gap-2">
+              <div className="grid w-full auto-cols-fr grid-flow-col gap-2">
                 {signIn && <Action action={signIn} variant="outline" className="h-9 rounded-full" then={close} />}
                 <Action action={cta} className="h-9 rounded-full bg-foreground text-background hover:bg-foreground/85" then={close}>
                   <ArrowUpRight aria-hidden />

@@ -337,6 +337,7 @@ Dashral Pro builds on this repository with the dashboards and apps a product nee
 | English, Bahasa Indonesia and Arabic (right to left) | ✓ | ✓ |
 | Analytics, Services, E-commerce and CRM dashboards | | ✓ |
 | Kanban, Calendar and Chat apps | | ✓ |
+| SaaS landing template: home, pricing, changelog, about and contact, as a Next.js app of its own | | ✓ |
 | Pro blocks: analytics overview, kanban board, billing settings, invoice, inbox, notifications, team members, pricing calculator, product hero, onboarding, app shell, command palette header, feature tour, analytics panels, marquee wall, help center, ROI calculator, mega footer, status & maintenance, data pipeline, agent pipeline, integrations hub, request flow, payment flow, deploy pipeline, global network, network globe, notification fan-out, approval workflow | | ✓ |
 | Sign-in with email, passkeys, GitHub, Google and Apple; roles, user admin and invitations | | ✓ |
 | Database with Drizzle ORM: Postgres, or PGlite with no setup | | ✓ |

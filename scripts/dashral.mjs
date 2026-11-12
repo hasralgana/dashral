@@ -1037,6 +1037,9 @@ function flatten() {
     .replace(/\n# internal planning docs[^\n]*\n[^\n]*\n?/, "\n")
     .trimEnd()}\n${appIgnore ? `\n${appIgnore.trimEnd()}\n` : ""}`
 
+  // Dashral Pro's SaaS landing template is an app of its own: a flat project has room for one app, so it goes with
+  // apps/. Said out loud, so it isn't a surprise: a fresh clone still has it.
+  if (existsSync(join(root, "apps/saas"))) console.log("  apps/saas (the SaaS landing template) is left out: a flat project holds one app. A fresh clone still has it.")
   for (const entry of repositoryOnly) remove(join(root, entry))
   for (const entry of readdirSync(app)) {
     if (appLeftBehind.includes(entry)) continue

@@ -106,94 +106,96 @@ export function ColumnsFooter({
 
   return (
     <footer className="border-t bg-background">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_2fr]">
-        <div className="grid content-start gap-6">
-          <div>
-            <a href={brand.href} className="inline-flex items-center gap-2 rounded-md font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
-              {brand.logo ?? (
-                <span aria-hidden className="grid size-7 place-items-center rounded-lg bg-primary text-primary-foreground">
-                  <Sparkles className="size-4" />
-                </span>
-              )}
-              {brand.name}
-            </a>
-            {tagline && <p className="mt-3 max-w-xs text-sm text-muted-foreground">{tagline}</p>}
+      <div className="px-4 py-14 sm:px-6">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_2fr]">
+          <div className="grid content-start gap-6">
+            <div>
+              <a href={brand.href} className="inline-flex items-center gap-2 rounded-md font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
+                {brand.logo ?? (
+                  <span aria-hidden className="grid size-7 place-items-center rounded-lg bg-primary text-primary-foreground">
+                    <Sparkles className="size-4" />
+                  </span>
+                )}
+                {brand.name}
+              </a>
+              {tagline && <p className="mt-3 max-w-xs text-sm text-muted-foreground">{tagline}</p>}
+            </div>
+
+            {!newsletter ? null : state === "done" ? (
+              <p role="status" className="flex max-w-sm items-center gap-2 rounded-lg bg-success/10 px-3 py-2.5 text-sm text-success-text animate-in fade-in-0 duration-(--duration-standard)">
+                <CircleCheck className="size-4 shrink-0" aria-hidden /> {newsletter.done}
+              </p>
+            ) : (
+              <form noValidate onSubmit={subscribe} className="grid max-w-sm gap-2">
+                <label htmlFor="footer-email" className="text-sm font-medium">
+                  {newsletter.label}
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    id="footer-email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value)
+                      setError(null)
+                    }}
+                    aria-invalid={!!error || undefined}
+                    aria-describedby={error ? "footer-email-error" : undefined}
+                    className="flex-1"
+                  />
+                  <Button type="submit" disabled={state === "sending"} aria-busy={state === "sending"}>
+                    {state === "sending" ? "Subscribing…" : "Subscribe"}
+                  </Button>
+                </div>
+                {error && (
+                  <p id="footer-email-error" className="text-xs text-destructive-text">
+                    {error}
+                  </p>
+                )}
+              </form>
+            )}
+
+            {/* Pulled in by the icon buttons' padding, so the icons line up with the text above; the hover still has room. */}
+            <ul className="-ms-2.5 flex gap-1">
+              {social.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href ?? "#"}
+                    aria-label={`${brand.name} on ${s.label}`}
+                    className="grid size-9 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
+                      <path d={s.path} />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {!newsletter ? null : state === "done" ? (
-            <p role="status" className="flex max-w-sm items-center gap-2 rounded-lg bg-success/10 px-3 py-2.5 text-sm text-success-text animate-in fade-in-0 duration-(--duration-standard)">
-              <CircleCheck className="size-4 shrink-0" aria-hidden /> {newsletter.done}
-            </p>
-          ) : (
-            <form noValidate onSubmit={subscribe} className="grid max-w-sm gap-2">
-              <label htmlFor="footer-email" className="text-sm font-medium">
-                {newsletter.label}
-              </label>
-              <div className="flex gap-2">
-                <Input
-                  id="footer-email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                    setError(null)
-                  }}
-                  aria-invalid={!!error || undefined}
-                  aria-describedby={error ? "footer-email-error" : undefined}
-                  className="flex-1"
-                />
-                <Button type="submit" disabled={state === "sending"} aria-busy={state === "sending"}>
-                  {state === "sending" ? "Subscribing…" : "Subscribe"}
-                </Button>
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {columns.map((column) => (
+              <div key={column.title}>
+                <h2 className="text-sm font-semibold">{column.title}</h2>
+                <ul className="mt-4 grid gap-2.5">
+                  {column.links.map((l) => (
+                    <li key={l.label}>
+                      <a href={l.href} className={link}>
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {error && (
-                <p id="footer-email-error" className="text-xs text-destructive-text">
-                  {error}
-                </p>
-              )}
-            </form>
-          )}
-
-          {/* Pulled in by the icon buttons' padding, so the icons line up with the text above; the hover still has room. */}
-          <ul className="-ms-2.5 flex gap-1">
-            {social.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href ?? "#"}
-                  aria-label={`${brand.name} on ${s.label}`}
-                  className="grid size-9 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
-                    <path d={s.path} />
-                  </svg>
-                </a>
-              </li>
             ))}
-          </ul>
+          </nav>
         </div>
-
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {columns.map((column) => (
-            <div key={column.title}>
-              <h2 className="text-sm font-semibold">{column.title}</h2>
-              <ul className="mt-4 grid gap-2.5">
-                {column.links.map((l) => (
-                  <li key={l.label}>
-                    <a href={l.href} className={link}>
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
       </div>
 
-      <div className="border-t">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-5 sm:flex-row sm:justify-between sm:px-6">
+      <div className="border-t px-4 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 py-5 sm:flex-row sm:justify-between">
           <p className="text-xs text-muted-foreground">{copyright ?? `© ${new Date().getFullYear()} ${brand.name}. All rights reserved.`}</p>
           <div className="flex items-center gap-2">
             {languages.length > 0 && (

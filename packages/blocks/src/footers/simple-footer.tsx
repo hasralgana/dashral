@@ -44,8 +44,8 @@ export function SimpleFooter({
   const link = "rounded-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
 
   return (
-    <footer className="border-t bg-background">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    <footer className="border-t bg-background px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl">
         <div className="flex flex-col items-center gap-6 py-10 md:flex-row md:justify-between">
           <a href={brand.href} className="flex items-center gap-2 rounded-md font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
             {brand.logo ?? (

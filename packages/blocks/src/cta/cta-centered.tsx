@@ -44,7 +44,7 @@ export function CtaCentered({
 }: CtaCenteredProps) {
   return (
     <section className="bg-background p-4 sm:p-6">
-      <div className="relative isolate mx-auto overflow-hidden rounded-3xl border bg-card px-6 py-14 text-center shadow-xs sm:px-12 sm:py-20">
+      <div className="relative isolate mx-auto max-w-6xl overflow-hidden rounded-3xl border bg-card px-6 py-14 text-center shadow-xs sm:px-12 sm:py-20">
         {/* The glow and the grid, both decoration: brightest at the top, gone at the edges. */}
         <div aria-hidden className="absolute -top-40 left-1/2 -z-10 h-80 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-primary/25 blur-3xl" />
         <div

@@ -148,8 +148,8 @@ export function WebsiteHeader({
   const menus = nav.filter((item) => "items" in item)
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
+    <header className="sticky top-0 z-30 border-b bg-background/85 px-4 backdrop-blur-md sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6">
         <Logo brand={brand} />
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
@@ -196,7 +196,7 @@ export function WebsiteHeader({
               </Button>
             }
             footer={
-              <div className="grid w-full gap-2">
+              <div className="grid w-full auto-cols-fr grid-flow-col gap-2">
                 {signIn && <Action action={signIn} variant="outline" then={close} />}
                 <Action action={cta} then={close} />
               </div>

@@ -44,9 +44,9 @@ export function CtaFooter({
   const link = "rounded-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
 
   return (
-    <footer className="bg-background">
+    <footer className="bg-background px-4 sm:px-6">
       {/* One column for everything, the same as the page's, so the card's edges line up with the content above. */}
-      <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+      <div className="mx-auto max-w-6xl pt-16">
         <div className="relative isolate overflow-hidden rounded-2xl border bg-card px-6 py-14 text-center sm:px-12 sm:py-16">
           {/* A soft glow from the top and a faint grid, both decoration. */}
           <div aria-hidden className="absolute inset-x-0 -top-32 -z-10 mx-auto h-64 max-w-2xl rounded-full bg-primary/20 blur-3xl" />

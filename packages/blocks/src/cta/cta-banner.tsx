@@ -28,7 +28,7 @@ export function CtaBanner({
   return (
     <section className="bg-background p-4 sm:p-6">
       <div
-        className={`relative isolate mx-auto flex flex-col gap-6 overflow-hidden rounded-2xl border border-transparent px-6 py-8 sm:px-10 sm:py-10 md:flex-row md:items-center md:justify-between [background:linear-gradient(120deg,color-mix(in_oklab,var(--gradient-from)_18%,var(--card)),color-mix(in_oklab,var(--gradient-via)_10%,var(--card))_55%,color-mix(in_oklab,var(--gradient-to)_18%,var(--card)))_padding-box,linear-gradient(90deg,var(--gradient-from),var(--gradient-via),var(--gradient-to))_border-box]`}
+        className={`relative isolate mx-auto flex max-w-6xl flex-col gap-6 overflow-hidden rounded-2xl border border-transparent px-6 py-8 sm:px-10 sm:py-10 md:flex-row md:items-center md:justify-between [background:linear-gradient(120deg,color-mix(in_oklab,var(--gradient-from)_18%,var(--card)),color-mix(in_oklab,var(--gradient-via)_10%,var(--card))_55%,color-mix(in_oklab,var(--gradient-to)_18%,var(--card)))_padding-box,linear-gradient(90deg,var(--gradient-from),var(--gradient-via),var(--gradient-to))_border-box]`}
       >
         {/* A glow in the middle color from one corner and a fine grid fading out, both decoration. */}
         <div aria-hidden className="absolute -top-28 -right-20 -z-10 size-80 rounded-full bg-(--gradient-via)/20 blur-3xl rtl:right-auto rtl:-left-20" />

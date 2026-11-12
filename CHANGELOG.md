@@ -7,13 +7,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Container: the width of a page's content in one tag (`<Container size="md">`): centred, no wider than its size (sm 42rem to xl 80rem, or full), with room at the sides on a phone; `asChild` puts it on your own element
+- Container: the width of a page's content in one tag (`<Container size="md">`): centred, the content no wider than its size (sm 42rem to xl 80rem, or full), with room at the sides outside that width so it lines up with the blocks; `asChild` puts it on your own element
 - Section: one part of a landing page in one tag (`<Section eyebrow="Pricing" title="Simple plans" description="…">`): the room above and below, a heading centred or at the start with its buttons, and the content under it in a Container. The section is named by its title, and the heading rises into place the first time it scrolls into view
 - App Shell: a dashboard's frame in one tag (`<AppShell sidebar={{ items }} header={…} page={{ title: "Orders" }}>`): the Sidebar, a bar along the top that sticks, the PageHeader and the page. On a phone the sidebar opens in a sheet from the bar's menu button and closes when a link is followed; `contained` fits it to a box
 
 ### Changed
 
 - Blocks: the buttons of CTA centered, CTA banner and the 404 page sit side by side on a phone too, each taking its share of the row, instead of stacking; the second wraps under only when the two labels can't fit one line
+- Website header, Simple footer, CTA footer and Columns footer: on a wide screen their content lines up with the blocks' instead of sitting 24px further in
+- CTA banner and CTA centered: on a wide screen the card stops at the content's width, in line with the sections around it, instead of running to the window's edge
+- Pricing comparison: the table scrolls sideways in a Scroll Shadow on a phone, its edge fading while there's more, and a long button label wraps instead of being cut off
+- Website header and Pill header: on a phone, the menu's sign-in and main buttons sit side by side instead of stacking
 - Field (every control's label, hint and error): an error that's fixed fades out as its line closes, so what's under the field slides up instead of jumping, and a hint that comes back fades in; where the error and the hint take each other's place they cross in that one line and the field keeps its height. Nothing moves on the first render or with reduced motion
 - Input OTP moves on its own, without the Motion edition: each character settles into its box with a quick fade and a small zoom (again when it changes), and the focus ring glides to the next box on the motion tokens; with reduced motion nothing moves
 

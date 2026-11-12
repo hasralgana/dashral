@@ -1,5 +1,6 @@
 import { Check, Info, Minus } from "lucide-react"
 import { Button } from "@dashral/ui/components/button"
+import { ScrollShadow } from "@dashral/ui/components/scroll-shadow"
 import { Tooltip } from "@dashral/ui/components/tooltip"
 import { cn } from "@dashral/ui/lib/utils"
 
@@ -81,7 +82,7 @@ export function PricingComparison({
           <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">{title}</h2>
         </div>
 
-        <div className="mt-10 overflow-x-auto">
+        <ScrollShadow orientation="horizontal" fade="end" className="mt-10">
           {/* Fixed layout: the plan columns share the width equally. */}
           <table className="w-full min-w-[40rem] table-fixed border-separate border-spacing-0 text-start">
             <caption className="sr-only">Features by plan</caption>
@@ -91,17 +92,17 @@ export function PricingComparison({
                   Features
                 </th>
                 {plans.map((plan) => (
-                  <th key={plan.name} scope="col" className={cn("px-4 pb-6 text-center align-bottom", plan.popular && "rounded-t-xl bg-primary/5 pt-4")}>
+                  <th key={plan.name} scope="col" className={cn("px-2 pb-6 text-center align-bottom sm:px-4", plan.popular && "rounded-t-xl bg-primary/5 pt-4")}>
                     <span className="block text-base font-semibold">{plan.name}</span>
                     <span className="mt-1 block text-sm font-normal text-muted-foreground">
                       <span className="text-2xl font-semibold text-foreground">{plan.price}</span> {per}
                     </span>
                     {plan.href ? (
-                      <Button size="sm" variant={plan.popular ? "solid" : "outline"} className="mt-4 w-full" asChild>
+                      <Button size="sm" variant={plan.popular ? "solid" : "outline"} className="mt-4 h-auto min-h-8 w-full py-1.5 leading-snug text-balance whitespace-normal" asChild>
                         <a href={plan.href}>{plan.cta}</a>
                       </Button>
                     ) : (
-                      <Button size="sm" variant={plan.popular ? "solid" : "outline"} className="mt-4 w-full" onClick={() => onSelect?.(plan)}>
+                      <Button size="sm" variant={plan.popular ? "solid" : "outline"} className="mt-4 h-auto min-h-8 w-full py-1.5 leading-snug text-balance whitespace-normal" onClick={() => onSelect?.(plan)}>
                         {plan.cta}
                       </Button>
                     )}
@@ -144,7 +145,7 @@ export function PricingComparison({
               </tbody>
             ))}
           </table>
-        </div>
+        </ScrollShadow>
       </div>
     </section>
   )
