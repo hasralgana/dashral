@@ -16,6 +16,7 @@ export const defaultMessages = {
   cancel: "Cancel",
   continue: "Continue",
   navigation: "Navigation",
+  openNavigation: "Open navigation",
   collapseSidebar: "Collapse sidebar",
   expandSidebar: "Expand sidebar",
   done: "Done",

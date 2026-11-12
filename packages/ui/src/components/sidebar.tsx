@@ -142,8 +142,18 @@ function Sidebar({
       </nav>
       {(footer || collapsible) && (
         <div className={cn("grid shrink-0 grid-cols-1 gap-2 border-t border-sidebar-border p-2", classNames?.footer)}>
-          {/* Clipped to the row's width, so folded only what's in line with the icons shows (an avatar, say). */}
-          {footer && <div className="min-w-0 overflow-hidden">{footer}</div>}
+          {/* Narrowed, only its first 32px show (an avatar), centred in line with the icons above; the rest (a name) is
+              clipped away as the sidebar folds, the way the header's logo is. */}
+          {footer && (
+            <div
+              className={cn(
+                "min-w-0 overflow-hidden transition-[max-width] duration-(--duration-considered) ease-standard motion-reduce:transition-none",
+                collapsed ? "max-w-8 justify-self-center" : "max-w-full"
+              )}
+            >
+              {footer}
+            </div>
+          )}
           {collapsible && (
             <Tooltip content={collapsed ? t("expandSidebar") : t("collapseSidebar")} side={side}>
               <button

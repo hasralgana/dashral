@@ -5,10 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Container: the width of a page's content in one tag (`<Container size="md">`): centred, no wider than its size (sm 42rem to xl 80rem, or full), with room at the sides on a phone; `asChild` puts it on your own element
+- Section: one part of a landing page in one tag (`<Section eyebrow="Pricing" title="Simple plans" description="…">`): the room above and below, a heading centred or at the start with its buttons, and the content under it in a Container. The section is named by its title, and the heading rises into place the first time it scrolls into view
+- App Shell: a dashboard's frame in one tag (`<AppShell sidebar={{ items }} header={…} page={{ title: "Orders" }}>`): the Sidebar, a bar along the top that sticks, the PageHeader and the page. On a phone the sidebar opens in a sheet from the bar's menu button and closes when a link is followed; `contained` fits it to a box
+
 ### Changed
 
 - Field (every control's label, hint and error): an error that's fixed fades out as its line closes, so what's under the field slides up instead of jumping, and a hint that comes back fades in; where the error and the hint take each other's place they cross in that one line and the field keeps its height. Nothing moves on the first render or with reduced motion
 - Input OTP moves on its own, without the Motion edition: each character settles into its box with a quick fade and a small zoom (again when it changes), and the focus ring glides to the next box on the motion tokens; with reduced motion nothing moves
+
+### Fixed
+
+- Sidebar: narrowed to its icons, the footer shows only its avatar, centred in line with the icons, instead of the avatar and the start of a name; it folds with the same glide as the header's logo
 
 ## [1.5.0] - 2026-11-12
 
