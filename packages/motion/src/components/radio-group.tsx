@@ -72,11 +72,13 @@ function RadioGroupControl({
   const picked = value ?? own
 
   // The picked card's frame: one element over the group, gliding to that card's place. Measured from the cards' own
-  // layout (offsetTop and offsetHeight), which a card pressed in mid-click doesn't skew, so it always lands exactly
-  // on the card's edge.
+  // layout (offsetTop, offsetLeft and their size), which a card pressed in mid-click doesn't skew, so it always lands
+  // exactly on the card's edge, whether the cards stack or sit side by side in columns.
   const root = React.useRef<HTMLDivElement>(null)
   const top = useMotionValue(0)
   const height = useMotionValue(0)
+  const left = useMotionValue(0)
+  const width = useMotionValue(0)
   const shown = useMotionValue(0)
   const measured = React.useRef(false)
   React.useLayoutEffect(() => {
@@ -88,9 +90,13 @@ function RadioGroupControl({
       if (!glide || !measured.current || reduced) {
         top.jump(card.offsetTop)
         height.jump(card.offsetHeight)
+        left.jump(card.offsetLeft)
+        width.jump(card.offsetWidth)
       } else {
         animate(top, card.offsetTop, spring.move)
         animate(height, card.offsetHeight, spring.move)
+        animate(left, card.offsetLeft, spring.move)
+        animate(width, card.offsetWidth, spring.move)
       }
       measured.current = true
       shown.set(1)
@@ -107,21 +113,27 @@ function RadioGroupControl({
     })
     observer.observe(node)
     return () => observer.disconnect()
-  }, [picked, variant, reduced, top, height, shown])
+  }, [picked, variant, reduced, top, height, left, width, shown])
 
   // The hover: one soft layer under the cards, gliding from card to card without going out between them; it fades
   // where it is when the pointer leaves the group.
   const hover = useHoverPill<string>(reduced)
   const hoverTop = useMotionValue(0)
   const hoverHeight = useMotionValue(0)
+  const hoverLeft = useMotionValue(0)
+  const hoverWidth = useMotionValue(0)
   const hoverCard = (card: HTMLElement, key: string) => {
     // Showing already, it glides to the new card; coming back after it faded, it starts right there.
     if (hover.opacity.get() < 0.05 || reduced) {
       hoverTop.jump(card.offsetTop)
       hoverHeight.jump(card.offsetHeight)
+      hoverLeft.jump(card.offsetLeft)
+      hoverWidth.jump(card.offsetWidth)
     } else {
       animate(hoverTop, card.offsetTop, spring.move)
       animate(hoverHeight, card.offsetHeight, spring.move)
+      animate(hoverLeft, card.offsetLeft, spring.move)
+      animate(hoverWidth, card.offsetWidth, spring.move)
     }
     hover.enter(key)
   }
@@ -143,16 +155,16 @@ function RadioGroupControl({
         // Under the cards' content, over the group's background.
         <motion.span
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 -z-10 rounded-lg bg-accent/50"
-          style={{ top: hoverTop, height: hoverHeight, opacity: hover.opacity }}
+          className="pointer-events-none absolute -z-10 rounded-lg bg-accent/50"
+          style={{ top: hoverTop, height: hoverHeight, left: hoverLeft, width: hoverWidth, opacity: hover.opacity }}
         />
       )}
       {variant === "cards" && (
         // Over the cards, so it covers their borders; its tint is faint enough to leave their text clear.
         <motion.span
           aria-hidden
-          className={cn("pointer-events-none absolute inset-x-0 z-10 rounded-lg border", frameColors[color])}
-          style={{ top, height, opacity: shown }}
+          className={cn("pointer-events-none absolute z-10 rounded-lg border", frameColors[color])}
+          style={{ top, height, left, width, opacity: shown }}
         />
       )}
       {options.map((option) => {

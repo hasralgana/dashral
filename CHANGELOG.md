@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Motion RadioGroup (`variant="cards"`): with the cards side by side in columns, the picked card's frame and the hover sit on that one card instead of spanning the whole row, and glide sideways between cards
 - Motion NumberInput and MoneyInput: while you type, the number's old digits no longer show through the text you're typing (the wheels' digits now stay hidden with them)
 
 ## [1.6.0] - 2026-11-12
