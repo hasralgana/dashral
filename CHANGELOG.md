@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-14
+
 ### Changed
 
 - Blocks name real products as their examples (Stripe, Slack, HubSpot, GitHub, Shopify, Intercom, Linear, Notion, Dropbox, Google Analytics, plus Postgres, Snowflake, Cloudflare, Resend, Firebase, Twilio, Gmail and QuickBooks where a block shows that kind of service), each with its logo in its own colours on a white tile, in place of made-up brands, so what a block connects to reads at a glance. The Inset dashboard's Integrations page shows the real logos of Slack, Stripe, PayPal, Postgres, BigQuery and GitHub too. The names and logos are their owners' trademarks, shown only to illustrate; swap in your own in `brands.tsx` and run `pnpm brands:sync`
@@ -197,7 +199,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/hasralgana/dashral/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/hasralgana/dashral/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/hasralgana/dashral/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/hasralgana/dashral/compare/v1.4.0...v1.4.1
