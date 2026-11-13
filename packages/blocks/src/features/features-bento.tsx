@@ -7,8 +7,8 @@ import { Sparkline } from "@dashral/ui/components/sparkline"
 import { Switch } from "@dashral/ui/components/switch"
 import { cn } from "@dashral/ui/lib/utils"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { payments: "Fernpay", store: "Cartwell", crm: "Dealbird", analytics: "Peekly", chat: "Murmur" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { payments: "Stripe", store: "Shopify", crm: "HubSpot", analytics: "Google Analytics", chat: "Slack" }
 
 const team = [
   { name: "Olivia Martin", src: "https://randomuser.me/api/portraits/women/44.jpg" },

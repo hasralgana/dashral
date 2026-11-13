@@ -6,8 +6,8 @@ import { Button } from "@dashral/ui/components/button"
 import { Input } from "@dashral/ui/components/input"
 import { cn } from "@dashral/ui/lib/utils"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { payments: "Fernpay", store: "Cartwell" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { payments: "Stripe", store: "Shopify" }
 
 /** A page to search and jump to; the popular ones show as cards, with an icon. */
 export type NotFoundPage = { title: string; description: string; href: string; icon?: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }> }

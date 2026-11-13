@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Blocks name real products as their examples (Stripe, Slack, HubSpot, GitHub, Shopify, Intercom, Linear, Notion, Dropbox, Google Analytics) with their own marks, in place of made-up brands, so what a block connects to reads at a glance. The names and logos are their owners' trademarks, shown only to illustrate; swap in your own in `brands.tsx` and run `pnpm brands:sync`
+
 ### Fixed
 
 - Motion NumberInput and MoneyInput: while you type, the number's old digits no longer show through the text you're typing (the wheels' digits now stay hidden with them)

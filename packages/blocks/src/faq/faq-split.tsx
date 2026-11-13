@@ -2,8 +2,8 @@ import { MessageCircle } from "lucide-react"
 import { Accordion } from "@dashral/ui/components/accordion"
 import { Button } from "@dashral/ui/components/button"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { payments: "Fernpay", store: "Cartwell", crm: "Dealbird", analytics: "Peekly" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { payments: "Stripe", store: "Shopify", crm: "HubSpot", analytics: "Google Analytics" }
 
 const sampleFaqs: { value: string; title: string; content: React.ReactNode }[] = [
   { value: "trial", title: "Is there a free trial?", content: "Yes. Every paid plan starts with 14 days free, no card needed. You keep everything you build if you upgrade." },

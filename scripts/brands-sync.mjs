@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// `pnpm brands:sync`: copies the made-up brands from packages/blocks/src/brands.tsx into every block that names them.
+// `pnpm brands:sync`: copies the brands from packages/blocks/src/brands.tsx into every block that names them.
 // A block keeps its own `brands` constant (so it's still one file to copy), with only the roles it uses: names alone
-// (`{ payments: "Fernpay" }`) when it only writes them, or name, colour and mark when it shows a logo. This rewrites
+// (`{ payments: "Stripe" }`) when it only writes them, or name, colour and mark when it shows a logo. This rewrites
 // each constant from the catalog, keeping the block's roles and its kind. `--check` changes nothing and lists the
 // blocks out of step (exit code 1 if any).
 

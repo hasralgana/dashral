@@ -352,3 +352,7 @@ Issues and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). If
 ## License
 
 [MIT](LICENSE) © Hasral Gana
+
+Product names and logos shown in the blocks and examples (Stripe, Slack, GitHub and others) are trademarks of their
+owners, used only to illustrate an integration. Dashral isn't affiliated with or endorsed by them, and the MIT license
+doesn't cover them.

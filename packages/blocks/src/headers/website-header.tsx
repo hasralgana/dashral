@@ -8,8 +8,8 @@ import { Popover } from "@dashral/ui/components/popover"
 import { Sheet } from "@dashral/ui/components/sheet"
 import { cn } from "@dashral/ui/lib/utils"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { payments: "Fernpay", chat: "Murmur", crm: "Dealbird" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { payments: "Stripe", chat: "Slack", crm: "HubSpot" }
 
 /** An item in a menu: an icon, a title, a line, and where it goes. */
 export type MenuEntry = { icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>; title: string; text: string; href?: string }

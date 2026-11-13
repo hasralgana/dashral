@@ -1,7 +1,7 @@
 import { BellRing, Blocks, FileSpreadsheet, Gauge, Lock, Zap } from "lucide-react"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { payments: "Fernpay", store: "Cartwell" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { payments: "Stripe", store: "Shopify" }
 
 export type Feature = { icon: React.ReactNode; title: string; text: React.ReactNode }
 

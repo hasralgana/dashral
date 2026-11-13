@@ -11,8 +11,8 @@ import { Switch } from "@dashral/ui/components/switch"
 import { indicatorMotion, useIndicator } from "@dashral/ui/lib/use-indicator"
 import { cn } from "@dashral/ui/lib/utils"
 
-// The brands named here are made up, so the block ships as it is. Put in the tools your product really works with.
-const brands = { chat: "Murmur", code: "Forkly", payments: "Fernpay", files: "Driftbox" }
+// The products named here are real ones, as examples: their names are their owners' trademarks, no affiliation implied. Put in the tools your product really works with.
+const brands = { chat: "Slack", code: "GitHub", payments: "Stripe", files: "Dropbox" }
 
 /** One settings section: its place in the nav and the title above its content. */
 export type SettingsPage = { id: string; label: string; icon: React.ReactNode; description: string; badge?: React.ReactNode; count?: number }
