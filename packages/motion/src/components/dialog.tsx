@@ -8,6 +8,7 @@ import type { DialogProps as KitDialogProps, DialogSize } from "@dashral/ui/comp
 import { useLocale } from "@dashral/ui/lib/locale"
 import { cn } from "@dashral/ui/lib/utils"
 import { usePortalContainer } from "@dashral/ui/lib/portal"
+import { ScrollShadow } from "@dashral/ui/components/scroll-shadow"
 
 import { useReducedMotion } from "../lib/reduced"
 import { duration, ease, spring } from "../lib/tokens"
@@ -17,6 +18,12 @@ export type { DialogSize } from "@dashral/ui/components/dialog"
 export type DialogProps = KitDialogProps & {
   /** On a touch screen, swipe the panel down to close it, as a sheet does. On by default. */
   swipeToClose?: boolean
+  /**
+   * How it grows out of its trigger. "soft" (the default): from a little smaller, quickly. "trigger": from the
+   * trigger's own size and place, travelling to the middle on a smooth, slower curve (no bounce) and shrinking back into it as it closes,
+   * its content coming in once it's grown: for a dialog that should read as coming out of the button.
+   */
+  grow?: "soft" | "trigger"
 }
 
 /** A light buzz on phones that have one. */
@@ -53,6 +60,7 @@ export function Dialog({
   size = "md",
   showCloseButton = true,
   swipeToClose = true,
+  grow = "soft",
   className,
   classNames,
   open,
@@ -86,17 +94,41 @@ export function Dialog({
   // Where it grows from: the trigger's middle, turned into a point inside the panel. The panel sits in the middle of
   // the viewport (left and top 50%, pulled back by half its size), so its untransformed size places it.
   const opener = React.useRef<HTMLButtonElement>(null)
-  const panel = React.useRef<HTMLDivElement>(null)
   const [origin, setOrigin] = React.useState("50% 50%")
-  React.useLayoutEffect(() => {
-    const node = panel.current
-    if (!isOpen || !node) return
-    const box = opener.current?.getBoundingClientRect()
-    if (!box || !box.width) return setOrigin("50% 50%")
-    const left = (window.innerWidth - node.offsetWidth) / 2
-    const top = (window.innerHeight - node.offsetHeight) / 2
-    setOrigin(`${box.left + box.width / 2 - left}px ${box.top + box.height / 2 - top}px`)
-  }, [isOpen])
+  // Measured as the panel attaches, not in an effect when `open` turns true: Radix's portal mounts the panel a render
+  // later, so an effect would find no panel yet and leave it growing from the middle. A ref callback runs before the
+  // first frame is drawn, so the panel starts its growth at the trigger.
+  // grow="trigger": the panel's scale starts at the trigger's size (the larger of its two ratios) and its content waits.
+  const fromTrigger = grow === "trigger" && !reduced
+  const growScale = useMotionValue(1)
+  const contentOpacity = useMotionValue(1)
+  const startScale = React.useRef(0.6)
+  const panel = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return
+      const box = opener.current?.getBoundingClientRect()
+      if (!box || !box.width) {
+        setOrigin("50% 50%")
+        startScale.current = 0.6
+      } else {
+        const left = (window.innerWidth - node.offsetWidth) / 2
+        const top = (window.innerHeight - node.offsetHeight) / 2
+        setOrigin(`${box.left + box.width / 2 - left}px ${box.top + box.height / 2 - top}px`)
+        startScale.current = Math.min(0.6, Math.max(0.05, box.width / node.offsetWidth, box.height / node.offsetHeight))
+      }
+      if (!fromTrigger) return
+      growScale.jump(startScale.current)
+      contentOpacity.jump(0)
+      // A smooth curve, no spring: it leaves the trigger gently, travels, and eases into the middle without a bounce.
+      animate(growScale, 1, { duration: 0.45, ease: [0.4, 0, 0.2, 1] })
+      animate(contentOpacity, 1, { duration: duration.standard, ease: ease.enter, delay: 0.16 })
+    },
+    [fromTrigger, growScale, contentOpacity]
+  )
+  // Closing back into the trigger: the content goes first, so only the shape travels back, as it came.
+  React.useEffect(() => {
+    if (!isOpen && fromTrigger) animate(contentOpacity, 0, { duration: 0.1, ease: ease.exit })
+  }, [isOpen, fromTrigger, contentOpacity])
 
   // The body's height follows what's inside on a glide; before it's measured (and with reduced motion) it's natural.
   const inside = React.useRef<HTMLDivElement>(null)
@@ -134,9 +166,20 @@ export function Dialog({
           </DialogPrimitive.Description>
         ) : null}
       </div>
-      {children}
+      {/* Only the middle scrolls when the dialog is taller than the screen: the title and the buttons stay in view. */}
+      <ScrollShadow
+        data-slot="dialog-body"
+        size={24}
+        className={cn("-mx-6 -my-1 grid min-h-0 flex-1 gap-4 overscroll-contain px-6 py-1", classNames?.body)}
+      >
+        {children}
+      </ScrollShadow>
       {footer && (
-        <div data-slot="dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", classNames?.footer)}>
+        <div data-slot="dialog-footer" className={cn(
+            // Side by side, each taking its share, on a phone too; the main one wraps above only when the labels can't share a line.
+            "flex flex-wrap-reverse gap-2 sm:flex-wrap sm:justify-end [&>*]:min-w-fit [&>*]:flex-1 sm:[&>*]:flex-none",
+            classNames?.footer
+          )}>
           {footer}
         </div>
       )}
@@ -175,7 +218,7 @@ export function Dialog({
               <motion.div
                 ref={panel}
                 data-slot="dialog-content"
-                style={{ transformOrigin: origin, y: dragY }}
+                style={fromTrigger ? { transformOrigin: origin, y: dragY, scale: growScale } : { transformOrigin: origin, y: dragY }}
                 drag={canSwipe ? "y" : false}
                 dragControls={swipe}
                 dragListener={false}
@@ -185,6 +228,10 @@ export function Dialog({
                 onPointerDown={(event) => {
                   if (!canSwipe || event.pointerType !== "touch") return
                   if ((event.target as HTMLElement).closest(keepsTouch)) return
+                  // A body that scrolls (taller than the screen) keeps the finger for scrolling; the title and the
+                  // buttons still swipe the panel away.
+                  const body = (event.target as HTMLElement).closest<HTMLElement>("[data-slot=dialog-body]")
+                  if (body && body.scrollHeight > body.clientHeight + 1) return
                   swipe.start(event)
                 }}
                 onDragEnd={(_, info) => {
@@ -194,19 +241,28 @@ export function Dialog({
                     change(false)
                   } else animate(dragY, 0, spring.move)
                 }}
-                initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={reduced ? { opacity: 0 } : fromTrigger ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+                animate={fromTrigger ? { opacity: 1 } : { opacity: 1, scale: 1 }}
                 exit={
                   reduced
                     ? { opacity: 0, transition: { duration: duration.fast } }
                     : swiped
                       ? { y: "100vh", transition: { duration: duration.standard, ease: ease.exit } }
-                      : { opacity: 0, scale: 0.8, transition: { duration: duration.fast, ease: ease.exit } }
+                      : fromTrigger
+                        ? // Back into the trigger: the shape shrinks to it, fading only at the end.
+                          { scale: startScale.current, opacity: 0, transition: { scale: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }, opacity: { duration: duration.fast, delay: 0.14 } } }
+                        : { opacity: 0, scale: 0.8, transition: { duration: duration.fast, ease: ease.exit } }
                 }
-                transition={reduced ? { duration: duration.fast } : { ...spring.appear, opacity: { duration: duration.fast, ease: ease.enter } }}
+                transition={
+                  reduced
+                    ? { duration: duration.fast }
+                    : fromTrigger
+                      ? { opacity: { duration: 0.12, ease: ease.enter } }
+                      : { ...spring.appear, opacity: { duration: duration.fast, ease: ease.enter } }
+                }
                 className={cn(
                   // Centred with translate, which motion leaves alone: it scales with transform.
-                  "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background p-6 shadow-lg",
+                  "fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg border bg-background p-6 shadow-lg",
                   sizes[size],
                   className
                 )}
@@ -216,10 +272,11 @@ export function Dialog({
                   <span aria-hidden className="absolute top-2 left-1/2 hidden h-1 w-9 -translate-x-1/2 rounded-full bg-muted-foreground/25 pointer-coarse:block" />
                 )}
                 {/* Clipped only while it glides, so a focus ring at the edge isn't cut off the rest of the time. */}
-                <motion.div style={{ height }} className={cn(gliding && "overflow-hidden")}>
-                  <div ref={inside} className="grid gap-4">
+                <motion.div style={{ height, opacity: contentOpacity }} className={cn("flex min-h-0 flex-col", gliding && "overflow-hidden")}>
+                  {/* At most the screen's height less the panel's padding, so a tall body scrolls inside it. */}
+                  <div ref={inside} className="flex max-h-[calc(100dvh-5rem)] min-h-0 flex-col gap-4">
                     {form ? (
-                      <form {...form} className={cn("grid gap-4", form.className)}>
+                      <form {...form} className={cn("flex min-h-0 flex-1 flex-col gap-4", form.className)}>
                         {inner}
                       </form>
                     ) : (

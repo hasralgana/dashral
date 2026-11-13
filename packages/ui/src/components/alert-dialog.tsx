@@ -111,7 +111,7 @@ function AlertDialog({
           data-slot="alert-dialog-content"
           {...(description ? {} : { "aria-describedby": undefined })}
           className={cn(
-            "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-5 rounded-lg border bg-background p-6 shadow-lg sm:max-w-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:blur-in-[2px] data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-spring data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-(--duration-fast) data-[state=closed]:ease-exit motion-reduce:blur-in-0",
+            "fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-5 overflow-y-auto overscroll-contain rounded-lg border bg-background p-6 shadow-lg sm:max-w-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:blur-in-[2px] data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-spring data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-(--duration-fast) data-[state=closed]:ease-exit motion-reduce:blur-in-0",
             className
           )}
         >
@@ -136,7 +136,11 @@ function AlertDialog({
             </div>
           </div>
           {children}
-          <div data-slot="alert-dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", classNames?.footer)}>
+          <div data-slot="alert-dialog-footer" className={cn(
+            // Side by side, each taking its share, on a phone too; the main one wraps above only when the labels can't share a line.
+            "flex flex-wrap-reverse gap-2 sm:flex-wrap sm:justify-end [&>*]:min-w-fit [&>*]:flex-1 sm:[&>*]:flex-none",
+            classNames?.footer
+          )}>
             {/* Cancel takes the focus when it opens (Radix does that for the Cancel part), so Enter never confirms by accident. */}
             <AlertDialogPrimitive.Cancel asChild>
               <Button variant="outline" disabled={pending}>

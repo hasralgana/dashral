@@ -139,7 +139,7 @@ export function AlertDialog({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={reduced ? { opacity: 0, transition: { duration: duration.fast } } : { opacity: 0, scale: 0.8, transition: { duration: duration.fast, ease: ease.exit } }}
                   transition={reduced ? { duration: duration.fast } : { ...spring.appear, opacity: { duration: duration.fast, ease: ease.enter } }}
-                  className={cn("grid gap-5 rounded-lg border bg-background p-6 shadow-lg", className)}
+                  className={cn("grid max-h-[calc(100dvh-2rem)] gap-5 overflow-y-auto overscroll-contain rounded-lg border bg-background p-6 shadow-lg", className)}
                 >
                   <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-start">
                     {icon && (
@@ -168,7 +168,11 @@ export function AlertDialog({
                     </div>
                   </div>
                   {children}
-                  <div data-slot="alert-dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", classNames?.footer)}>
+                  <div data-slot="alert-dialog-footer" className={cn(
+            // Side by side, each taking its share, on a phone too; the main one wraps above only when the labels can't share a line.
+            "flex flex-wrap-reverse gap-2 sm:flex-wrap sm:justify-end [&>*]:min-w-fit [&>*]:flex-1 sm:[&>*]:flex-none",
+            classNames?.footer
+          )}>
                     {/* Cancel takes the focus when it opens, so Enter never confirms by accident. */}
                     <AlertDialogPrimitive.Cancel asChild>
                       <Button variant="outline" disabled={pending}>

@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Motion Dialog `grow="trigger"`: the dialog starts at its trigger's own size and place and travels to the middle on a smooth curve, its content coming in once it's grown, then shrinks back into the trigger as it closes; for a dialog that should read as coming out of its button. The default (`"soft"`) is as before
+- Dialog `classNames.body`, for the part that scrolls
+
+### Changed
+
+- Dialog, Motion Dialog, Alert Dialog and Motion Alert Dialog: the footer's buttons sit side by side on a phone too, each taking its share; the main one wraps above only when the labels can't share a line
+
+### Fixed
+
+- Dialog and Motion Dialog: a dialog taller than the screen no longer runs off it. It stops at the screen's height and only the body scrolls, fading at the edge with more to see, while the title and the buttons stay in view; on a touch screen a body that scrolls keeps the finger for scrolling instead of swiping the dialog away. Alert Dialog and Motion Alert Dialog stop at the screen's height too
+- Motion Dialog grows out of the button that opened it again: it was growing from the middle, as its origin was measured before the panel was on the page
+
 ## [1.7.0] - 2026-11-14
 
 ### Changed

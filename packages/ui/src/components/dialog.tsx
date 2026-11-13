@@ -7,6 +7,7 @@ import { XIcon } from "lucide-react"
 import { useLocale } from "../lib/locale"
 import { cn } from "../lib/utils"
 import { usePortalContainer } from "../lib/portal"
+import { ScrollShadow } from "./scroll-shadow"
 
 type DialogSize = "sm" | "md" | "lg" | "xl"
 
@@ -34,7 +35,7 @@ type DialogProps = Omit<React.ComponentProps<typeof DialogPrimitive.Root>, "chil
   showCloseButton?: boolean
   /** The panel's classes. */
   className?: string
-  classNames?: { header?: string; title?: string; description?: string; footer?: string }
+  classNames?: { header?: string; title?: string; description?: string; body?: string; footer?: string }
 }
 
 /**
@@ -71,9 +72,20 @@ function Dialog({
           </DialogPrimitive.Description>
         ) : null}
       </div>
-      {children}
+      {/* Only the middle scrolls when the dialog is taller than the screen: the title and the buttons stay in view. */}
+      <ScrollShadow
+        data-slot="dialog-body"
+        size={24}
+        className={cn("-mx-6 -my-1 grid min-h-0 flex-1 gap-4 overscroll-contain px-6 py-1", classNames?.body)}
+      >
+        {children}
+      </ScrollShadow>
       {footer && (
-        <div data-slot="dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", classNames?.footer)}>
+        <div data-slot="dialog-footer" className={cn(
+            // Side by side, each taking its share, on a phone too; the main one wraps above only when the labels can't share a line.
+            "flex flex-wrap-reverse gap-2 sm:flex-wrap sm:justify-end [&>*]:min-w-fit [&>*]:flex-1 sm:[&>*]:flex-none",
+            classNames?.footer
+          )}>
           {footer}
         </div>
       )}
@@ -90,13 +102,13 @@ function Dialog({
           // Without a description, say so explicitly: otherwise Radix warns that one is missing.
           {...(description ? {} : { "aria-describedby": undefined })}
           className={cn(
-            "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 shadow-lg data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:blur-in-[2px] data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-spring data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-(--duration-fast) data-[state=closed]:ease-exit motion-reduce:blur-in-0",
+            "fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-lg border bg-background p-6 shadow-lg data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:blur-in-[2px] data-[state=open]:duration-(--duration-standard) data-[state=open]:ease-spring data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-(--duration-fast) data-[state=closed]:ease-exit motion-reduce:blur-in-0",
             sizes[size],
             className
           )}
         >
           {form ? (
-            <form {...form} className={cn("grid gap-4", form.className)}>
+            <form {...form} className={cn("flex min-h-0 flex-1 flex-col gap-4", form.className)}>
               {inner}
             </form>
           ) : (
