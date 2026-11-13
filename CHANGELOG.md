@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Blocks name real products as their examples (Stripe, Slack, HubSpot, GitHub, Shopify, Intercom, Linear, Notion, Dropbox, Google Analytics) with their own marks, in place of made-up brands, so what a block connects to reads at a glance. The names and logos are their owners' trademarks, shown only to illustrate; swap in your own in `brands.tsx` and run `pnpm brands:sync`
+- Blocks name real products as their examples (Stripe, Slack, HubSpot, GitHub, Shopify, Intercom, Linear, Notion, Dropbox, Google Analytics, plus Postgres, Snowflake, Cloudflare, Resend, Firebase, Twilio, Gmail and QuickBooks where a block shows that kind of service), each with its logo in its own colours on a white tile, in place of made-up brands, so what a block connects to reads at a glance. The Inset dashboard's Integrations page shows the real logos of Slack, Stripe, PayPal, Postgres, BigQuery and GitHub too. The names and logos are their owners' trademarks, shown only to illustrate; swap in your own in `brands.tsx` and run `pnpm brands:sync`
 
 ### Fixed
 
