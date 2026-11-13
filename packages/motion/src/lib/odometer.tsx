@@ -155,7 +155,8 @@ function Glyph({ digit, position }: { digit: number; position: MotionValue<numbe
   }
   const y = useTransform(position, (at) => `${away(at) * 100}%`)
   const opacity = useTransform(position, (at) => Math.max(0, 1 - Math.abs(away(at)) ** 1.4))
-  const visibility = useTransform(position, (at) => (Math.abs(away(at)) >= 1 ? "hidden" : "visible"))
+  // "inherit", not "visible", for the digit on show: a parent hidden (NumberInput's wheels while you type) hides it too.
+  const visibility = useTransform(position, (at) => (Math.abs(away(at)) >= 1 ? "hidden" : "inherit"))
   return (
     <motion.span className="absolute inset-0 text-center" style={{ y, opacity, visibility }}>
       {digit}

@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Motion NumberInput and MoneyInput: while you type, the number's old digits no longer show through the text you're typing (the wheels' digits now stay hidden with them)
+
 ## [1.6.0] - 2026-11-12
 
 ### Added
