@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-14
+
 ### Added
 
 - Motion Dialog `grow="trigger"`: the dialog starts at its trigger's own size and place and travels to the middle on a smooth curve, its content coming in once it's grown, then shrinks back into the trigger as it closes; for a dialog that should read as coming out of its button. The default (`"soft"`) is as before
@@ -16,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Action Bar and Motion Action Bar: when the actions don't fit (a phone), the row still scrolls sideways but shows no scrollbar under the buttons
 - Dialog and Motion Dialog: a dialog taller than the screen no longer runs off it. It stops at the screen's height and only the body scrolls, fading at the edge with more to see, while the title and the buttons stay in view; on a touch screen a body that scrolls keeps the finger for scrolling instead of swiping the dialog away. Alert Dialog and Motion Alert Dialog stop at the screen's height too
 - Motion Dialog grows out of the button that opened it again: it was growing from the middle, as its origin was measured before the panel was on the page
 
@@ -213,7 +216,8 @@ The first release of Dashral: React components, their motion editions and a Next
 - The dashboard (`apps/demo`): Classic and Inset templates on Next.js 16 with an overview, files, settings, pricing, sign-in and sign-up, error pages, ⌘K search, notifications, a live theme customizer and three languages
 - `pnpm dashral init` sets up your own app from a fresh clone (template, pages, languages, name and look), and `pnpm dashral update` brings in later releases
 
-[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/hasralgana/dashral/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/hasralgana/dashral/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/hasralgana/dashral/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/hasralgana/dashral/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/hasralgana/dashral/compare/v1.4.1...v1.5.0
