@@ -80,7 +80,7 @@ function ActionBar({
         </span>
       )}
       <span aria-hidden className="mx-1 h-5 w-px shrink-0 bg-border" />
-      <div className={cn("flex min-w-0 flex-1 items-center gap-1 overflow-x-auto", classNames?.actions)}>{actions}</div>
+      <div className={cn("flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", classNames?.actions)}>{actions}</div>
       {onClear && (
         <button
           type="button"
